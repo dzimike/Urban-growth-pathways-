@@ -1,0 +1,797 @@
+{
+  "acquisition": {
+    "doi": "https://doi.org/10.2905/85005901-3A49-48DD-9D19-6261354F56FE",
+    "citation": "Pesaresi, M. and Politis, P. (2023) GHS-BUILT-H R2023A: GHS building height, derived from AW3D30, SRTM30, and Sentinel-2 composite (2018). European Commission, Joint Research Centre.",
+    "ghana_bbox": [
+      -3.5,
+      4.3,
+      1.3,
+      11.3
+    ],
+    "tiles_used": [
+      "R8_C18",
+      "R8_C19",
+      "R9_C18",
+      "R9_C19"
+    ],
+    "tile_derivation_note": "Empirically verified via GDAL /vsizip/vsicurl/ remote header reads before download; see script docstring and audit_report.md. Two prior AI-generated guesses (R3/R4 x C20/C21) were WRONG (covered Scandinavia) and were rejected before any bulk download was attempted.",
+    "asset_id_finding": "The codebase's hard-coded Earth Engine asset ID for AGBH (JRC/GHSL/P2023A/GHS_BUILT_H_AGBH, in scripts/01_download_data/download_ghsl_gee.py) does not exist on Earth Engine. The actual EE asset (JRC/GHSL/P2023A/GHS_BUILT_H/2018) exposes ONLY ANBH. AGBH was therefore acquired directly from JRC's own distribution server instead of via Earth Engine.",
+    "old_file_finding": "02_processed_data/ghsl_layers/ghsl_height_grid_500m.parquet and height_typology_grid_500m.parquet (used throughout Paper 2 v2) have no producer script and no processing_log.csv entry anywhere in the codebase. Their stats (mean 0.163 m, max 8.13 m) are close to the newly verified AGBH (mean 0.163 m over the same footprint sample -- see 'aggregation' below), suggesting the old file was probably genuine AGBH, but its exact processing chain remains unverifiable, which is why v3 does not reuse it.",
+    "agbh_final_sha256": "9c88872cd117a1330e27c8fdadd4c3ec495c7583e5fd67f46eef3c4036979491",
+    "anbh_final_sha256": "5d0dd722bcfc5abefb10e4a9dfaaf71318e3b507a90137e79bd53490d254e322",
+    "per_tile_checksums": {
+      "agbh": [
+        {
+          "tile": "R8_C18",
+          "sha256": "a185a9f63d06344309139e8b44d1e2c329ac39718339c15599047da14f9dd784"
+        },
+        {
+          "tile": "R8_C19",
+          "sha256": "60e5856a7df745c0d75b9a2930bf04712dda8e0587c2821ce40d7f62be799efd"
+        },
+        {
+          "tile": "R9_C18",
+          "sha256": "1690f3561bc3c981b0fdb9799de76b368257bd8a269199fc056a311163b0e32d"
+        },
+        {
+          "tile": "R9_C19",
+          "sha256": "c3bf4062af124c4b688a384ee1da09d10358b5b2c7a99d46239e5c77637f5589"
+        }
+      ],
+      "anbh": [
+        {
+          "tile": "R8_C18",
+          "sha256": "4453cdeb23b058c98fef7180286f6cf78c861a4246eff6593c8f90a080d209c4"
+        },
+        {
+          "tile": "R8_C19",
+          "sha256": "b346b7341b9033c72c7345280f8b1595962fc332d7beaa55e0ca9442d188a657"
+        },
+        {
+          "tile": "R9_C18",
+          "sha256": "a77884c7640c5952a2a7e2e8da7a9ccb43da6adabeb370cdc999cf2276e16113"
+        },
+        {
+          "tile": "R9_C19",
+          "sha256": "c42c1105db29e76fc13d0eff449412ae51d0c1994a1aca809a30c3dc1c0f89e6"
+        }
+      ]
+    }
+  },
+  "pixel_validation": {
+    "total_pixels": 48384000,
+    "n_nan_agbh": 0,
+    "n_nan_anbh": 0,
+    "n_negative_agbh": 0,
+    "n_negative_anbh": 0,
+    "n_zero_agbh": 42251166,
+    "n_zero_anbh": 42251166,
+    "zero_colocation_mismatch_agbh_only": 0,
+    "zero_colocation_mismatch_anbh_only": 0,
+    "n_agbh_gt_anbh_violations": 1,
+    "max_violation_magnitude_m": 0.0505,
+    "built_fraction_pixel_min": 0.000117,
+    "built_fraction_pixel_max": 1.006611,
+    "built_fraction_pixel_mean": 0.048932,
+    "n_built_fraction_gt_1": 1,
+    "anbh_quantization_spike": {
+      "finding": "ANBH pixel values show a massive, non-physical concentration at approximately 2.50-2.55 m, consistent with a hard-coded fallback/prior value in GHSL's height retrieval model for low-confidence (sparse/small-structure) pixels, not a genuine physical clustering of building heights.",
+      "spike_bin_range_m": [
+        2.5,
+        2.55
+      ],
+      "n_pixels_in_spike_bin": 2458649,
+      "pct_of_all_built_pixels_in_spike_bin": 40.09
+    }
+  },
+  "aggregation": {
+    "n_national_cells": 961858,
+    "n_cells_true_nodata": 716,
+    "nodata_cells_explanation": "All are boundary-clip slivers: median polygon area ~91,000x smaller than a typical 500 m cell, left over from clipping the national grid to Ghana's coastline/border in scripts/03_prepare_grids.py. gdal_rasterize's pixel-center convention assigns no 100 m pixel to a sliver thinner than one pixel width. Correctly encoded as NaN, not 0.",
+    "n_cells_agbh_gt_anbh_at_cell_level": 0,
+    "cell_anbh_derived_max_m": 21.009,
+    "v2_bug_regression_check": "v2's 'implied height' (AGBH / current V3 coverage) reached outliers up to 263 m from a double-division error. v3's correctly-derived cell_anbh_derived_m maxes out at 21.0 m -- no comparable outlier tail.",
+    "national_footprint_sample_n": 296703,
+    "national_footprint_sample_nodata_n": 26,
+    "footprint_sample_agbh_mean_m": 0.1465,
+    "footprint_sample_agbh_median_m": 0.0038,
+    "footprint_sample_anbh_derived_mean_m": 2.4541,
+    "footprint_sample_anbh_derived_median_m": 2.5004,
+    "footprint_sample_anbh_derived_max_m": 21.0092
+  },
+  "sample_sensitivity": {
+    "thresholds_tested": [
+      ">0",
+      "0.005",
+      "0.01",
+      "0.02",
+      "0.05"
+    ],
+    "sensitivity_table": [
+      {
+        "threshold_label": ">0",
+        "threshold_value": 1e-09,
+        "n_cells_valid_height": 404722,
+        "pct_of_national_961858": 42.0771,
+        "n_overlap_with_national_footprint": 253264,
+        "pct_of_footprint_sample_covered": 85.36,
+        "pct_of_valid_height_that_is_footprint": 62.58,
+        "agbh_mean": 0.1078,
+        "agbh_median": 0.0016,
+        "anbh_derived_mean": 2.7338,
+        "anbh_derived_median": 2.5009,
+        "anbh_derived_p99": 8.2122,
+        "anbh_derived_max": 21.0092
+      },
+      {
+        "threshold_label": "0.005",
+        "threshold_value": 0.005,
+        "n_cells_valid_height": 102048,
+        "pct_of_national_961858": 10.6095,
+        "n_overlap_with_national_footprint": 100358,
+        "pct_of_footprint_sample_covered": 33.82,
+        "pct_of_valid_height_that_is_footprint": 98.34,
+        "agbh_mean": 0.4218,
+        "agbh_median": 0.0685,
+        "anbh_derived_mean": 3.4248,
+        "anbh_derived_median": 2.5012,
+        "anbh_derived_p99": 9.5195,
+        "anbh_derived_max": 21.0092
+      },
+      {
+        "threshold_label": "0.01",
+        "threshold_value": 0.01,
+        "n_cells_valid_height": 78865,
+        "pct_of_national_961858": 8.1992,
+        "n_overlap_with_national_footprint": 78254,
+        "pct_of_footprint_sample_covered": 26.37,
+        "pct_of_valid_height_that_is_footprint": 99.23,
+        "agbh_mean": 0.5405,
+        "agbh_median": 0.112,
+        "anbh_derived_mean": 3.6875,
+        "anbh_derived_median": 2.5013,
+        "anbh_derived_p99": 9.7627,
+        "anbh_derived_max": 21.0092
+      },
+      {
+        "threshold_label": "0.02",
+        "threshold_value": 0.02,
+        "n_cells_valid_height": 58806,
+        "pct_of_national_961858": 6.1138,
+        "n_overlap_with_national_footprint": 58594,
+        "pct_of_footprint_sample_covered": 19.75,
+        "pct_of_valid_height_that_is_footprint": 99.64,
+        "agbh_mean": 0.7123,
+        "agbh_median": 0.1935,
+        "anbh_derived_mean": 4.0724,
+        "anbh_derived_median": 2.559,
+        "anbh_derived_p99": 10.0645,
+        "anbh_derived_max": 21.0092
+      },
+      {
+        "threshold_label": "0.05",
+        "threshold_value": 0.05,
+        "n_cells_valid_height": 35771,
+        "pct_of_national_961858": 3.7189,
+        "n_overlap_with_national_footprint": 35712,
+        "pct_of_footprint_sample_covered": 12.04,
+        "pct_of_valid_height_that_is_footprint": 99.84,
+        "agbh_mean": 1.1157,
+        "agbh_median": 0.5581,
+        "anbh_derived_mean": 4.982,
+        "anbh_derived_median": 4.4798,
+        "anbh_derived_p99": 10.6861,
+        "anbh_derived_max": 21.0092
+      }
+    ],
+    "cross_dataset_mismatch_direction_A_v3_not_ghsl": {
+      "description": "V3 footprint present, GHSL built_fraction <= 0 (>0 threshold)",
+      "n_cells": 43439,
+      "median_building_count": 1.0,
+      "footprint_sample_overall_median_building_count": 4.0,
+      "interpretation": "Median building_count of 1 (vs 4 for the footprint sample overall) is consistent with sparse, isolated, or recently built (2018-2023 gap, since V3 is a ~2023 snapshot and this GHSL epoch is 2018) small structures below GHSL's 100 m pixel detection floor."
+    },
+    "cross_dataset_mismatch_direction_B_ghsl_not_v3": {
+      "description": "GHSL built_fraction > 0, V3 detects no footprint",
+      "n_cells": 151458,
+      "median_built_fraction_this_group": 0.000133,
+      "mean_built_fraction_this_group": 0.00046724331497840984,
+      "overall_gt0_sample_mean_built_fraction": 0.01920809482558398,
+      "interpretation": "This group's built_fraction is roughly 40x smaller than the '>0' sample average, indicating these are overwhelmingly near-zero noise-floor values in the GHSL signal (estimation noise, partial-pixel edge effects, or non-building surface texture), not genuine buildings V3 missed. This is why the '>0' threshold alone is not a reliable valid-height sample definition and the full sensitivity sweep (0.005-0.05) is reported rather than relying on it."
+    },
+    "max_vs_p99_robustness_check": {
+      "finding": "anbh_derived_max is identical (21.0092 m) at every built-fraction threshold from >0 through >=0.05, i.e. built-fraction thresholding does not filter the cell(s) producing it, while anbh_derived_p99 is stable and much lower (8.21-10.69 m across the same thresholds). The max is therefore not a robust ceiling statistic; the manuscript reports p99 instead (Section 5.1).",
+      "source_cell_pixel_inspection": {
+        "grid_id": "500m_00772288",
+        "centroid_lon": 0.328407,
+        "centroid_lat": 7.701688,
+        "cell_built_fraction_mean": 0.063468,
+        "cell_agbh_mean_m": 1.327369,
+        "cell_anbh_derived_m": 21.009,
+        "method": "Raw 100 m AGBH/ANBH pixels queried directly from agbh_2018_v3.tif / anbh_2018_v3.tif via gdal_translate -projwin around the cell centroid (ad hoc investigation, not a scripted pipeline step).",
+        "note": "A small, adjacent-pixel block (not a single-pixel spike) shows genuinely elevated raw AGBH (up to 11.2 m) and ANBH (up to 26.5 m) values, concentrated over a small fraction of the cell -- consistent with either a real small tall structure or shoreline/water-adjacent retrieval noise (the cell sits at the edge of the generous Lake Volta bounding envelope used for this check); not distinguishable from this data alone. 8 of 177 cells nationally with derived ANBH > 12 m fall within a generous Lake Volta bounding envelope (lon -0.35 to 0.55, lat 6.15 to 8.65); most extreme cells elsewhere (e.g. near Obuasi, Tarkwa/Prestea) have much higher built fraction (8-51%) and plausibly reflect real mining/industrial infrastructure."
+      }
+    }
+  },
+  "models_primary": {
+    "sample_construction": {
+      "n_national_footprint": 296703,
+      "n_dropped_nodata": 26,
+      "n_dropped_missing_covariates": 9,
+      "n_final": 296668
+    },
+    "predictors_primary_sequence": [
+      "log_distance_to_nearest_cbd_m",
+      "built_coverage_2010",
+      "growth_1975_2010",
+      "growth_2010_2015"
+    ],
+    "predictors_excluded_and_why": {
+      "population_density": "WorldPop 2020 postdates the 2018 AGBH/ANBH epoch by two years -- excluded from the primary sequence on the same no-post-outcome-leakage logic Requirement 6 applies to the growth predictors, not held to a looser standard."
+    },
+    "fit_and_moran_table": [
+      {
+        "outcome": "anbh_primary",
+        "model": "A_cbd_only",
+        "n": 296668,
+        "ols_r2": 0.0254986391463771,
+        "ols_adj_r2": 0.0254953543029476,
+        "ols_aic": 435538.47606180765,
+        "spatial_pseudo_r2": 0.0254986391463768,
+        "spatial_lambda": 0.5315167964559508,
+        "moran_i_outcome": 0.4437042103521003,
+        "moran_i_outcome_p_sim": 0.01,
+        "moran_i_ols_residuals": 0.4314104527740917,
+        "moran_i_ols_residuals_p_sim": 0.01,
+        "moran_i_spatial_residuals": -0.0260209204032995,
+        "moran_i_spatial_residuals_p_sim": 0.01
+      },
+      {
+        "outcome": "anbh_primary",
+        "model": "B_plus_legacy",
+        "n": 296668,
+        "ols_r2": 0.2132681726605386,
+        "ols_adj_r2": 0.2132628688206698,
+        "ols_aic": 372042.1088333783,
+        "spatial_pseudo_r2": 0.2120302562454808,
+        "spatial_lambda": 0.4265216579588866,
+        "moran_i_outcome": 0.4437042103521003,
+        "moran_i_outcome_p_sim": 0.01,
+        "moran_i_ols_residuals": 0.3131599970978003,
+        "moran_i_ols_residuals_p_sim": 0.01,
+        "moran_i_spatial_residuals": -0.0161673095645431,
+        "moran_i_spatial_residuals_p_sim": 0.01
+      },
+      {
+        "outcome": "anbh_primary",
+        "model": "C_full_pre2018",
+        "n": 296668,
+        "ols_r2": 0.2345524350017123,
+        "ols_adj_r2": 0.2345421142328264,
+        "ols_aic": 363909.4779970853,
+        "spatial_pseudo_r2": 0.2330100519367142,
+        "spatial_lambda": 0.4070694247890187,
+        "moran_i_outcome": 0.4437042103521003,
+        "moran_i_outcome_p_sim": 0.01,
+        "moran_i_ols_residuals": 0.2932443262221189,
+        "moran_i_ols_residuals_p_sim": 0.01,
+        "moran_i_spatial_residuals": -0.0132239310876642,
+        "moran_i_spatial_residuals_p_sim": 0.01
+      },
+      {
+        "outcome": "agbh_robustness",
+        "model": "A_cbd_only",
+        "n": 296668,
+        "ols_r2": 0.1132329136962714,
+        "ols_adj_r2": 0.1132299245870163,
+        "ols_aic": 6902.879703672603,
+        "spatial_pseudo_r2": 0.1132329136962714,
+        "spatial_lambda": 0.8505672892932429,
+        "moran_i_outcome": 0.8224422616541578,
+        "moran_i_outcome_p_sim": 0.01,
+        "moran_i_ols_residuals": 0.7963816488725557,
+        "moran_i_ols_residuals_p_sim": 0.01,
+        "moran_i_spatial_residuals": 0.0247051888533373,
+        "moran_i_spatial_residuals_p_sim": 0.01
+      },
+      {
+        "outcome": "agbh_robustness",
+        "model": "B_plus_legacy",
+        "n": 296668,
+        "ols_r2": 0.9167600139580004,
+        "ols_adj_r2": 0.9167594527864026,
+        "ols_aic": -694968.4514336273,
+        "spatial_pseudo_r2": 0.9160403562027916,
+        "spatial_lambda": 0.6239440232285096,
+        "moran_i_outcome": 0.8224422616541578,
+        "moran_i_outcome_p_sim": 0.01,
+        "moran_i_ols_residuals": 0.4879631505637152,
+        "moran_i_ols_residuals_p_sim": 0.01,
+        "moran_i_spatial_residuals": 0.06554067860829,
+        "moran_i_spatial_residuals_p_sim": 0.01
+      },
+      {
+        "outcome": "agbh_robustness",
+        "model": "C_full_pre2018",
+        "n": 296668,
+        "ols_r2": 0.9461993708208972,
+        "ols_adj_r2": 0.9461986454101898,
+        "ols_aic": -824443.0260396632,
+        "spatial_pseudo_r2": 0.945574083214234,
+        "spatial_lambda": 0.4602537128175779,
+        "moran_i_outcome": 0.8224422616541578,
+        "moran_i_outcome_p_sim": 0.01,
+        "moran_i_ols_residuals": 0.3089805193096531,
+        "moran_i_ols_residuals_p_sim": 0.01,
+        "moran_i_spatial_residuals": 0.0734923973379053,
+        "moran_i_spatial_residuals_p_sim": 0.01
+      }
+    ],
+    "self_correction_note": "The spatial-residual Moran's I was initially computed on spreg.GM_Error's .u attribute (plain, unfiltered residual), not .e_filtered (the spatially filtered residual the estimator actually targets), per the library's own docstring. This produced a materially wrong finding (spatial correction appearing not to help, or to hurt, in all six model/outcome combinations). Corrected to use e_filtered; spatial residual Moran's I is now near-zero for ANBH (-0.026 to -0.013) and substantially reduced for AGBH (0.796->0.025 in the simplest model)."
+  },
+  "weights_diagnostics": {
+    "audit_table": [
+      {
+        "spec": "queen",
+        "n_units": 296668,
+        "n_islands": 9479,
+        "n_components": 18998,
+        "min_neighbors": 0,
+        "max_neighbors": 8,
+        "mean_neighbors": 5.071
+      },
+      {
+        "spec": "queen_knn1_islands",
+        "n_units": 296668,
+        "n_islands": 0,
+        "n_components": 10512,
+        "min_neighbors": 1,
+        "max_neighbors": 8,
+        "mean_neighbors": 5.13
+      },
+      {
+        "spec": "knn8",
+        "n_units": 296668,
+        "n_islands": 0,
+        "n_components": 10,
+        "min_neighbors": 8,
+        "max_neighbors": 8,
+        "mean_neighbors": 8.0
+      }
+    ],
+    "queen_component_investigation": {
+      "n_components": 18998,
+      "n_singleton_islands": 9479,
+      "n_tiny_2_to_5": 6223,
+      "n_small_6_to_20": 2604,
+      "n_larger_gt_20": 692,
+      "largest_component_n_cells": 124529,
+      "largest_component_pct_of_sample": 41.98,
+      "interpretation": "Attaching a nearest neighbour to each Queen island does not produce a connected graph (10,512 components remain). One giant component covers 42% of the sample -- plausibly Ghana's main contiguous metro/peri-urban corridors -- while the remainder is genuinely dispersed built environment (isolated compounds, small rural centres), not a processing artefact."
+    },
+    "model_c_anbh_sensitivity_by_weights_spec": [
+      {
+        "weights_spec": "queen",
+        "variable": "const",
+        "coefficient": 1.312794120746963,
+        "lambda": 0.4070694247890187,
+        "spatial_pseudo_r2": 0.2330100519367142,
+        "moran_i_outcome": 0.4437042103521003,
+        "moran_i_ols_residuals": 0.2932443262221189,
+        "moran_i_spatial_residuals": -0.0132239310876642
+      },
+      {
+        "weights_spec": "queen",
+        "variable": "log_distance_to_nearest_cbd_m",
+        "coefficient": -0.0263653769175505,
+        "lambda": 0.4070694247890187,
+        "spatial_pseudo_r2": 0.2330100519367142,
+        "moran_i_outcome": 0.4437042103521003,
+        "moran_i_ols_residuals": 0.2932443262221189,
+        "moran_i_spatial_residuals": -0.0132239310876642
+      },
+      {
+        "weights_spec": "queen",
+        "variable": "built_coverage_2010",
+        "coefficient": 2.581680165306561,
+        "lambda": 0.4070694247890187,
+        "spatial_pseudo_r2": 0.2330100519367142,
+        "moran_i_outcome": 0.4437042103521003,
+        "moran_i_ols_residuals": 0.2932443262221189,
+        "moran_i_spatial_residuals": -0.0132239310876642
+      },
+      {
+        "weights_spec": "queen",
+        "variable": "growth_1975_2010",
+        "coefficient": 0.4691893066272145,
+        "lambda": 0.4070694247890187,
+        "spatial_pseudo_r2": 0.2330100519367142,
+        "moran_i_outcome": 0.4437042103521003,
+        "moran_i_ols_residuals": 0.2932443262221189,
+        "moran_i_spatial_residuals": -0.0132239310876642
+      },
+      {
+        "weights_spec": "queen",
+        "variable": "growth_2010_2015",
+        "coefficient": 5.630470276202159,
+        "lambda": 0.4070694247890187,
+        "spatial_pseudo_r2": 0.2330100519367142,
+        "moran_i_outcome": 0.4437042103521003,
+        "moran_i_ols_residuals": 0.2932443262221189,
+        "moran_i_spatial_residuals": -0.0132239310876642
+      },
+      {
+        "weights_spec": "queen_knn1_islands",
+        "variable": "const",
+        "coefficient": 1.2482194213279048,
+        "lambda": 0.4014868333861279,
+        "spatial_pseudo_r2": 0.2336311978997734,
+        "moran_i_outcome": 0.4592480253889852,
+        "moran_i_ols_residuals": 0.3130341756995093,
+        "moran_i_spatial_residuals": -0.0228483467326518
+      },
+      {
+        "weights_spec": "queen_knn1_islands",
+        "variable": "log_distance_to_nearest_cbd_m",
+        "coefficient": -0.0186581005891734,
+        "lambda": 0.4014868333861279,
+        "spatial_pseudo_r2": 0.2336311978997734,
+        "moran_i_outcome": 0.4592480253889852,
+        "moran_i_ols_residuals": 0.3130341756995093,
+        "moran_i_spatial_residuals": -0.0228483467326518
+      },
+      {
+        "weights_spec": "queen_knn1_islands",
+        "variable": "built_coverage_2010",
+        "coefficient": 2.565930510100715,
+        "lambda": 0.4014868333861279,
+        "spatial_pseudo_r2": 0.2336311978997734,
+        "moran_i_outcome": 0.4592480253889852,
+        "moran_i_ols_residuals": 0.3130341756995093,
+        "moran_i_spatial_residuals": -0.0228483467326518
+      },
+      {
+        "weights_spec": "queen_knn1_islands",
+        "variable": "growth_1975_2010",
+        "coefficient": 0.4634952446222203,
+        "lambda": 0.4014868333861279,
+        "spatial_pseudo_r2": 0.2336311978997734,
+        "moran_i_outcome": 0.4592480253889852,
+        "moran_i_ols_residuals": 0.3130341756995093,
+        "moran_i_spatial_residuals": -0.0228483467326518
+      },
+      {
+        "weights_spec": "queen_knn1_islands",
+        "variable": "growth_2010_2015",
+        "coefficient": 5.524011778311968,
+        "lambda": 0.4014868333861279,
+        "spatial_pseudo_r2": 0.2336311978997734,
+        "moran_i_outcome": 0.4592480253889852,
+        "moran_i_ols_residuals": 0.3130341756995093,
+        "moran_i_spatial_residuals": -0.0228483467326518
+      },
+      {
+        "weights_spec": "knn8",
+        "variable": "const",
+        "coefficient": 1.2799117507507518,
+        "lambda": 0.5559436298172995,
+        "spatial_pseudo_r2": 0.2330667611667491,
+        "moran_i_outcome": 0.3990968242749861,
+        "moran_i_ols_residuals": 0.2507531560630551,
+        "moran_i_spatial_residuals": 0.0015824218086922
+      },
+      {
+        "weights_spec": "knn8",
+        "variable": "log_distance_to_nearest_cbd_m",
+        "coefficient": -0.0221217064922126,
+        "lambda": 0.5559436298172995,
+        "spatial_pseudo_r2": 0.2330667611667491,
+        "moran_i_outcome": 0.3990968242749861,
+        "moran_i_ols_residuals": 0.2507531560630551,
+        "moran_i_spatial_residuals": 0.0015824218086922
+      },
+      {
+        "weights_spec": "knn8",
+        "variable": "built_coverage_2010",
+        "coefficient": 2.481822260667404,
+        "lambda": 0.5559436298172995,
+        "spatial_pseudo_r2": 0.2330667611667491,
+        "moran_i_outcome": 0.3990968242749861,
+        "moran_i_ols_residuals": 0.2507531560630551,
+        "moran_i_spatial_residuals": 0.0015824218086922
+      },
+      {
+        "weights_spec": "knn8",
+        "variable": "growth_1975_2010",
+        "coefficient": 0.4718564778415579,
+        "lambda": 0.5559436298172995,
+        "spatial_pseudo_r2": 0.2330667611667491,
+        "moran_i_outcome": 0.3990968242749861,
+        "moran_i_ols_residuals": 0.2507531560630551,
+        "moran_i_spatial_residuals": 0.0015824218086922
+      },
+      {
+        "weights_spec": "knn8",
+        "variable": "growth_2010_2015",
+        "coefficient": 5.009386448529688,
+        "lambda": 0.5559436298172995,
+        "spatial_pseudo_r2": 0.2330667611667491,
+        "moran_i_outcome": 0.3990968242749861,
+        "moran_i_ols_residuals": 0.2507531560630551,
+        "moran_i_spatial_residuals": 0.0015824218086922
+      }
+    ],
+    "robustness_conclusion": "Pseudo-R2 (0.2330-0.2336), coefficients, and near-zero spatial-filtered residual Moran's I are stable across Queen, Queen+KNN1-islands, and KNN-8 specifications. The substantive conclusions of the primary model do not depend on the specific spatial weights definition."
+  },
+  "typology": {
+    "construction": {
+      "n_final": 296668,
+      "vertical_var": "cell_anbh_derived_m",
+      "horizontal_var": "growth_1975_2015",
+      "vertical_median": 2.500403,
+      "horizontal_median": 0.0004999999999999999,
+      "vertical_ties_n": 29,
+      "horizontal_ties_n": 2337,
+      "tie_rule": "cells exactly equal to a median are assigned to the LOW class on that axis"
+    },
+    "vertical_axis": "cell_anbh_derived_m (primary vertical outcome, not AGBH)",
+    "horizontal_axis": "growth_1975_2015 = built_coverage_2015 - built_coverage_1975 (truncated at last pre-2018 epoch, replacing v2's leaky 1975-2020 window)",
+    "median_split_classes": [
+      {
+        "class_label": "Low height / Low prior expansion",
+        "n": 95609,
+        "pct_of_sample": 32.2276
+      },
+      {
+        "class_label": "High height / High prior expansion",
+        "n": 94885,
+        "pct_of_sample": 31.9836
+      },
+      {
+        "class_label": "High height / Low prior expansion",
+        "n": 53437,
+        "pct_of_sample": 18.0124
+      },
+      {
+        "class_label": "Low height / High prior expansion",
+        "n": 52737,
+        "pct_of_sample": 17.7764
+      }
+    ],
+    "class_profile": [
+      {
+        "typology_class": "High height / High prior expansion",
+        "n": 94885,
+        "mean_anbh": 3.4695,
+        "median_anbh": 2.5048,
+        "mean_growth_1975_2015": 0.044,
+        "median_growth_1975_2015": 0.0073
+      },
+      {
+        "typology_class": "High height / Low prior expansion",
+        "n": 53437,
+        "mean_anbh": 2.6011,
+        "median_anbh": 2.5164,
+        "mean_growth_1975_2015": 0.0002,
+        "median_growth_1975_2015": 0.0001
+      },
+      {
+        "typology_class": "Low height / High prior expansion",
+        "n": 52737,
+        "mean_anbh": 2.4832,
+        "median_anbh": 2.4996,
+        "mean_growth_1975_2015": 0.0141,
+        "median_growth_1975_2015": 0.0032
+      },
+      {
+        "typology_class": "Low height / Low prior expansion",
+        "n": 95609,
+        "mean_anbh": 1.3478,
+        "median_anbh": 2.3913,
+        "mean_growth_1975_2015": 0.0001,
+        "median_growth_1975_2015": 0.0
+      }
+    ],
+    "sensitivity_summary": [
+      {
+        "scheme": "median (2x2)",
+        "n_diagonal_cells_summed": "2 of 4",
+        "diagonal_pct": 64.21,
+        "off_diagonal_pct": 35.79
+      },
+      {
+        "scheme": "tertile (3x3)",
+        "n_diagonal_cells_summed": "3 of 9",
+        "diagonal_pct": 43.15,
+        "off_diagonal_pct": 56.85
+      },
+      {
+        "scheme": "quartile (4x4)",
+        "n_diagonal_cells_summed": "4 of 16",
+        "diagonal_pct": 46.61,
+        "off_diagonal_pct": 53.39
+      }
+    ],
+    "agbh_matched_comparison": [
+      {
+        "vertical_var": "ANBH (primary)",
+        "scheme": "median",
+        "diagonal_pct": 64.21
+      },
+      {
+        "vertical_var": "AGBH (matched comparison)",
+        "scheme": "median",
+        "diagonal_pct": 89.8
+      },
+      {
+        "vertical_var": "ANBH (primary)",
+        "scheme": "tertile",
+        "diagonal_pct": 43.15
+      },
+      {
+        "vertical_var": "AGBH (matched comparison)",
+        "scheme": "tertile",
+        "diagonal_pct": 79.45
+      }
+    ],
+    "agbh_matched_comparison_note": "Same sample (n=296,668), same horizontal axis (growth_1975_2015), same tie rule -- ONLY the vertical variable changes (AGBH swapped for ANBH). This isolates the ANBH retrieval-floor effect from the choice of horizontal axis or sample: median diagonal drops from 89.8% (AGBH) to 64.2% (ANBH); tertile diagonal drops from 79.5% to 43.2%.",
+    "weak_association_finding": "Diagonal dominance (64.2% median, 43.2% tertile) is much weaker than the earlier AGBH-based typology's 87.5% median diagonal. Median ANBH is nearly identical across all four classes (2.39-2.52 m), consistent with the ~2.5 m GHSL retrieval-floor quantization found in script 02 -- only the mean differentiates classes clearly. Height (ANBH) is a structurally noisier, more floor-dominated measure than volumetric density (AGBH) for distinguishing growth pathways.",
+    "predictor_profile_reviewer2_major6": {
+      "description": "Section 4.7 regression predictors (built_coverage_2010, growth_1975_2010, growth_2010_2015, distance_to_nearest_cbd_m), by typology class -- added in response to a gap flagged in paper2_response_to_reviewers_v3.md (Reviewer #2, Major 6): this comparison existed in the prior AGBH-based revision but had not been carried into the ANBH-based rebuild.",
+      "rows": [
+        {
+          "typology_class": "High height / High prior expansion",
+          "n": "94885",
+          "mean_built_coverage_2010": "0.0534",
+          "mean_growth_1975_2010": "0.0358",
+          "mean_growth_2010_2015": "0.0082",
+          "mean_distance_to_cbd_km": "61.8954"
+        },
+        {
+          "typology_class": "High height / Low prior expansion",
+          "n": "53437",
+          "mean_built_coverage_2010": "0.0045",
+          "mean_growth_1975_2010": "0.0001",
+          "mean_growth_2010_2015": "0.0",
+          "mean_distance_to_cbd_km": "75.0092"
+        },
+        {
+          "typology_class": "Low height / High prior expansion",
+          "n": "52737",
+          "mean_built_coverage_2010": "0.0141",
+          "mean_growth_1975_2010": "0.0111",
+          "mean_growth_2010_2015": "0.003",
+          "mean_distance_to_cbd_km": "70.2026"
+        },
+        {
+          "typology_class": "Low height / Low prior expansion",
+          "n": "95609",
+          "mean_built_coverage_2010": "0.0002",
+          "mean_growth_1975_2010": "0.0001",
+          "mean_growth_2010_2015": "0.0",
+          "mean_distance_to_cbd_km": "73.3832"
+        }
+      ],
+      "headline_finding": "High height / High prior expansion cells have built_coverage_2010 roughly 4-40x every other class (0.0534 vs 0.0002-0.0141) and the shortest mean distance to the nearest CBD (61.9 km vs 70.2-75.0 km), on predictors the typology was not constructed from -- an independent check that the classification captures a real pattern."
+    }
+  },
+  "validation": {
+    "part_a_spatial_plausibility_by_region_tier": {
+      "Metro core (Accra-Tema, Kumasi)": {
+        "High height / High prior expansion": 82.82000000000001,
+        "High height / Low prior expansion": 7.66,
+        "Low height / High prior expansion": 5.140000000000001,
+        "Low height / Low prior expansion": 4.38
+      },
+      "Peri-urban corridor": {
+        "High height / High prior expansion": 40.6,
+        "High height / Low prior expansion": 16.669999999999998,
+        "Low height / High prior expansion": 14.94,
+        "Low height / Low prior expansion": 27.79
+      },
+      "Secondary city": {
+        "High height / High prior expansion": 51.73,
+        "High height / Low prior expansion": 10.78,
+        "Low height / High prior expansion": 17.22,
+        "Low height / Low prior expansion": 20.27
+      }
+    },
+    "part_a_interpretation": "High-height typology share is 90.5% in the metro core (Accra-Tema, Kumasi) vs 57-63% in peri-urban/secondary tiers, matching independent geographic knowledge not used in constructing ANBH -- a genuine plausibility check, not a tautology.",
+    "part_b_cross_dataset_correlations": [
+      {
+        "height_var": "cell_anbh_derived_m",
+        "building_size_metric": "median_building_area",
+        "n": 296668,
+        "pearson_r": 0.1739,
+        "pearson_p": 0.0,
+        "spearman_r": 0.3331,
+        "spearman_p": 0.0
+      },
+      {
+        "height_var": "cell_anbh_derived_m",
+        "building_size_metric": "building_area_gini",
+        "n": 221487,
+        "pearson_r": 0.4075,
+        "pearson_p": 0.0,
+        "spearman_r": 0.3227,
+        "spearman_p": 0.0
+      },
+      {
+        "height_var": "cell_anbh_derived_m",
+        "building_size_metric": "share_very_large",
+        "n": 296668,
+        "pearson_r": 0.3623,
+        "pearson_p": 0.0,
+        "spearman_r": 0.3763,
+        "spearman_p": 0.0
+      },
+      {
+        "height_var": "cell_agbh_mean_m",
+        "building_size_metric": "median_building_area",
+        "n": 296668,
+        "pearson_r": 0.1196,
+        "pearson_p": 0.0,
+        "spearman_r": 0.4739,
+        "spearman_p": 0.0
+      },
+      {
+        "height_var": "cell_agbh_mean_m",
+        "building_size_metric": "building_area_gini",
+        "n": 221487,
+        "pearson_r": 0.3569,
+        "pearson_p": 0.0,
+        "spearman_r": 0.6607,
+        "spearman_p": 0.0
+      },
+      {
+        "height_var": "cell_agbh_mean_m",
+        "building_size_metric": "share_very_large",
+        "n": 296668,
+        "pearson_r": 0.3363,
+        "pearson_p": 0.0,
+        "spearman_r": 0.6444,
+        "spearman_p": 0.0
+      }
+    ],
+    "part_b_interpretation": "All 6 correlations positive and significant (p<0.001). AGBH's rank correlations with independent V3-derived building-size metrics (up to Spearman 0.66) are consistently stronger than ANBH's (up to 0.38) -- a third independent line of evidence, alongside the script 02 quantization histogram and script 06 typology diagonal-dominance finding, that ANBH is a noisier vertical-intensity signal than AGBH.",
+    "part_c_manual_validation_sample": {
+      "n_cells": 120,
+      "n_strata": 6,
+      "strata": {
+        "Secondary_city_HighANBH": 20,
+        "Secondary_city_LowANBH": 20,
+        "Periurban_corridor_LowANBH": 20,
+        "Periurban_corridor_HighANBH": 20,
+        "Metro_core_LowANBH": 20,
+        "Metro_core_HighANBH": 20
+      },
+      "note": "Infrastructure for manual validation (stratified sample + coding template with GHSL values pre-filled); not itself completed field validation."
+    }
+  },
+  "figures": {
+    "note": "Manuscript figures (script 08) are visualization/support only, not one of the 15 numbered requirements.",
+    "gis_review_fixes": {
+      "trigger": "Ad hoc GIS-expert review of the first version of the four manuscript figures, requested after manuscript text review.",
+      "rendering_engine_change": "Switched from matplotlib scatter of grid-cell centroids (WGS84 degrees, naive equal-aspect) to geopandas polygon choropleths of the actual grid_500m.parquet cell geometries, reprojected to cfg.PROJ_CRS (EPSG:32630, UTM Zone 30N) -- the same CRS used for the area-weighted aggregation in Section 4.5. Fixes: marker-overplotting artefacts in dense urban cores, no country outline (blank cells were indistinguishable from outside Ghana), no scale bar/north arrow, and axes plotted in raw unprojected degrees.",
+      "added_elements": [
+        "National boundary overlay (GADM gadm41_GHA.gpkg, ADM_ADM_0 layer)",
+        "Scale bar (manual, sized to ~20% of map width, rounded to a nice km value)",
+        "North arrow"
+      ],
+      "disclosure_fix": "Fig. 1 (ANBH map) already disclosed N and the colour-scale percentile cap; Fig. 2 (AGBH map) did not. Both now disclose N, the cap value, and CRS consistently, and both explicitly flag that their N (296,677, cells with valid GHSL height data) is 9 more than the n=296,668 regression/typology sample, which additionally requires non-missing 1975/2010/2015 built-coverage covariates not needed for a univariate height map.",
+      "caption_fix": "Manuscript Fig. 1 caption originally named only Accra-Tema, Kumasi, and Tamale as visual peaks. A small number of mining centres (e.g. Obuasi) show comparably strong localized ANBH signal and are not among the 15 named study regions; the caption now says so explicitly, with a caveat that this plausibly reflects industrial rather than residential/commercial structures."
+    },
+    "sample_flow_diagram_reviewer4_point1": {
+      "description": "figA2_sample_flow.png (manuscript Fig. A2) -- added in response to a gap flagged in paper2_response_to_reviewers_v3.md (Reviewer 4 point 1 / Reviewer 6): a stepwise sample-flow diagram was requested in the original review and had not been reintroduced into the ANBH-based rebuild; the counts were already disclosed in prose (Section 4.2) but not as a diagram.",
+      "steps": [
+        "961,858 national grid cells",
+        "-> 296,703 national-footprint sample (Open Buildings V3, building_count>0)",
+        "-> -26 cells: no overlapping GHSL raster pixel (true nodata)",
+        "-> 296,677 cells with valid GHSL height data",
+        "-> -9 cells: missing 1975/2010/2015 built coverage or CBD-distance covariates",
+        "-> 296,668 final analytical sample"
+      ],
+      "side_branch": "15 named urban regions/corridors: 28,133 cells (9.5% of national-footprint sample) -- a labelled descriptive subset, not a further sequential exclusion"
+    }
+  }
+}

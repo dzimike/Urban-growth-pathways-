@@ -1,0 +1,13 @@
+{
+  "name": "paper2-v3-docx-build",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Builds the manuscript .docx directly from the paper's Markdown source.",
+  "scripts": {
+    "build": "node build_docx.js"
+  },
+  "dependencies": {
+    "docx": "9.7.1",
+    "image-size": "2.0.4"
+  }
+}

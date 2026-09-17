@@ -1,0 +1,35 @@
+path,producer_script,description,size_bytes,shape,sha256_16
+01_raw_data/ghsl/agbh_2018_v3.tif,script 01,"AGBH raster, clipped to Ghana bbox",193586766,n/a,9c88872cd117a133
+01_raw_data/ghsl/anbh_2018_v3.tif,script 01,"ANBH raster, clipped to Ghana bbox",193586766,n/a,5d0dd722bcfc5abe
+01_raw_data/ghsl/provenance_agbh_anbh_2018.json,script 01,"Full provenance: URLs, DOI, checksums, CRS, nodata",7840,n/a,a5835769ca57fab0
+02_processed_data/ghsl_layers_v3/agbh_anbh_grid_500m.parquet,script 02,"National 500m grid: AGBH mean, built_fraction mean, ANBH derived",9892968,961858 rows x 7 cols,2608e4b99cff2b09
+02_processed_data/ghsl_layers_v3/sample_definitions.parquet,script 03,Per-cell sample flags: national-footprint + 5 valid-height thresholds,10310594,961858 rows x 11 cols,b38cb736f3c8f717
+04_outputs/paper2_v3/tables/T_sample_sensitivity.csv,script 03,Threshold sensitivity summary table,700,5 rows x 13 cols,34d1dab48e0dd02f
+04_outputs/paper2_v3/tables/T_models_ols.csv,script 04,"OLS coefficients, SEs, CIs, standardized coefs",3475,20 rows x 11 cols,2cba6dcbf5a54937
+04_outputs/paper2_v3/tables/T_models_spatial.csv,script 04,"Spatial error coefficients, SEs, CIs, lambda",3787,26 rows x 10 cols,671affaa4def9907
+04_outputs/paper2_v3/tables/T_models_fit_and_moran.csv,script 04,"R2/pseudo-R2, AIC, 3-way Moran's I",1459,6 rows x 14 cols,1c812687aba73395
+04_outputs/paper2_v3/tables/T_models_vif.csv,script 04,VIF per predictor,801,12 rows x 5 cols,e78c986839200374
+04_outputs/paper2_v3/tables/sample_construction_report.json,script 04,Exact sample dropout counts and reasons,120,n/a,1609f9a40afa243d
+04_outputs/paper2_v3/tables/T_weights_audit.csv,script 05,Islands/components/neighbor-count audit,181,3 rows x 7 cols,59eda1256cd0d338
+04_outputs/paper2_v3/tables/T_weights_sensitivity.csv,script 05,Model C under 3 weights specs,2322,15 rows x 8 cols,06d4d4c9b82c8f9c
+02_processed_data/ghsl_layers_v3/typology_v3.parquet,script 06,Per-cell typology class (ANBH x pre-2018 growth),3073801,296668 rows x 4 cols,92eb85b8d9d47dca
+04_outputs/paper2_v3/tables/T_typology_median.csv,script 06,Median-split class counts and shares,220,4 rows x 3 cols,17db53cc0dcc22b8
+04_outputs/paper2_v3/tables/T_typology_profile.csv,script 06,Class profile: mean/median ANBH and growth,353,4 rows x 6 cols,8f5f47c7926d69de
+04_outputs/paper2_v3/tables/T_typology_tertile_full.csv,script 06,Full 3x3 tertile crosstab,97,3 rows x 4 cols,48299b2d09534ff6
+04_outputs/paper2_v3/tables/T_typology_quartile_full.csv,script 06,Full 4x4 quartile crosstab,149,4 rows x 5 cols,f188f8fc0ad657d5
+04_outputs/paper2_v3/tables/T_typology_sensitivity_summary.csv,script 06,Diagonal/off-diagonal share by scheme,161,3 rows x 4 cols,cfd24c9cb241347a
+04_outputs/paper2_v3/tables/T_typology_agbh_matched_comparison.csv,script 06,"ANBH vs AGBH diagonal concordance, sample/axis/tie-rule held constant",168,4 rows x 3 cols,88135264fb4c4f96
+04_outputs/paper2_v3/tables/T_typology_predictor_profile.csv,script 06,Section 4.7 regression predictors by typology class (manuscript Table 6),379,4 rows x 6 cols,0c30bc47f717aa80
+04_outputs/paper2_v3/tables/typology_construction_report.json,script 06,"Exact medians, tie counts, tie rule",327,n/a,12990d9467b013aa
+04_outputs/paper2_v3/tables/T_validation_A_spatial_plausibility.csv,script 07,Typology class share by independent region tier,349,3 rows x 5 cols,d12015f4dc28df88
+04_outputs/paper2_v3/tables/T_validation_B_cross_dataset.csv,script 07,ANBH/AGBH vs independent V3 building-size metrics,475,6 rows x 7 cols,718f1c0160054e38
+02_processed_data/validation_samples/v3_manual_validation_sample.parquet,script 07,Stratified 120-cell manual validation sample,19204,120 rows x 15 cols,bda490a784dfebc6
+04_outputs/paper2_v3/tables/v3_manual_validation_coding_template.csv,script 07,"Blank coding template, GHSL values pre-filled",10055,120 rows x 16 cols,ef9d934bdf831193
+scripts/revision_v3/facts.json,build_facts_json.py,Consolidated machine-readable findings,33051,n/a,6f2812f539667f7c
+scripts/revision_v3/audit_report.md,manual,Human-readable audit narrative (not auto-generated),31677,n/a,1a45276804e0443f
+04_outputs/paper2_v3/figures/fig01_anbh_map.png,08_manuscript_figures.py,ANBH map (manuscript Fig. 1),752116,n/a,1bd02272c59e8878
+04_outputs/paper2_v3/figures/fig02_agbh_map.png,08_manuscript_figures.py,AGBH map (manuscript Fig. 2),734142,n/a,3eecbdda31f855a6
+04_outputs/paper2_v3/figures/fig03_typology_map.png,08_manuscript_figures.py,Typology map (manuscript Fig. 4),548528,n/a,f75b6b8c11d79a48
+04_outputs/paper2_v3/figures/fig04_regression_coefficients.png,08_manuscript_figures.py,Model C coefficient plot (manuscript Fig. 3),70460,n/a,3b35da799e09f316
+04_outputs/paper2_v3/figures/figA2_sample_flow.png,08_manuscript_figures.py,Sample-flow diagram (manuscript Fig. A2),120109,n/a,a33dc524fd1be98b
+04_outputs/manuscript/paper2_v3_draft.md,manual,v3 manuscript (not auto-generated),41740,n/a,21d30b64963fba03
