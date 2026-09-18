@@ -312,6 +312,12 @@ Checked before depositing, not assumed safe: grepped all 10 files for credential
 
 **What this does and does not close:** every script between raw data and this paper's final tables and figures is now visible. It does not make the repository clone-and-run: the raw third-party datasets are still not redistributed (licensing), and the upstream scripts' declared conda environment (`environment.yml`, Python 3.11 with real rasterio/fiona/GDAL bindings) was not re-verified in the environment this v3 revision was prepared in, which deliberately avoids those bindings (no system GDAL was installable here — Section 6). That gap predates this deposit and is disclosed, not newly introduced by it.
 
+## 18. Figs. A1/A2 relocated to fix reading order — the same problem the v2 self-audit already caught, recurred
+
+A full re-read of the manuscript, requested by the user, found that Fig. A1 (Section 2.1) and Fig. A2 (Section 4.2) both appear earlier in the document than Fig. 1 (Section 5.1) — a reader hits "Fig. A1" and "Fig. A2" before ever seeing "Fig. 1". This is exactly the issue the *v2* response letter documented finding and fixing ("Figs. A1 and A2 originally appeared out of numerical order... moved both schematics into the Appendix section"); it was not carried forward into this rebuild and had quietly reappeared.
+
+Fix: added a new `## Appendix` section after the References, moved both figure captions (and, in the compiled docx, both images) there, and changed the in-text mentions in Section 2.1 and Section 4.2 from bare `(Fig. A1)` / `(Fig. A2)` to forward-pointing `(Fig. A1, Appendix)` / `(Fig. A2, Appendix)`. Verified in the rebuilt docx via `python-docx`: figure paragraphs now appear in the order Fig. 1, 2, 3, 4, [Appendix heading], A1, A2; image count still 6, table count still 6, all 11 tests still pass.
+
 ---
 
 *Per the revision instructions, no manuscript text is written until this analytical audit is judged complete. Scripts 01-07 are now done; remaining infrastructure items (config.py path centralization already applied, run_all.py, final output_manifest.csv refresh) are the last steps before that judgement can be made.*
