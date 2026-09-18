@@ -892,5 +892,30 @@
       ],
       "side_branch": "15 named urban regions/corridors: 28,133 cells (9.5% of national-footprint sample) -- a labelled descriptive subset, not a further sequential exclusion"
     }
+  },
+  "reproducibility_deposit_expansion": {
+    "description": "The GitHub deposit (github.com/dzimike/Urban-growth-pathways-) was expanded to include the upstream pipeline (scripts/01_setup_project.py through scripts/09_aggregate_to_grid.py, plus 03b_generate_250m_grid.py, and environment.yml), previously described in words only, not deposited.",
+    "scripts_added": [
+      "01_setup_project.py",
+      "02_download_boundaries.py",
+      "03_prepare_grids.py",
+      "03b_generate_250m_grid.py",
+      "04_clean_building_footprints.py",
+      "05_process_temporal_buildings.py",
+      "06_process_ghsl.py",
+      "07_add_population_roads_pois.py",
+      "08_calculate_building_metrics.py",
+      "09_aggregate_to_grid.py"
+    ],
+    "checks_performed_before_deposit": [
+      "Grepped all 10 scripts for api_key/secret/password/token/credential/access_key patterns -- none found.",
+      "Grepped for hard-coded /Users/... absolute paths -- none found (all use config.py, same pattern as scripts/revision_v3/).",
+      "Confirmed no Earth Engine authentication calls (import ee / ee.Initialize / ee.Authenticate) in any of the 10 scripts, despite environment.yml declaring earthengine-api as a project dependency for other, non-deposited parts of the wider project.",
+      "py_compile syntax check on all 10 files -- all valid."
+    ],
+    "still_not_reproducible_without": [
+      "The raw third-party datasets (GHSL, Open Buildings V3/2.5D Temporal, Overture, OSM, WorldPop, Ghana PHC, GADM, DEM/terrain, night-lights) -- licensing prevents redistribution.",
+      "A working install of the upstream conda environment (environment.yml, python=3.11 with rasterio/fiona/full GDAL bindings) -- not re-verified in the environment this v3 revision was prepared in, which lacks system GDAL/rasterio (see pixel_validation/aggregation notes elsewhere in this file and audit_report.md Section 6). This is a pre-existing, already-disclosed environment gap, not something introduced by this deposit."
+    ]
   }
 }
