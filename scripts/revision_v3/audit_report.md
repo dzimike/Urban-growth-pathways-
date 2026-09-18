@@ -255,4 +255,43 @@ One bug caught while implementing this: filtering `regions[regions.type == "urba
 
 ---
 
+## 12. Major finding: the AGBH-vs-ANBH comparisons are not independent of the retrieval-floor claim they were used to support
+
+Raised by an external technical review of the manuscript, not self-caught this time — but verified independently before acting on it, the same standard applied to every other correction in this file.
+
+**The claim reviewed:** Section 5.5 (typology) and Section 5.2 (regression) each compared ANBH against AGBH and attributed AGBH's better performance (89.8% vs. 64.2% typology diagonal concordance; R² 0.946 vs. 0.235) to ANBH's retrieval-floor artefact, describing the typology comparison specifically as "the cleanest possible like-for-like comparison, since only the height variable changes."
+
+**Why that's wrong:** AGBH = ANBH x built fraction (the official GHSL identity, verified at 99.999998% pixel-level exactness). Built fraction is itself a built-coverage measure. Checked directly against the sample used throughout this paper (n=296,668):
+
+```
+cell_built_fraction_mean (2018, GHS-BUILT-H) vs. growth_1975_2015 (GHS-BUILT-S): Pearson r = 0.814
+cell_built_fraction_mean (2018, GHS-BUILT-H) vs. built_coverage_2010 (GHS-BUILT-S):  Pearson r = 0.970
+cell_built_fraction_mean (2018, GHS-BUILT-H) vs. built_coverage_2015 (GHS-BUILT-S):  Pearson r = 0.983
+```
+
+AGBH therefore mechanically shares information with the typology's horizontal axis (r=0.81) and with the regression's dominant predictor (r=0.97, built coverage 2010). Substituting AGBH for ANBH "with only the height variable changing" is not accurate: AGBH also carries a near-copy of built coverage 2010 riding along with it. Part — plausibly a substantial part — of AGBH's better performance in both comparisons is this mechanical overlap, not superior height measurement.
+
+**What remains valid:** two diagnostics never depended on comparing against AGBH at all, and are unaffected — the pixel-level histogram (40.1% of built pixels in one 0.05 m bin, Section 5.1) and the near-flat median ANBH across all four typology classes (2.39–2.52 m, Section 5.5), both properties of ANBH's own distribution. The cross-dataset correlation gap against Open Buildings V3 building-size metrics (Section 5.6) also does not share AGBH's construction (V3 is footprint-detection, not a GHSL coverage product), though a milder version of the same concern — AGBH's coverage term could track building-size metrics for reasons unrelated to height accuracy — is now noted there too.
+
+**Fix applied:** Section 5.2, Section 5.5 (both the pre-Table-6 and post-Table-6 paragraphs), Section 6.4 (new Limitation 2, items renumbered), the Abstract, and the response-to-reviewers letter (Reviewer #3's typology response, plus a new self-audit entry) all now state the confound explicitly rather than presenting either comparison as isolating the height variable. Table 6's framing was corrected separately (`growth_1975_2010` + `growth_2010_2015` sum *exactly* to the typology's horizontal axis — a distinct, purely arithmetic problem the same review caught; see the entries this replaces below).
+
+No numbers in any table changed — this is a correction to interpretation and claims of independence, not to the underlying computed statistics, which remain correct.
+
+## 13. Table 6's "independent check" framing was arithmetically wrong
+
+`growth_1975_2015` (the typology's horizontal axis) is defined as `built_coverage_2015 - built_coverage_1975`. `growth_1975_2010` and `growth_2010_2015` (two of Table 6's four columns) are `built_coverage_2010 - built_coverage_1975` and `built_coverage_2015 - built_coverage_2010` respectively. By construction, `growth_1975_2010 + growth_2010_2015 = growth_1975_2015` exactly — these two columns are not independent of the typology's construction, they sum to it. `built_coverage_2010` is correlated with the same built-up history (r=0.97 with 2018 built fraction, per item 12 above) but not definitionally part of the typology. Only `distance_to_nearest_cbd_m` is genuinely external. The manuscript's claim that the four classes "separate cleanly on the regression predictors that do not enter the typology's own construction" was therefore inaccurate for three of its four columns. Reframed as a descriptive class profile rather than an independent validation (Section 5.5).
+
+## 14. Six further factual/reference corrections from the same review
+
+1. **Abstract Moran's I mislabelled.** "Reduces residual autocorrelation from Moran's I = 0.444 to -0.013" used 0.444, the *outcome* Moran's I (Table 2), as if it were a residual value. Corrected to the actual residual-to-residual comparison: OLS residual 0.293 -> spatially filtered residual -0.013. Introduced during abstract word-count trimming (a compression artefact, not a data error) and caught by external review rather than internally — worth noting since it shows the trimming pass itself needed a fact-check pass afterward, which it hadn't gotten.
+2. **0/0 statement was backwards.** Section 4.4 said equal AGBH/ANBH zeros meant built fraction "is never undefined by a 0/0 case." Those 42,251,166 pixels *are* exactly the 0/0 cases; the pipeline resolves them by convention (`gdal_calc.py --calc="where(B>0, A/B, 0)"`, script 02) rather than leaving them undefined. Corrected to state this explicitly.
+3. **UTM mislabelled "true-equal-area."** UTM (Transverse Mercator) is a conformal projection, not equal-area — `config.py` itself reserves a separate `EQUAL_AREA_CRS` (Africa Albers) for calculations where that distinction matters, which should have been the tell. The substantive method (counting equal-sized reprojected pixels) is fine; only the terminology was wrong. Corrected to describe pixels as equal-sized *in the projected plane*, with UTM's actual zone-scale distortion (<0.1%) stated rather than the false "equal-area" label.
+4. **Weights-sensitivity "within 12%" claim was false for one coefficient.** Checked against `T_weights_sensitivity.csv` directly: built-coverage and growth coefficients do vary under 12% across the three weights specifications, but `log_distance_to_nearest_cbd_m` varies by 29.2% (Queen vs. Queen+KNN-islands) and 16.1% (Queen vs. KNN-8) — both well above 12%. Corrected to state the CBD-distance coefficient's greater relative sensitivity explicitly, while noting its absolute/standardized contribution is negligible regardless.
+5. **Fig. 1 cited for content it doesn't show.** Section 5.1 cited "(Fig. 1)" immediately after the 40.1%-in-one-bin histogram statistic; Fig. 1 is the ANBH map, not a histogram — no histogram figure exists in the manuscript. Corrected to remove the false citation; an actual histogram figure would be a reasonable future addition, not added here.
+6. **Wrong section number.** "This finding recurs independently in the regression results (Section 5.3)" — Section 5.3 is the spatial-diagnostics self-correction (the `.u` vs. `e_filtered` bug), not the regression results; those are Section 5.2. Corrected, and reworded given item 12 above (the regression doesn't independently re-derive the retrieval-floor finding the way the sentence implied).
+
+Response-to-reviewers letter: one stale sentence removed (claimed two items "not yet carried forward" three paragraphs after the summary table said they were resolved — the table was updated correctly when Table 6/Fig. A2 were added; this one sentence was missed).
+
+---
+
 *Per the revision instructions, no manuscript text is written until this analytical audit is judged complete. Scripts 01-07 are now done; remaining infrastructure items (config.py path centralization already applied, run_all.py, final output_manifest.csv refresh) are the last steps before that judgement can be made.*

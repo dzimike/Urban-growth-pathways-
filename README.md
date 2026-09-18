@@ -10,7 +10,9 @@ This is the **v3** analysis: ANBH (Average Net Building Height) as the primary v
 
 ## Data
 
-Raw inputs (GHSL GHS-BUILT-H / GHS-BUILT-S, Google Open Buildings V3, WorldPop, Ghana 2021 PHC, OpenStreetMap, GADM boundaries) are third-party datasets with their own licenses and are not redistributed here. Sources, DOIs, and access dates are listed in the paper's Table 1 and in `scripts/revision_v3/01_acquire_ghsl_height.py`'s provenance output. To reproduce the analysis, acquire these yourself and place them under the directory structure each script expects (see `config.py`).
+Raw inputs (GHSL GHS-BUILT-H / GHS-BUILT-S, Google Open Buildings V3, WorldPop, Ghana 2021 PHC, OpenStreetMap, GADM boundaries) are third-party datasets with their own licenses and are not redistributed here. Sources, DOIs, and access dates are listed in the paper's Table 1 and in `scripts/revision_v3/01_acquire_ghsl_height.py`'s provenance output.
+
+**This repository is not sufficient on its own to reproduce the analysis from raw data.** The v3 scripts assume the national 500 m analytical grid (`grid_500m.parquet`), its model-ready covariates (`grid_model_ready_500m.parquet` — pre-2018 built coverage, CBD distance, Open Buildings footprint variables), and the 15 named-region bounding boxes already exist. These are produced by an earlier, wider project pipeline that this deposit does not include and that is not yet separately published. Someone starting from raw data alone would need to reconstruct that upstream pipeline first; what this repository guarantees is that every number, table, and figure in the paper traces to visible, checkable code operating on those already-built inputs.
 
 ## Requirements
 
@@ -24,7 +26,7 @@ Raw inputs (GHSL GHS-BUILT-H / GHS-BUILT-S, Google Open Buildings V3, WorldPop, 
 python scripts/revision_v3/run_all.py
 ```
 
-runs the full pipeline end-to-end (acquisition → processing → sample definition → models → weights diagnostics → typology → validation → facts.json), assuming the raw data above has already been placed where `config.py` expects it. Flags: `--from N` to resume from stage N, `--only N` for a single stage, `--skip-tests`, `--skip-facts`.
+runs the v3 pipeline (acquisition → processing → sample definition → models → weights diagnostics → typology → validation → facts.json) with one command, assuming both the raw third-party data above **and** the upstream grid/covariate files described in [Data](#data) already exist where `config.py` expects them. Flags: `--from N` to resume from stage N, `--only N` for a single stage, `--skip-tests`, `--skip-facts`.
 
 ```bash
 python -m pytest scripts/revision_v3/tests/

@@ -327,7 +327,17 @@
         "moran_i_spatial_residuals_p_sim": 0.01
       }
     ],
-    "self_correction_note": "The spatial-residual Moran's I was initially computed on spreg.GM_Error's .u attribute (plain, unfiltered residual), not .e_filtered (the spatially filtered residual the estimator actually targets), per the library's own docstring. This produced a materially wrong finding (spatial correction appearing not to help, or to hurt, in all six model/outcome combinations). Corrected to use e_filtered; spatial residual Moran's I is now near-zero for ANBH (-0.026 to -0.013) and substantially reduced for AGBH (0.796->0.025 in the simplest model)."
+    "self_correction_note": "The spatial-residual Moran's I was initially computed on spreg.GM_Error's .u attribute (plain, unfiltered residual), not .e_filtered (the spatially filtered residual the estimator actually targets), per the library's own docstring. This produced a materially wrong finding (spatial correction appearing not to help, or to hurt, in all six model/outcome combinations). Corrected to use e_filtered; spatial residual Moran's I is now near-zero for ANBH (-0.026 to -0.013) and substantially reduced for AGBH (0.796->0.025 in the simplest model).",
+    "agbh_confound_finding": {
+      "description": "The AGBH-vs-ANBH comparisons in the typology (Section 5.5) and regression (Section 5.2) are not independent of the retrieval-floor claim they were cited as evidence for, because AGBH = ANBH x built_fraction_2018, and built_fraction_2018 correlates strongly with the built-coverage variables used elsewhere in the paper. Flagged by external technical review, verified directly against the n=296,668 sample before any manuscript text was changed.",
+      "correlations_checked": {
+        "built_fraction_2018_vs_growth_1975_2015": 0.8145,
+        "built_fraction_2018_vs_built_coverage_2010": 0.9699,
+        "built_fraction_2018_vs_built_coverage_2015": 0.9831
+      },
+      "implication": "AGBHs higher typology diagonal concordance (89.8% vs 64.2%) and higher regression R2 (0.946 vs 0.235) are each partly mechanical (AGBH shares information with the variable it is compared/regressed against), not purely evidence of ANBHs retrieval floor. Unconfounded evidence for the retrieval floor: the pixel-level histogram (Section 5.1) and the near-flat median ANBH across typology classes (Section 5.5), both properties of ANBH alone. The cross-dataset correlation gap vs Open Buildings V3 (Section 5.6) also does not share this construction.",
+      "fix_applied": "Section 5.2, Section 5.5 (both paragraphs), Section 6.4 (new Limitation 2), Abstract, and paper2_response_to_reviewers_v3.md all restate this explicitly. No computed statistics changed -- this is a correction to interpretation/independence claims, not to the underlying numbers."
+    }
   },
   "weights_diagnostics": {
     "audit_table": [
@@ -673,6 +683,10 @@
         }
       ],
       "headline_finding": "High height / High prior expansion cells have built_coverage_2010 roughly 4-40x every other class (0.0534 vs 0.0002-0.0141) and the shortest mean distance to the nearest CBD (61.9 km vs 70.2-75.0 km), on predictors the typology was not constructed from -- an independent check that the classification captures a real pattern."
+    },
+    "table6_not_independent": {
+      "description": "Table 6 (Section 4.7 predictors by typology class) was originally described as an independent check on the typology. growth_1975_2010 + growth_2010_2015 sum EXACTLY to growth_1975_2015 (the typology horizontal axis) by construction -- not independent, arithmetically part of it. built_coverage_2010 correlates r=0.97 with 2018 built fraction (see agbh_confound_finding above) -- also not a clean independent check. Only distance_to_nearest_cbd_m is genuinely external to the typology construction.",
+      "fix_applied": "Reframed as a descriptive class profile; independence claim removed except for CBD distance specifically (Section 5.5)."
     }
   },
   "validation": {

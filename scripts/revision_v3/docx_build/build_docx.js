@@ -99,9 +99,11 @@ function dataTable(headers, rows) {
   const colWidths = Array(nCols).fill(Math.floor(CONTENT_W_TWIPS / nCols));
   const headerRow = new TableRow({
     tableHeader: true,
+    cantSplit: true,
     children: headers.map((htext, i) => cell(htext, { bold: true, width: colWidths[i], shade: "D9E2F3", align: AlignmentType.CENTER })),
   });
   const bodyRows = rows.map((r, ri) => new TableRow({
+    cantSplit: true,
     children: r.map((c, i) => cell(c, { width: colWidths[i], shade: ri % 2 === 1 ? "F2F2F2" : undefined })),
   }));
   return new Table({
@@ -118,11 +120,11 @@ function dataTable(headers, rows) {
   });
 }
 
-function figureImage(filePath, maxWidthPx = 380) {
+function figureImage(filePath, maxWidthPx = 440) {
   const buf = fs.readFileSync(filePath);
   const dim = imageSize(buf);
   let w = maxWidthPx, h = Math.round(maxWidthPx * dim.height / dim.width);
-  const maxH = 600;
+  const maxH = 640;
   if (h > maxH) { h = maxH; w = Math.round(maxH * dim.width / dim.height); }
   return new Paragraph({
     alignment: AlignmentType.CENTER, spacing: { before: 160, after: 40 },
