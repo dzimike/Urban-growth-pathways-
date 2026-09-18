@@ -780,6 +780,91 @@
         "Metro_core_HighANBH": 20
       },
       "note": "Infrastructure for manual validation (stratified sample + coding template with GHSL values pre-filled); not itself completed field validation."
+    },
+    "illustrative_satellite_check_6_cells": {
+      "description": "A small, non-random illustration of the 120-cell manual-validation infrastructure, done in response to external review flagging that no validation had actually been completed. Not a substitute for the full protocol -- see caveats below.",
+      "method": "For each of the 3 region tiers (Metro_core, Periurban_corridor, Secondary_city), the single cell with the highest cell_anbh_derived_m (within the HighANBH stratum) and the single cell with the lowest (within the LowANBH stratum) were located via lat/lon centroid and viewed in Google Maps satellite imagery.",
+      "cells_checked": [
+        {
+          "grid_id": "500m_00566078",
+          "region_tier": "Metro_core",
+          "height_tier": "HighANBH",
+          "urban_region": "Accra-Tema",
+          "anbh_m": 13.659395,
+          "agbh_m": 6.041625,
+          "building_count": 457,
+          "lon": -0.199917,
+          "lat": 5.5505,
+          "observation": "Dense administrative/government core: Accra Metropolitan Assembly, ministry buildings, Ghana Revenue Authority HQ. Consistent with High height / High prior expansion."
+        },
+        {
+          "grid_id": "500m_00121195",
+          "region_tier": "Metro_core",
+          "height_tier": "LowANBH",
+          "urban_region": "Kumasi",
+          "anbh_m": 0.0,
+          "agbh_m": 0.0,
+          "building_count": 4,
+          "lon": -1.464474,
+          "lat": 6.631269,
+          "observation": "Forested/rural land on Kumasi periphery, a handful of small scattered structures visible. Consistent with Low height / Low prior expansion."
+        },
+        {
+          "grid_id": "500m_00571322",
+          "region_tier": "Periurban_corridor",
+          "height_tier": "HighANBH",
+          "urban_region": "Accra-Kasoa",
+          "anbh_m": 7.95428,
+          "agbh_m": 2.157607,
+          "building_count": 462,
+          "lon": -0.43876,
+          "lat": 5.587734,
+          "observation": "Dense peri-urban residential/commercial settlement (Kasoa-Ofaakor), predominantly low-rise. Consistent with High height / High prior expansion, though visually low-rise rather than tall -- appropriately, since High is relative to other peri-urban cells, not to the metro core."
+        },
+        {
+          "grid_id": "500m_00573972",
+          "region_tier": "Periurban_corridor",
+          "height_tier": "LowANBH",
+          "urban_region": "Accra-Dodowa",
+          "anbh_m": 0.0,
+          "agbh_m": 0.0,
+          "building_count": 1,
+          "lon": -0.253023,
+          "lat": 5.7631,
+          "observation": "Farmland, no visible structures in frame. Consistent with Low height / Low prior expansion."
+        },
+        {
+          "grid_id": "500m_00071436",
+          "region_tier": "Secondary_city",
+          "height_tier": "HighANBH",
+          "urban_region": "Sekondi-Takoradi",
+          "anbh_m": 14.091148,
+          "agbh_m": 4.274196,
+          "building_count": 308,
+          "lon": -1.744042,
+          "lat": 4.949827,
+          "observation": "Dense institutional campus (Takoradi Technical University and surrounding hostels/services). Consistent with High height / High prior expansion."
+        },
+        {
+          "grid_id": "500m_00577787",
+          "region_tier": "Secondary_city",
+          "height_tier": "LowANBH",
+          "urban_region": "Koforidua",
+          "anbh_m": 0.0,
+          "agbh_m": 0.0,
+          "building_count": 5,
+          "lon": -0.269123,
+          "lat": 6.156252,
+          "observation": "Dense forest, no visible structures. Consistent with Low height / Low prior expansion."
+        }
+      ],
+      "result": "6 of 6 cells show the expected pattern (face validity holds for the most extreme, most confident classification cases).",
+      "caveats": [
+        "Non-random: deliberately picked the most extreme cell per stratum, not a random draw -- says nothing about accuracy in the moderate/ambiguous cases where classification error actually matters.",
+        "Overhead-only imagery cannot distinguish a genuinely tall building from many low-rise buildings packed densely together, i.e. cannot independently verify the AGBH/ANBH distinction this paper is about.",
+        "No shadow-length, oblique, or street-level imagery was used, so no storey count or height estimate was attempted -- only a coarse built-density/land-use impression.",
+        "114 of the 120-cell sample and the storey-count coding field remain uncompleted."
+      ]
     }
   },
   "figures": {

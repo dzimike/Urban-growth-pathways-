@@ -294,4 +294,16 @@ Response-to-reviewers letter: one stale sentence removed (claimed two items "not
 
 ---
 
+## 15. Small illustrative satellite check (6 of 120 manual-validation cells)
+
+Not a completed validation — a bounded, honestly-scoped supplement, done because external review correctly noted that the 120-cell manual-validation infrastructure (script 07) had never actually been used. Full detail and caveats in `facts.json` → `validation.illustrative_satellite_check_6_cells`; summary here.
+
+**What was checked:** the single most extreme high-ANBH cell and the single most extreme low-ANBH cell within each of the three region tiers (Metro core, Peri-urban corridor, Secondary city) — 6 of the 120 stratified cells, deliberately the most confident predictions the classification makes, not a random draw. Each cell's lat/lon centroid was located in Google Maps satellite view.
+
+**Result:** 6 of 6 showed the expected pattern. High-ANBH cells: central Accra's government/administrative district (Metropolitan Assembly, ministries, GRA headquarters), a dense peri-urban residential/commercial corridor (Kasoa-Ofaakor), and Takoradi Technical University's campus. Low-ANBH cells: forested/rural land on Kumasi's periphery, farmland near Accra-Dodowa, and dense forest near Koforidua — no visible structures in any of the three.
+
+**What this does and doesn't establish, stated plainly:** this is face validity for the classification's most extreme, most confident cases — a real, positive result, but a narrow one. It does not validate the 114 remaining cells or the moderate/ambiguous cases where classification error actually matters most (the extreme cases were never the ones in doubt). More fundamentally, overhead satellite imagery without shadow analysis, oblique views, or street-level imagery cannot distinguish a genuinely tall building from many low-rise buildings packed densely together — which is exactly the AGBH/ANBH distinction this paper's central argument turns on. No storey count or height estimate was attempted; the coding template's storey-count field remains empty. This check answers "does the classification point at real places that look like what it claims," not "is ANBH/AGBH numerically accurate." Limitation 6 (formerly 7, before item 2 was inserted) and Section 5.6 now state this distinction explicitly rather than leaving the validation infrastructure completely untouched.
+
+---
+
 *Per the revision instructions, no manuscript text is written until this analytical audit is judged complete. Scripts 01-07 are now done; remaining infrastructure items (config.py path centralization already applied, run_all.py, final output_manifest.csv refresh) are the last steps before that judgement can be made.*
