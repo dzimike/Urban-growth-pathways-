@@ -169,7 +169,7 @@ def main() -> None:
         "tiles_used": TILES,
         "tile_selection_note": ("Empirically verified via GDAL /vsizip/vsicurl/ remote header reads "
                                  "before download; see script docstring and audit_report.md. Two prior "
-                                 "AI-generated guesses (R3/R4 x C20/C21) were WRONG (covered Scandinavia) "
+                                 "automated guesses (R3/R4 x C20/C21) were WRONG (covered Scandinavia) "
                                  "and were rejected before any bulk download was attempted."),
         "products": {},
     }

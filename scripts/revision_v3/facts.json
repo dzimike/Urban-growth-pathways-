@@ -14,7 +14,7 @@
       "R9_C18",
       "R9_C19"
     ],
-    "tile_derivation_note": "Empirically verified via GDAL /vsizip/vsicurl/ remote header reads before download; see script docstring and audit_report.md. Two prior AI-generated guesses (R3/R4 x C20/C21) were WRONG (covered Scandinavia) and were rejected before any bulk download was attempted.",
+    "tile_derivation_note": "Empirically verified via GDAL /vsizip/vsicurl/ remote header reads before download; see script docstring and audit_report.md. Two prior automated guesses (R3/R4 x C20/C21) were WRONG (covered Scandinavia) and were rejected before any bulk download was attempted.",
     "asset_id_finding": "The codebase's hard-coded Earth Engine asset ID for AGBH (JRC/GHSL/P2023A/GHS_BUILT_H_AGBH, in scripts/01_download_data/download_ghsl_gee.py) does not exist on Earth Engine. The actual EE asset (JRC/GHSL/P2023A/GHS_BUILT_H/2018) exposes ONLY ANBH. AGBH was therefore acquired directly from JRC's own distribution server instead of via Earth Engine.",
     "old_file_finding": "02_processed_data/ghsl_layers/ghsl_height_grid_500m.parquet and height_typology_grid_500m.parquet (used throughout Paper 2 v2) have no producer script and no processing_log.csv entry anywhere in the codebase. Their stats (mean 0.163 m, max 8.13 m) are close to the newly verified AGBH (mean 0.163 m over the same footprint sample -- see 'aggregation' below), suggesting the old file was probably genuine AGBH, but its exact processing chain remains unverifiable, which is why v3 does not reuse it.",
     "agbh_final_sha256": "9c88872cd117a1330e27c8fdadd4c3ec495c7583e5fd67f46eef3c4036979491",
