@@ -22,6 +22,7 @@ Raw inputs are third-party datasets with their own licenses and are not redistri
 - Ghana 2021 Population and Housing Census
 - WorldPop gridded population
 - GADM Ghana administrative boundaries
+- World Settlement Footprint 3D (WSF3D) V02 building height and building fraction -- DLR, CC-BY-4.0 (used by `scripts/revision_v3/11_wsf3d_comparison.py`; the script clips the global files to Ghana and records checksums)
 - DEM/terrain and night-time lights layers (used by the upstream pipeline; not part of the v3-specific analysis)
 
 Sources, DOIs, and access dates for the layers the v3 analysis actually uses are listed in the paper's Table 1 and in `scripts/revision_v3/01_acquire_ghsl_height.py`'s provenance output; the upstream scripts document their own sources in-line (see each script's docstring).
@@ -61,7 +62,7 @@ Then the v3 analysis, in its own environment:
 python scripts/revision_v3/run_all.py
 ```
 
-runs the v3 pipeline (acquisition → processing → sample definition → models → weights diagnostics → typology → validation → appendix tables → grid-resolution sensitivity → facts.json) with one command. Figures are produced separately by `python scripts/revision_v3/08_manuscript_figures.py`. Flags: `--from N` to resume from stage N, `--only N` for a single stage, `--skip-tests`, `--skip-facts`.
+runs the v3 pipeline (acquisition → processing → sample definition → models → weights diagnostics → typology → validation → appendix tables → grid-resolution sensitivity → WSF3D comparison → facts.json) with one command. Figures are produced separately by `python scripts/revision_v3/08_manuscript_figures.py`. Flags: `--from N` to resume from stage N, `--only N` for a single stage, `--skip-tests`, `--skip-facts`.
 
 ```bash
 python -m pytest scripts/revision_v3/tests/
@@ -102,6 +103,7 @@ runs the 11-test identity/range suite independently of the pipeline.
 | `08_manuscript_figures.py` | All manuscript figures, including the two-dimensions schematic (Fig. A1) and the sample-flow diagram (Fig. A2) |
 | `09_supplementary_tables.py` | Appendix Tables A1, A2, A5: per-region statistics for the 15 named study areas, full-sample descriptive statistics and quantiles, tertile/quartile cross-tabulations with marginals |
 | `10_grid_resolution_sensitivity.py` | Appendix Table A4: 250 m / 500 m / 1 km sensitivity, all three recomputed by one code path (the 500 m run doubles as a reproduction check) |
+| `11_wsf3d_comparison.py` | Appendix Table A6: cross-product comparison of ANBH/AGBH with WSF3D building height (download the two global WSF3D GeoTIFFs first and pass `--global-dir`) |
 | `build_facts_json.py` | Consolidates every script's findings into `facts.json`, merging hand-curated notes from `facts_curated.json` last |
 | `run_all.py` | One-command orchestrator; rebuilds `output_manifest.csv` |
 

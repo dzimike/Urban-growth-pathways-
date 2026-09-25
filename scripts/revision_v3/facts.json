@@ -1783,6 +1783,687 @@
       }
     ]
   },
+  "wsf3d_comparison": {
+    "provenance": {
+      "product": "World Settlement Footprint 3D (WSF3D), version 2",
+      "provider": "German Aerospace Center (DLR)",
+      "citation": "Esch, T. et al. (2022) World Settlement Footprint 3D - A first three-dimensional survey of the global building stock. Remote Sensing of Environment, 270, 112877.",
+      "license": "CC-BY-4.0",
+      "temporal_extent_note": "Building height from TanDEM-X DEM (2011-2013); settlement mask from WSF-Imperviousness (2017-2019). Settlements built after ~2012 have no height information (DLR temporalextent.txt).",
+      "encoding": {
+        "height": "Int16 metres x 10 (gain 0.1)",
+        "fraction": "integer percent 0-100"
+      },
+      "clip_bbox_epsg4326": {
+        "ulx": -3.5,
+        "uly": 11.3,
+        "lrx": 1.3,
+        "lry": 4.3,
+        "note": "identical to the GHSL anbh_2018_v3.tif clip"
+      },
+      "files": {
+        "height": {
+          "source_url": "https://download.geoservice.dlr.de/WSF3D/files/global/WSF3D_V02_BuildingHeight.tif",
+          "global_size_bytes": 2142396344,
+          "global_sha256": "33e8ac2fe1665c9e2005a507c49cfce5942765bb991e631b8f13892e75ba4b03",
+          "clip_path": "01_raw_data/wsf3d/wsf3d_height_ghana.tif",
+          "clip_sha256": "0da7d658af67adc356d2ce26492668a223f05a86566184b09d7c66243ce996f3",
+          "nodata_value": "-32767"
+        },
+        "fraction": {
+          "source_url": "https://download.geoservice.dlr.de/WSF3D/files/global/WSF3D_V02_BuildingFraction.tif",
+          "global_size_bytes": 1358564353,
+          "global_sha256": "911fd30e89821813453aa36a60278250addd5b3e268b55f7e73108ceee8052c0",
+          "clip_path": "01_raw_data/wsf3d/wsf3d_fraction_ghana.tif",
+          "clip_sha256": "6db86762a9eb208413b5bbf018d70c14cf0a84a0b175cb8c1649420ec09d7d62",
+          "nodata_value": "255"
+        }
+      },
+      "download_completed_utc": "2026-09-25T14:33:11Z"
+    },
+    "primary_spec": "WSF3D pixels with height < 1 m excluded (0.2 m placeholder, 8.0% of built pixels over Ghana)",
+    "summary": [
+      {
+        "comparison": "ANBH vs WSF3D net height (cells where both are defined)",
+        "n": 110889.0,
+        "spearman_rho": 0.1817943226568784,
+        "spearman_p": 0.0,
+        "pearson_r_log1p": 0.1808458892696748,
+        "pearson_p": 0.0,
+        "value": NaN
+      },
+      {
+        "comparison": "ANBH vs WSF3D net height (both > 0)",
+        "n": 110314.0,
+        "spearman_rho": 0.1813968220943669,
+        "spearman_p": 0.0,
+        "pearson_r_log1p": 0.1866564552808883,
+        "pearson_p": 0.0,
+        "value": NaN
+      },
+      {
+        "comparison": "AGBH vs WSF3D gross height (all sample cells)",
+        "n": 296668.0,
+        "spearman_rho": 0.799989674132574,
+        "spearman_p": 0.0,
+        "pearson_r_log1p": 0.9520242685307309,
+        "pearson_p": 0.0,
+        "value": NaN
+      },
+      {
+        "comparison": "n_final_sample",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 296668.0
+      },
+      {
+        "comparison": "n_with_wsf3d_buildings",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 110889.0
+      },
+      {
+        "comparison": "pct_with_wsf3d_buildings",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 37.378146615071394
+      },
+      {
+        "comparison": "n_anbh_zero",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 43412.0
+      },
+      {
+        "comparison": "n_anbh_zero_with_wsf3d_buildings",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 575.0
+      },
+      {
+        "comparison": "wsf3d_net_mean_m_where_defined",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 3.6061970637227976
+      },
+      {
+        "comparison": "wsf3d_net_median_m_where_defined",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 3.2897576596144824
+      },
+      {
+        "comparison": "anbh_mean_m_same_cells",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 3.339744481743004
+      },
+      {
+        "comparison": "anbh_median_m_same_cells",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 2.501247
+      },
+      {
+        "comparison": "median_split_agreement_pct_both_positive",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 53.16097684790688
+      },
+      {
+        "comparison": "median_split_cohens_kappa_both_positive",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 0.0632195369581376
+      },
+      {
+        "comparison": "mannwhitney_wsf3d_net_high_vs_low_height_classes_U",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 1486735358.0
+      },
+      {
+        "comparison": "mannwhitney_wsf3d_net_high_vs_low_height_classes_p_one_sided",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 9.897600847654165e-104
+      },
+      {
+        "comparison": "region_rank_spearman_anbh_mean_vs_wsf3d_net_mean",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 0.2464285714285713
+      },
+      {
+        "comparison": "region_rank_spearman_anbh_median_vs_wsf3d_net_median",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 0.1714285714285714
+      },
+      {
+        "comparison": "region_rank_spearman_agbh_mean_vs_wsf3d_gross_mean",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 0.9785714285714284
+      }
+    ],
+    "floor_band": [
+      {
+        "anbh_band": "ANBH = 0",
+        "n_cells": 43412,
+        "pct_with_wsf3d": 1.3245185662950336,
+        "anbh_min_m": 0.0,
+        "anbh_max_m": 0.0,
+        "wsf3d_net_n": 575,
+        "wsf3d_net_mean": 3.460895463144346,
+        "wsf3d_net_p10": 2.3999999723815906,
+        "wsf3d_net_p25": 2.765856723823028,
+        "wsf3d_net_p50": 2.937499916560745,
+        "wsf3d_net_p75": 3.745329462806468,
+        "wsf3d_net_p90": 5.089460973748803,
+        "spearman_anbh_vs_wsf3d_within_band": NaN
+      },
+      {
+        "anbh_band": "ANBH floor band (IQR 2.4917-2.5094 m)",
+        "n_cells": 148590,
+        "pct_with_wsf3d": 48.43798371357427,
+        "anbh_min_m": 2.491694,
+        "anbh_max_m": 2.509434,
+        "wsf3d_net_n": 71974,
+        "wsf3d_net_mean": 3.5065757408725924,
+        "wsf3d_net_p10": 2.4625518192109874,
+        "wsf3d_net_p25": 2.7327750622248845,
+        "wsf3d_net_p50": 3.100014575710981,
+        "wsf3d_net_p75": 3.903302370631647,
+        "wsf3d_net_p90": 5.040658113069173,
+        "spearman_anbh_vs_wsf3d_within_band": -0.0599037692316947
+      },
+      {
+        "anbh_band": "ANBH above floor, below p90",
+        "n_cells": 44248,
+        "pct_with_wsf3d": 18.945489061652506,
+        "anbh_min_m": 2.509447,
+        "anbh_max_m": 2.803592,
+        "wsf3d_net_n": 8383,
+        "wsf3d_net_mean": 3.5719854884223268,
+        "wsf3d_net_p10": 2.556742213431962,
+        "wsf3d_net_p25": 2.8000000999763666,
+        "wsf3d_net_p50": 3.2669758170149708,
+        "wsf3d_net_p75": 4.0,
+        "wsf3d_net_p90": 5.020229716318024,
+        "spearman_anbh_vs_wsf3d_within_band": NaN
+      },
+      {
+        "anbh_band": "ANBH >= p90",
+        "n_cells": 29667,
+        "pct_with_wsf3d": 95.29443489398996,
+        "anbh_min_m": 2.803731,
+        "anbh_max_m": 21.009179,
+        "wsf3d_net_n": 28271,
+        "wsf3d_net_mean": 3.8844611122886423,
+        "wsf3d_net_p10": 2.843974732240272,
+        "wsf3d_net_p25": 3.199944031278447,
+        "wsf3d_net_p50": 3.669174882278406,
+        "wsf3d_net_p75": 4.286637613371775,
+        "wsf3d_net_p90": 5.117872509769495,
+        "spearman_anbh_vs_wsf3d_within_band": NaN
+      }
+    ],
+    "by_typology": [
+      {
+        "typology_class": "High height / High prior expansion",
+        "n_cells": 94885,
+        "pct_with_wsf3d": 71.64673025241082,
+        "anbh_median_m": 2.504785,
+        "wsf3d_net_n": 67982,
+        "wsf3d_net_mean": 3.646222924648877,
+        "wsf3d_net_p10": 2.57222061142561,
+        "wsf3d_net_p25": 2.8165333321589605,
+        "wsf3d_net_p50": 3.369846763657918,
+        "wsf3d_net_p75": 4.094574206684391,
+        "wsf3d_net_p90": 5.055158050947421
+      },
+      {
+        "typology_class": "Low height / Low prior expansion",
+        "n_cells": 95609,
+        "pct_with_wsf3d": 4.593709797194824,
+        "anbh_median_m": 2.391304,
+        "wsf3d_net_n": 4392,
+        "wsf3d_net_mean": 3.40730142923082,
+        "wsf3d_net_p10": 2.300000092456798,
+        "wsf3d_net_p25": 2.647872363852063,
+        "wsf3d_net_p50": 2.801500054505221,
+        "wsf3d_net_p75": 3.6727940217242017,
+        "wsf3d_net_p90": 5.100000003524851
+      },
+      {
+        "typology_class": "High height / Low prior expansion",
+        "n_cells": 53437,
+        "pct_with_wsf3d": 9.938806444972585,
+        "anbh_median_m": 2.516393,
+        "wsf3d_net_n": 5311,
+        "wsf3d_net_mean": 3.464311064209745,
+        "wsf3d_net_p10": 2.3452408972834657,
+        "wsf3d_net_p25": 2.6999999708047184,
+        "wsf3d_net_p50": 2.899999941668625,
+        "wsf3d_net_p75": 3.867413253471936,
+        "wsf3d_net_p90": 5.199999733550267
+      },
+      {
+        "typology_class": "Low height / High prior expansion",
+        "n_cells": 52737,
+        "pct_with_wsf3d": 62.96148813925707,
+        "anbh_median_m": 2.499639,
+        "wsf3d_net_n": 33204,
+        "wsf3d_net_mean": 3.573251276848501,
+        "wsf3d_net_p10": 2.5028384740558787,
+        "wsf3d_net_p25": 2.7857035646354547,
+        "wsf3d_net_p50": 3.2075712253728854,
+        "wsf3d_net_p75": 4.0,
+        "wsf3d_net_p90": 5.091543560181289
+      }
+    ],
+    "by_region": [
+      {
+        "region": "Accra-Dodowa",
+        "n_cells": 3784,
+        "pct_with_wsf3d": 54.54545454545454,
+        "anbh_mean_m": 2.856440305761099,
+        "anbh_median_m": 2.5013615,
+        "agbh_mean_m": 0.2403746804968287,
+        "wsf3d_net_mean_m": 3.482254240627379,
+        "wsf3d_net_median_m": 3.030963292998882,
+        "wsf3d_gross_mean_m": 0.0891720537255872
+      },
+      {
+        "region": "Accra-Kasoa",
+        "n_cells": 384,
+        "pct_with_wsf3d": 77.60416666666666,
+        "anbh_mean_m": 4.801141502604167,
+        "anbh_median_m": 5.014703000000001,
+        "agbh_mean_m": 1.2334372630208332,
+        "wsf3d_net_mean_m": 2.97753037216352,
+        "wsf3d_net_median_m": 2.931161609628837,
+        "wsf3d_gross_mean_m": 0.3190527823497593
+      },
+      {
+        "region": "Accra-Prampram",
+        "n_cells": 144,
+        "pct_with_wsf3d": 83.33333333333334,
+        "anbh_mean_m": 3.329665298611111,
+        "anbh_median_m": 2.530266,
+        "agbh_mean_m": 0.5320559791666667,
+        "wsf3d_net_mean_m": 3.0522073161263976,
+        "wsf3d_net_median_m": 2.8934241665561142,
+        "wsf3d_gross_mean_m": 0.2606165080714715
+      },
+      {
+        "region": "Accra-Tema",
+        "n_cells": 4923,
+        "pct_with_wsf3d": 95.8358724355068,
+        "anbh_mean_m": 6.328165406662605,
+        "anbh_median_m": 7.270638,
+        "agbh_mean_m": 2.037995364411944,
+        "wsf3d_net_mean_m": 3.8365299369528514,
+        "wsf3d_net_median_m": 3.4917475025022253,
+        "wsf3d_gross_mean_m": 0.7812465412924178
+      },
+      {
+        "region": "Bolgatanga",
+        "n_cells": 2095,
+        "pct_with_wsf3d": 92.98329355608593,
+        "anbh_mean_m": 2.9030608525059667,
+        "anbh_median_m": 2.500658,
+        "agbh_mean_m": 0.2166170195704057,
+        "wsf3d_net_mean_m": 3.1133573809235844,
+        "wsf3d_net_median_m": 2.962777677715118,
+        "wsf3d_gross_mean_m": 0.0948766676628666
+      },
+      {
+        "region": "Cape Coast",
+        "n_cells": 764,
+        "pct_with_wsf3d": 82.59162303664922,
+        "anbh_mean_m": 4.113104616492147,
+        "anbh_median_m": 2.628034,
+        "agbh_mean_m": 0.6087853534031413,
+        "wsf3d_net_mean_m": 4.515318550798279,
+        "wsf3d_net_median_m": 4.275575100805341,
+        "wsf3d_gross_mean_m": 0.2912071677172815
+      },
+      {
+        "region": "Ho",
+        "n_cells": 1111,
+        "pct_with_wsf3d": 53.10531053105311,
+        "anbh_mean_m": 2.910732282628263,
+        "anbh_median_m": 2.50091,
+        "agbh_mean_m": 0.3407860153015301,
+        "wsf3d_net_mean_m": 3.58645871040372,
+        "wsf3d_net_median_m": 3.395728104856888,
+        "wsf3d_gross_mean_m": 0.1354275984506392
+      },
+      {
+        "region": "Koforidua",
+        "n_cells": 2039,
+        "pct_with_wsf3d": 48.55321235899951,
+        "anbh_mean_m": 2.762054725846003,
+        "anbh_median_m": 2.500557,
+        "agbh_mean_m": 0.301016188818048,
+        "wsf3d_net_mean_m": 3.9730812420147448,
+        "wsf3d_net_median_m": 3.746559899259106,
+        "wsf3d_gross_mean_m": 0.1221086073974975
+      },
+      {
+        "region": "Kumasi",
+        "n_cells": 3440,
+        "pct_with_wsf3d": 86.9186046511628,
+        "anbh_mean_m": 5.677274610465116,
+        "anbh_median_m": 6.02457,
+        "agbh_mean_m": 1.5250484834302325,
+        "wsf3d_net_mean_m": 3.988783437287046,
+        "wsf3d_net_median_m": 3.795675457337393,
+        "wsf3d_gross_mean_m": 0.6237683330462155
+      },
+      {
+        "region": "Kumasi-Ejisu",
+        "n_cells": 2048,
+        "pct_with_wsf3d": 28.271484375,
+        "anbh_mean_m": 2.466391866699219,
+        "anbh_median_m": 2.5007580000000003,
+        "agbh_mean_m": 0.1181703198242187,
+        "wsf3d_net_mean_m": 3.77703329208192,
+        "wsf3d_net_median_m": 3.652863590457374,
+        "wsf3d_gross_mean_m": 0.0436398243663707
+      },
+      {
+        "region": "Outside named regions",
+        "n_cells": 268539,
+        "pct_with_wsf3d": 34.23413358953448,
+        "anbh_mean_m": 2.2961206783111576,
+        "anbh_median_m": 2.500243,
+        "agbh_mean_m": 0.0786947714708105,
+        "wsf3d_net_mean_m": 3.5786695769298267,
+        "wsf3d_net_median_m": 3.248478763402434,
+        "wsf3d_gross_mean_m": 0.0390473764360069
+      },
+      {
+        "region": "Sekondi-Takoradi",
+        "n_cells": 1139,
+        "pct_with_wsf3d": 70.32484635645304,
+        "anbh_mean_m": 4.663624964003511,
+        "anbh_median_m": 2.75,
+        "agbh_mean_m": 0.935376678665496,
+        "wsf3d_net_mean_m": 4.518349586457692,
+        "wsf3d_net_median_m": 4.329111733514697,
+        "wsf3d_gross_mean_m": 0.3629177870979677
+      },
+      {
+        "region": "Sunyani",
+        "n_cells": 1571,
+        "pct_with_wsf3d": 49.64990451941439,
+        "anbh_mean_m": 3.292743116486314,
+        "anbh_median_m": 2.502853,
+        "agbh_mean_m": 0.4284763781031189,
+        "wsf3d_net_mean_m": 3.968877631170912,
+        "wsf3d_net_median_m": 3.815026086878975,
+        "wsf3d_gross_mean_m": 0.1635434401684874
+      },
+      {
+        "region": "Tamale",
+        "n_cells": 2364,
+        "pct_with_wsf3d": 61.2098138747885,
+        "anbh_mean_m": 3.4626273515228427,
+        "anbh_median_m": 2.5037865000000004,
+        "agbh_mean_m": 0.5058873079526227,
+        "wsf3d_net_mean_m": 3.582341066634048,
+        "wsf3d_net_median_m": 3.367095980641197,
+        "wsf3d_gross_mean_m": 0.2055646691780959
+      },
+      {
+        "region": "Tamale-Savelugu",
+        "n_cells": 1403,
+        "pct_with_wsf3d": 30.71988595866001,
+        "anbh_mean_m": 2.1414978638631506,
+        "anbh_median_m": 2.5,
+        "agbh_mean_m": 0.0831879337134711,
+        "wsf3d_net_mean_m": 3.441348646729092,
+        "wsf3d_net_median_m": 3.159601716156902,
+        "wsf3d_gross_mean_m": 0.0439561984907845
+      },
+      {
+        "region": "Wa",
+        "n_cells": 920,
+        "pct_with_wsf3d": 61.95652173913043,
+        "anbh_mean_m": 3.032171122826087,
+        "anbh_median_m": 2.503451,
+        "agbh_mean_m": 0.4008392195652174,
+        "wsf3d_net_mean_m": 3.3213006344756524,
+        "wsf3d_net_median_m": 3.138324478700219,
+        "wsf3d_gross_mean_m": 0.2166074174088465
+      }
+    ],
+    "sensitivity_incl_sub1m_summary": [
+      {
+        "comparison": "ANBH vs WSF3D net height (cells where both are defined)",
+        "n": 144974.0,
+        "spearman_rho": 0.251993502185827,
+        "spearman_p": 0.0,
+        "pearson_r_log1p": 0.2939512009293752,
+        "pearson_p": 0.0,
+        "value": NaN
+      },
+      {
+        "comparison": "ANBH vs WSF3D net height (both > 0)",
+        "n": 144017.0,
+        "spearman_rho": 0.2510140365666155,
+        "spearman_p": 0.0,
+        "pearson_r_log1p": 0.3053979387648836,
+        "pearson_p": 0.0,
+        "value": NaN
+      },
+      {
+        "comparison": "AGBH vs WSF3D gross height (all sample cells)",
+        "n": 296668.0,
+        "spearman_rho": 0.8482582110688546,
+        "spearman_p": 0.0,
+        "pearson_r_log1p": 0.9520319452471456,
+        "pearson_p": 0.0,
+        "value": NaN
+      },
+      {
+        "comparison": "n_final_sample",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 296668.0
+      },
+      {
+        "comparison": "n_with_wsf3d_buildings",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 144974.0
+      },
+      {
+        "comparison": "pct_with_wsf3d_buildings",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 48.86742082058058
+      },
+      {
+        "comparison": "n_anbh_zero",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 43412.0
+      },
+      {
+        "comparison": "n_anbh_zero_with_wsf3d_buildings",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 957.0
+      },
+      {
+        "comparison": "wsf3d_net_mean_m_where_defined",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 2.7367292664168112
+      },
+      {
+        "comparison": "wsf3d_net_median_m_where_defined",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 2.8845966617666727
+      },
+      {
+        "comparison": "anbh_mean_m_same_cells",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 3.136112465973209
+      },
+      {
+        "comparison": "anbh_median_m_same_cells",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 2.501208
+      },
+      {
+        "comparison": "median_split_agreement_pct_both_positive",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 54.64146593804898
+      },
+      {
+        "comparison": "median_split_cohens_kappa_both_positive",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 0.0928311093580057
+      },
+      {
+        "comparison": "mannwhitney_wsf3d_net_high_vs_low_height_classes_U",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 2722364576.0
+      },
+      {
+        "comparison": "mannwhitney_wsf3d_net_high_vs_low_height_classes_p_one_sided",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 0.0
+      },
+      {
+        "comparison": "region_rank_spearman_anbh_mean_vs_wsf3d_net_mean",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 0.5535714285714285
+      },
+      {
+        "comparison": "region_rank_spearman_anbh_median_vs_wsf3d_net_median",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 0.4107142857142856
+      },
+      {
+        "comparison": "region_rank_spearman_agbh_mean_vs_wsf3d_gross_mean",
+        "n": NaN,
+        "spearman_rho": NaN,
+        "spearman_p": NaN,
+        "pearson_r_log1p": NaN,
+        "pearson_p": NaN,
+        "value": 0.9785714285714284
+      }
+    ],
+    "interpretation": "Supports the retrieval floor: among 148,590 cells with ANBH in its 1.8 cm interquartile band, WSF3D spans 2.46-5.04 m (p10-p90) with no rank relation to ANBH (rho -0.06). But cell-level agreement is weak (rho 0.18, kappa 0.06), and WSF3D reverses the height order of the two off-diagonal typology classes. Gross-measure agreement (rho 0.80) mostly reflects shared coverage. WSF3D is a second satellite estimate (2011-2013 height epoch), not ground truth."
+  },
   "figures": {
     "note": "Manuscript figures (script 08) are visualization/support only, not one of the 15 numbered requirements.",
     "gis_review_fixes": {

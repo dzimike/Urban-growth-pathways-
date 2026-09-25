@@ -68,6 +68,7 @@ STAGES = [
     (7, "07_validation_module.py", "Spatial plausibility, cross-dataset consistency, manual validation sample"),
     (9, "09_supplementary_tables.py", "Appendix tables: descriptive stats, per-region stats, cross-tabs with marginals"),
     (10, "10_grid_resolution_sensitivity.py", "250 m / 500 m / 1 km resolution sensitivity (one code path)"),
+    (11, "11_wsf3d_comparison.py", "Cross-product comparison with WSF3D building height (needs WSF3D clips; see script)"),
 ]
 
 # Every output this pipeline is known to produce, for the final manifest.
@@ -106,6 +107,16 @@ KNOWN_OUTPUTS = [
     ("04_outputs/paper2_v3/tables/T_typology_crosstabs_with_marginals.csv", "script 09", "Tertile/quartile crosstabs with marginals (manuscript Table A5)"),
     ("04_outputs/paper2_v3/tables/T_grid_resolution_sensitivity.csv", "script 10", "250 m / 500 m / 1 km sensitivity summary (manuscript Table A4)"),
     ("04_outputs/paper2_v3/tables/T_grid_resolution_coefficients.csv", "script 10", "Model C OLS coefficients by resolution"),
+    ("01_raw_data/wsf3d/wsf3d_height_ghana.tif", "script 11", "WSF3D V02 building height, clipped to the GHSL Ghana bbox"),
+    ("01_raw_data/wsf3d/wsf3d_fraction_ghana.tif", "script 11", "WSF3D V02 building fraction, clipped to the GHSL Ghana bbox"),
+    ("01_raw_data/wsf3d/provenance_wsf3d.json", "script 11", "WSF3D provenance: URLs, sizes, SHA-256 of global files and clips, licence"),
+    ("02_processed_data/ghsl_layers_v3/wsf3d_grid_500m.parquet", "script 11", "WSF3D net/gross height and fraction per 500 m cell (pixels >= 1 m)"),
+    ("02_processed_data/ghsl_layers_v3/wsf3d_grid_500m_incl_sub1m.parquet", "script 11", "Same, including WSF3D 0.2 m placeholder pixels (sensitivity)"),
+    ("04_outputs/paper2_v3/tables/T_wsf3d_summary.csv", "script 11", "ANBH/AGBH vs WSF3D: correlations, agreement, coverage (manuscript Table A6 note)"),
+    ("04_outputs/paper2_v3/tables/T_wsf3d_floor_band.csv", "script 11", "WSF3D height within ANBH bands, incl. the floor band (manuscript Table A6)"),
+    ("04_outputs/paper2_v3/tables/T_wsf3d_by_typology.csv", "script 11", "WSF3D height by typology class (manuscript Table A6)"),
+    ("04_outputs/paper2_v3/tables/T_wsf3d_by_region.csv", "script 11", "ANBH/AGBH/WSF3D by named region"),
+    ("04_outputs/paper2_v3/tables/T_wsf3d_summary_incl_sub1m.csv", "script 11", "Sensitivity: WSF3D 0.2 m pixels retained"),
     ("scripts/revision_v3/facts.json", "build_facts_json.py", "Consolidated machine-readable findings"),
     ("scripts/revision_v3/audit_report.md", "manual", "Human-readable audit narrative (not auto-generated)"),
     ("04_outputs/paper2_v3/figures/fig01_anbh_map.png", "08_manuscript_figures.py", "ANBH map (manuscript Fig. 1)"),

@@ -371,6 +371,26 @@ def main():
             "coefficients": pd.read_csv(T / "T_grid_resolution_coefficients.csv").to_dict("records"),
         }
 
+    if (T / "T_wsf3d_summary.csv").exists():
+        wsf_prov = cfg.GHSL_RAW.parent / "wsf3d" / "provenance_wsf3d.json"
+        facts["wsf3d_comparison"] = {
+            "provenance": json.load(open(wsf_prov)) if wsf_prov.exists() else None,
+            "primary_spec": "WSF3D pixels with height < 1 m excluded (0.2 m placeholder, 8.0% of built pixels over Ghana)",
+            "summary": pd.read_csv(T / "T_wsf3d_summary.csv").to_dict("records"),
+            "floor_band": pd.read_csv(T / "T_wsf3d_floor_band.csv").to_dict("records"),
+            "by_typology": pd.read_csv(T / "T_wsf3d_by_typology.csv").to_dict("records"),
+            "by_region": pd.read_csv(T / "T_wsf3d_by_region.csv").to_dict("records"),
+            "sensitivity_incl_sub1m_summary": pd.read_csv(T / "T_wsf3d_summary_incl_sub1m.csv").to_dict("records"),
+            "interpretation": (
+                "Supports the retrieval floor: among 148,590 cells with ANBH in its 1.8 cm "
+                "interquartile band, WSF3D spans 2.46-5.04 m (p10-p90) with no rank relation "
+                "to ANBH (rho -0.06). But cell-level agreement is weak (rho 0.18, kappa 0.06), "
+                "and WSF3D reverses the height order of the two off-diagonal typology classes. "
+                "Gross-measure agreement (rho 0.80) mostly reflects shared coverage. WSF3D is "
+                "a second satellite estimate (2011-2013 height epoch), not ground truth."
+            ),
+        }
+
     # Hand-curated findings (interpretive notes, manual checks, deposit
     # history) live in facts_curated.json and are merged in last. Before this
     # merge existed they were edited into facts.json directly, so any re-run

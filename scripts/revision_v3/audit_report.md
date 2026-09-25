@@ -334,6 +334,31 @@ Trigger: an external check of the resubmission against the original review liste
 
 Pipeline state after these changes: 11/11 tests pass; output manifest 41 files, 0 missing.
 
+
+## 19. Cross-product comparison with WSF3D
+
+Trigger: section 18 left independent height validation open. The authors approved downloading WSF3D V02 (DLR; Esch et al., 2022; CC-BY-4.0), the one national-coverage building-height product whose height comes from different inputs than GHSL BUILT-H: the TanDEM-X radar DEM (2011-2013) inside the WSF-Imperviousness mask (2017-2019), where GHSL uses AW3D30, SRTM30 and Sentinel-2.
+
+Acquisition: the 1-degree `tiles/` folder on the DLR server is a partial set (only one tile touches Ghana), so the global BuildingHeight (2,142,396,344 bytes) and BuildingFraction (1,358,564,353 bytes) GeoTIFFs were downloaded with system curl. A windowed `/vsicurl/` read was tried first but failed: QGIS's bundled GDAL 3.12 curl rejects the server's GEANT/HARICA chain, which system curl verifies normally. Certificate verification was not disabled. The globals were clipped to the exact GHSL Ghana bbox and deleted afterwards. SHA-256 of both globals and both clips, the source URLs, the licence and the temporal-extent note are in `01_raw_data/wsf3d/provenance_wsf3d.json`. Encoding: height Int16 x 0.1 m, nodata -32767; fraction integer percent, nodata 255.
+
+Script `11_wsf3d_comparison.py`: native-resolution building-area-weighted height (height x fraction) and fraction, average-resampled onto the 100 m UTM lattice of script 02, then aggregated with script 02's zone raster. Net height = sum(hf)/sum(f), the ANBH analogue; gross height = mean(hf), the AGBH analogue.
+
+**Found during processing:** WSF3D has its own placeholder value. 8.0% of its built pixels over Ghana are exactly 0.2 m (raw value 2), with mean fraction 1.9%, against 14.9% for other pixels. A first run that kept them produced a 10th-percentile "net height" of 0.2 m in almost every group. Primary spec: pixels below 1 m excluded; sensitivity (suffix `_incl_sub1m`) retains them. WSF3D also has 16% of built pixels at exactly 2.8 m, a weaker version of GHSL's 2.5 m concentration.
+
+Results (primary; manuscript Section 5.6, Table A6, Limitation 9):
+- WSF3D has usable height for 37.4% of the 296,668 cells (110,889).
+- Floor test: of the 148,590 cells with ANBH in its interquartile band (2.4917-2.5094 m), 48.4% have WSF3D height. There WSF3D spans 2.46-5.04 m (p10-p90, median 3.10), with a within-band Spearman of -0.06. This supports the retrieval-floor reading.
+- ANBH top decile (> 2.80 m): WSF3D median 3.67 m against 3.10 in the floor band, so the products agree on the direction of the largest contrast.
+- Overall cell-level agreement is weak: Spearman 0.18, median-split agreement 53.2%, kappa 0.06. Region level (15 regions): rho 0.25.
+- Gross measures: AGBH vs WSF3D gross rho 0.80 across cells and 0.98 across regions. Both multiply height by coverage, so this is shared built-up density, not shared height.
+- Typology medians (WSF3D): High/High 3.37, Low/Low 2.80, Low height/High expansion 3.21, High height/Low expansion 2.90. The diagonal order matches ANBH; the off-diagonal order is reversed. WSF3D coverage in the two low-expansion classes is only 4.6% and 9.9%.
+- Zero-ANBH cells: 1.3% have WSF3D height.
+- Sensitivity including 0.2 m pixels: rho 0.25, kappa 0.09. Same conclusions.
+
+Manuscript changes: abstract (WSF3D sentence; trimmed to 249 words), Table 1 row, Section 4.10 method, Section 5.6 results, Limitation 1 (four diagnostics), Limitation 7 (WSF3D is not ground truth), new Limitation 9 (only part of ANBH's variation is corroborated; the off-diagonal typology order is reversed), Conclusion, Data availability, Esch et al. (2022) reference, Table A6.
+
+Still open: ground-truth height (field survey or street-level storey counts). Two satellite products that agree weakly cannot settle which is closer to the truth.
+
 ---
 
 *Per the revision instructions, no manuscript text is written until this analytical audit is judged complete. Scripts 01-07 are now done; remaining infrastructure items (config.py path centralization already applied, run_all.py, final output_manifest.csv refresh) are the last steps before that judgement can be made.*
