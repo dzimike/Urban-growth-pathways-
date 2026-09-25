@@ -359,6 +359,16 @@ Manuscript changes: abstract (WSF3D sentence; trimmed to 249 words), Table 1 row
 
 Still open: ground-truth height (field survey or street-level storey counts). Two satellite products that agree weakly cannot settle which is closer to the truth.
 
+
+## 20. Final read-through: statements that claimed more than the analysis does
+
+Checked every Table 1 row against what the v3 scripts actually read, every reference against in-text citations, and every summary of a manual check against its underlying record in `facts_curated.json`.
+- Table 1 listed the Ghana 2021 PHC as "independent validation" and OpenStreetMap as the source of "CBD locations, road network". No v3 script reads either (grep of `scripts/revision_v3/*.py`). The CBD points are hard-coded coordinates in `scripts/07_add_population_roads_pois.py` (`CBD_COORDS`, the ten pre-2019 regional capitals). The PHC row was removed and the OSM row replaced by a "CBD reference points" row. The WorldPop row now says "considered, excluded", not "validation/context use". Ghana Statistical Service (2021) and OpenStreetMap contributors (2023) were removed from the references; Table 1 was their only citation.
+- GHS-BUILT-S had been cited to the GHS-BUILT-H reference. A separate reference was added. DOI 10.2905/9F06F36F-4B11-47EC-ABB0-4F8B7B1D72EA, verified via doi.org and the JRC catalogue title. The catalogue's suggested citations for both products now print "2026", but both datasets were created 2023-04-13, so 2023a/2023b are kept. Data availability no longer says Table 1 contains DOIs.
+- Section 5.6 said the six-cell check found "all six showed the expected pattern". The record shows the Kasoa high-ANBH cell (500m_00571322, ANBH 7.95 m) was "predominantly low-rise" and the Kumasi low-ANBH cell had "a handful of small scattered structures". Section 5.6 and Limitation 7 were rewritten to report both.
+- Section 6.3 cited "related work" with no citation, and said weights tests covered the typology, which uses no weights. Restated from Table 4's own numbers.
+- The Introduction still said "three unrelated diagnostics" after WSF3D made four. Fixed. Also: the Fig. 1 caption's "zero-adjacent values" (most cells are at 2.5 m, not near zero), "genuinely tall cells" (not established; Limitation 9), the Section 4.2 statement that "all results" use n=296,668 (the maps use 296,677, and Table A4 builds its own samples), and "vertical intensity" in Section 6.2, now "as measured by ANBH".
+
 ---
 
 *Per the revision instructions, no manuscript text is written until this analytical audit is judged complete. Scripts 01-07 are now done; remaining infrastructure items (config.py path centralization already applied, run_all.py, final output_manifest.csv refresh) are the last steps before that judgement can be made.*

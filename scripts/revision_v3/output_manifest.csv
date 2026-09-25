@@ -42,11 +42,11 @@ path,producer_script,description,size_bytes,shape,sha256_16
 04_outputs/paper2_v3/tables/T_wsf3d_by_region.csv,script 11,ANBH/AGBH/WSF3D by named region,2337,16 rows x 9 cols,900c154d248f2b1c
 04_outputs/paper2_v3/tables/T_wsf3d_summary_incl_sub1m.csv,script 11,Sensitivity: WSF3D 0.2 m pixels retained,1252,19 rows x 7 cols,74f9d343725305cd
 scripts/revision_v3/facts.json,build_facts_json.py,Consolidated machine-readable findings,99612,n/a,cd60a3b52343b1b0
-scripts/revision_v3/audit_report.md,manual,Human-readable audit narrative (not auto-generated),54627,n/a,402765eb5a4e3cb4
+scripts/revision_v3/audit_report.md,manual,Human-readable audit narrative (not auto-generated),56835,n/a,c34875213f74fd36
 04_outputs/paper2_v3/figures/fig01_anbh_map.png,08_manuscript_figures.py,ANBH map (manuscript Fig. 1),752116,n/a,1bd02272c59e8878
 04_outputs/paper2_v3/figures/fig02_agbh_map.png,08_manuscript_figures.py,AGBH map (manuscript Fig. 2),734142,n/a,3eecbdda31f855a6
 04_outputs/paper2_v3/figures/fig03_typology_map.png,08_manuscript_figures.py,Typology map (manuscript Fig. 4),548528,n/a,f75b6b8c11d79a48
 04_outputs/paper2_v3/figures/fig04_regression_coefficients.png,08_manuscript_figures.py,Model C coefficient plot (manuscript Fig. 3),70460,n/a,3b35da799e09f316
 04_outputs/paper2_v3/figures/figA1_two_dimensions_schematic.png,08_manuscript_figures.py,Two-dimensions schematic (manuscript Fig. A1),66539,n/a,6a3dbe3cba8e9c2c
 04_outputs/paper2_v3/figures/figA2_sample_flow.png,08_manuscript_figures.py,Sample-flow diagram (manuscript Fig. A2),120965,n/a,22abfbb61123d0a9
-04_outputs/manuscript/paper2_v3_draft.md,manual,v3 manuscript (not auto-generated),66181,n/a,65cd081a76974ff8
+04_outputs/manuscript/paper2_v3_draft.md,manual,v3 manuscript (not auto-generated),66612,n/a,7d28da3e4692f1b8
