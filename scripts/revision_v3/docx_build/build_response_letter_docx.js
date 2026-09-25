@@ -21,21 +21,29 @@ const path = require("path");
 const {
   Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType,
   Table, TableRow, TableCell, WidthType, BorderStyle, ShadingType, VerticalAlign,
+  LevelFormat,
 } = require("docx");
 
 const ROOT = path.resolve(__dirname, "../../..");
 const MD_PATH = path.join(ROOT, "04_outputs/manuscript/paper2_response_to_reviewers_v3.md");
-const OUT_PATH = path.join(ROOT, "04_outputs/manuscript/paper2_response_to_reviewers_v3.docx");
+const OUT_PATH = MD_PATH.replace(/\.md$/, ".docx");
 
 const PAGE_W = 12240, PAGE_H = 15840, MARGIN = 1440; // US Letter, 1in margins (DXA)
 const CONTENT_W_TWIPS = PAGE_W - 2 * MARGIN;
 
 // ---------------------------------------------------------------- inline markup --
+// **bold**, *italic* and `code` as non-overlapping spans.
 function inlineRuns(text, extra = {}) {
-  const tokens = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g).filter((s) => s.length > 0);
+  const tokens = text.split(/(\*\*[^*]+\*\*|\*[^*\s][^*]*\*|`[^`]+`|\^-?\d+)/g).filter((s) => s.length > 0);
   return tokens.map((seg) => {
+    if (/^\^-?\d+$/.test(seg)) {  // exponent, e.g. "10^-6" -> 10 with superscript "\u22126"
+      return new TextRun({ text: seg.slice(1).replace("-", "\u2212"), superScript: true, size: 22, ...extra });
+    }
     if (seg.startsWith("**") && seg.endsWith("**")) {
       return new TextRun({ text: seg.slice(2, -2), bold: true, size: 22, ...extra });
+    }
+    if (seg.length > 2 && seg.startsWith("*") && seg.endsWith("*")) {
+      return new TextRun({ text: seg.slice(1, -1), italics: true, size: 22, ...extra });
     }
     if (seg.startsWith("`") && seg.endsWith("`")) {
       return new TextRun({ text: seg.slice(1, -1), font: "Courier New", size: 20, ...extra });
@@ -52,6 +60,21 @@ function titlePara(text) {
 }
 function h1(text) {
   return new Paragraph({ text, heading: HeadingLevel.HEADING_1, spacing: { before: 320, after: 160 } });
+}
+function h2(text) {
+  return new Paragraph({ text, heading: HeadingLevel.HEADING_2, spacing: { before: 240, after: 100 } });
+}
+// Reviewer/editor comments are quoted verbatim as indented italic paragraphs.
+function quote(text) {
+  return new Paragraph({
+    children: inlineRuns(text, { italics: true, color: "333333" }),
+    indent: { left: 567, right: 283 }, spacing: { after: 80, line: 264 },
+    border: { left: { style: BorderStyle.SINGLE, size: 12, color: "999999", space: 8 } },
+  });
+}
+function bullet(text) {
+  return new Paragraph({ children: inlineRuns(text), numbering: { reference: "bullets", level: 0 },
+    spacing: { after: 80, line: 276 } });
 }
 function p(text) {
   return new Paragraph({ children: inlineRuns(text), spacing: { after: 160, line: 276 }, alignment: AlignmentType.JUSTIFIED });
@@ -137,6 +160,25 @@ while (i < lines.length) {
     i++; continue;
   }
 
+  // Sub-heading ("### ...")
+  if (line.startsWith("### ")) {
+    children.push(h2(line.slice(4).trim()));
+    i++; continue;
+  }
+
+  // Quoted comment ("> ..."); a bare ">" is a paragraph break inside the quote
+  if (/^>\s?/.test(line)) {
+    const q = line.replace(/^>\s?/, "").trim();
+    if (q) children.push(quote(q));
+    i++; continue;
+  }
+
+  // Bulleted item ("- ...")
+  if (/^- /.test(trimmed)) {
+    children.push(bullet(trimmed.slice(2)));
+    i++; continue;
+  }
+
   // Section heading ("## ...")
   if (line.startsWith("## ")) {
     children.push(h1(line.slice(3).trim()));
@@ -151,7 +193,6 @@ while (i < lines.length) {
     while (i < lines.length && isTableRow(lines[i])) { rows.push(splitRow(lines[i])); i++; }
     // "Section" column narrow, "Nature of change" column wide
     const widthFractions = headers.length === 2 ? [0.18, 0.82] : undefined;
-    children.push(tableCaptionPara("**Summary of changes by section**"));
     children.push(dataTable(headers, rows, widthFractions));
     children.push(new Paragraph({ text: "", spacing: { after: 160 } }));
     continue;
@@ -164,6 +205,13 @@ while (i < lines.length) {
 
 // ------------------------------------------------------------------- pack --
 const doc = new Document({
+  numbering: {
+    config: [{
+      reference: "bullets",
+      levels: [{ level: 0, format: LevelFormat.BULLET, text: "\u2022", alignment: AlignmentType.LEFT,
+                 style: { paragraph: { indent: { left: 567, hanging: 283 } } } }],
+    }],
+  },
   sections: [{
     properties: {
       page: {
@@ -178,6 +226,8 @@ const doc = new Document({
     paragraphStyles: [
       { id: "Heading1", name: "Heading 1", basedOn: "Normal", next: "Normal", quickFormat: true,
         run: { size: 26, bold: true, font: "Times New Roman" }, paragraph: { spacing: { before: 320, after: 160 } } },
+      { id: "Heading2", name: "Heading 2", basedOn: "Normal", next: "Normal", quickFormat: true,
+        run: { size: 23, bold: true, font: "Times New Roman" }, paragraph: { spacing: { before: 240, after: 100 } } },
     ],
   },
 });

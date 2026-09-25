@@ -26,6 +26,13 @@ Outputs
     04_outputs/paper2_v3/tables/T_descriptive_statistics.csv
     04_outputs/paper2_v3/tables/T_regional_statistics.csv
     04_outputs/paper2_v3/tables/T_typology_crosstabs_with_marginals.csv
+    04_outputs/paper2_v3/tables/T_open_buildings_temporal_check.csv
+        Magnitude check on Google Open Buildings 2.5D Temporal as aggregated
+        by the upstream pipeline (scripts/05_process_temporal_buildings.py):
+        per-year distribution of cell-mean height and fractional building
+        count over the national-footprint cells, against Open Buildings V3
+        footprints per cell. Supports manuscript Section 4.1 (product
+        evaluated and not used).
 
 Usage
 -----
@@ -154,6 +161,23 @@ def crosstabs_with_marginals() -> pd.DataFrame:
     return ct[["scheme", "anbh_class"] + class_cols + ["Row total"]]
 
 
+def open_buildings_temporal_check() -> pd.DataFrame:
+    years = range(2016, 2024)
+    cols = (["grid_id", "building_count"] + [f"mean_height_{y}" for y in years]
+            + [f"building_count_{y}" for y in years])
+    g = pd.read_parquet(cfg.COVARIATES / "grid_model_ready_500m.parquet", columns=cols)
+    b = g[g.building_count > 0]
+    rows = []
+    for y in years:
+        h, c = b[f"mean_height_{y}"], b[f"building_count_{y}"]
+        rows.append({"year": y, "n_cells": int(h.notna().sum()),
+                     "mean_height_mean_m": h.mean(), "mean_height_median_m": h.median(),
+                     "mean_height_p99_m": h.quantile(0.99), "mean_height_max_m": h.max(),
+                     "fractional_count_mean": c.mean(), "fractional_count_max": c.max(),
+                     "open_buildings_v3_footprints_per_cell_mean": b.building_count.mean()})
+    return pd.DataFrame(rows)
+
+
 def main() -> None:
     df = build_final_sample()
     log.info("Final analytical sample: n=%d", len(df))
@@ -165,6 +189,10 @@ def main() -> None:
     reg = regional_table(df)
     reg.to_csv(cfg.PAPER2_V3_TABLES / "T_regional_statistics.csv", index=False)
     log.info("Regional statistics:\n%s", reg.round(3).to_string(index=False))
+
+    obt = open_buildings_temporal_check()
+    obt.to_csv(cfg.PAPER2_V3_TABLES / "T_open_buildings_temporal_check.csv", index=False)
+    log.info("Open Buildings 2.5D Temporal magnitude check:\n%s", obt.to_string(index=False))
 
     ct = crosstabs_with_marginals()
     ct.to_csv(cfg.PAPER2_V3_TABLES / "T_typology_crosstabs_with_marginals.csv", index=False)

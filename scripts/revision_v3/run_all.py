@@ -105,6 +105,7 @@ KNOWN_OUTPUTS = [
     ("04_outputs/paper2_v3/tables/T_descriptive_statistics.csv", "script 09", "Full-sample mean/SD/quantiles (manuscript Table A2)"),
     ("04_outputs/paper2_v3/tables/T_regional_statistics.csv", "script 09", "Per-region statistics, 15 named study areas (manuscript Table A1)"),
     ("04_outputs/paper2_v3/tables/T_typology_crosstabs_with_marginals.csv", "script 09", "Tertile/quartile crosstabs with marginals (manuscript Table A5)"),
+    ("04_outputs/paper2_v3/tables/T_open_buildings_temporal_check.csv", "script 09", "2.5D Temporal magnitude check (manuscript Section 4.1)"),
     ("04_outputs/paper2_v3/tables/T_grid_resolution_sensitivity.csv", "script 10", "250 m / 500 m / 1 km sensitivity summary (manuscript Table A4)"),
     ("04_outputs/paper2_v3/tables/T_grid_resolution_coefficients.csv", "script 10", "Model C OLS coefficients by resolution"),
     ("01_raw_data/wsf3d/wsf3d_height_ghana.tif", "script 11", "WSF3D V02 building height, clipped to the GHSL Ghana bbox"),

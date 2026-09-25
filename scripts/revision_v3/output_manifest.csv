@@ -29,6 +29,7 @@ path,producer_script,description,size_bytes,shape,sha256_16
 04_outputs/paper2_v3/tables/T_descriptive_statistics.csv,script 09,Full-sample mean/SD/quantiles (manuscript Table A2),1339,7 rows x 15 cols,f170d18d028da593
 04_outputs/paper2_v3/tables/T_regional_statistics.csv,script 09,"Per-region statistics, 15 named study areas (manuscript Table A1)",3730,18 rows x 13 cols,fce71a545b40dac0
 04_outputs/paper2_v3/tables/T_typology_crosstabs_with_marginals.csv,script 09,Tertile/quartile crosstabs with marginals (manuscript Table A5),507,9 rows x 7 cols,890e6dda2608ae12
+04_outputs/paper2_v3/tables/T_open_buildings_temporal_check.csv,script 09,2.5D Temporal magnitude check (manuscript Section 4.1),1066,8 rows x 9 cols,a3f7bde7e13c7c75
 04_outputs/paper2_v3/tables/T_grid_resolution_sensitivity.csv,script 10,250 m / 500 m / 1 km sensitivity summary (manuscript Table A4),2908,3 rows x 42 cols,2ad67643e4b84f3f
 04_outputs/paper2_v3/tables/T_grid_resolution_coefficients.csv,script 10,Model C OLS coefficients by resolution,1093,12 rows x 5 cols,131584ff1a4c26b1
 01_raw_data/wsf3d/wsf3d_height_ghana.tif,script 11,"WSF3D V02 building height, clipped to the GHSL Ghana bbox",5835619,n/a,0da7d658af67adc3
@@ -49,4 +50,4 @@ scripts/revision_v3/audit_report.md,manual,Human-readable audit narrative (not a
 04_outputs/paper2_v3/figures/fig04_regression_coefficients.png,08_manuscript_figures.py,Model C coefficient plot (manuscript Fig. 3),70460,n/a,3b35da799e09f316
 04_outputs/paper2_v3/figures/figA1_two_dimensions_schematic.png,08_manuscript_figures.py,Two-dimensions schematic (manuscript Fig. A1),66539,n/a,6a3dbe3cba8e9c2c
 04_outputs/paper2_v3/figures/figA2_sample_flow.png,08_manuscript_figures.py,Sample-flow diagram (manuscript Fig. A2),120965,n/a,22abfbb61123d0a9
-04_outputs/manuscript/paper2_v3_draft.md,manual,v3 manuscript (not auto-generated),66612,n/a,7d28da3e4692f1b8
+04_outputs/manuscript/paper2_v3_draft.md,manual,v3 manuscript (not auto-generated),68043,n/a,ffd9dc4857bcd850

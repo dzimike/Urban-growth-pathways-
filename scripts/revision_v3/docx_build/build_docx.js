@@ -42,14 +42,20 @@ const PAGE_W = 12240, PAGE_H = 15840, MARGIN = 1440; // US Letter, 1in margins (
 const CONTENT_W_TWIPS = PAGE_W - 2 * MARGIN;
 
 // ---------------------------------------------------------------- inline markup --
-// Handles **bold** and `code` as non-overlapping top-level spans (the one
+// Handles **bold**, *italic*, `code` and ^exponent as non-overlapping top-level spans (the one
 // case of bold-wrapping-code in the source manuscript was fixed at the
 // source rather than handled here -- see audit_report.md).
 function inlineRuns(text, extra = {}) {
-  const tokens = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g).filter((s) => s.length > 0);
+  const tokens = text.split(/(\*\*[^*]+\*\*|\*[^*\s][^*]*\*|`[^`]+`|\^-?\d+)/g).filter((s) => s.length > 0);
   return tokens.map((seg) => {
+    if (/^\^-?\d+$/.test(seg)) {  // exponent, e.g. "10^-6" -> 10 with superscript "\u22126"
+      return new TextRun({ text: seg.slice(1).replace("-", "\u2212"), superScript: true, size: 22, ...extra });
+    }
     if (seg.startsWith("**") && seg.endsWith("**")) {
       return new TextRun({ text: seg.slice(2, -2), bold: true, size: 22, ...extra });
+    }
+    if (seg.length > 2 && seg.startsWith("*") && seg.endsWith("*")) {  // *italic* (journal titles, emphasis)
+      return new TextRun({ text: seg.slice(1, -1), italics: true, size: 22, ...extra });
     }
     if (seg.startsWith("`") && seg.endsWith("`")) {
       return new TextRun({ text: seg.slice(1, -1), font: "Courier New", size: 20, ...extra });
