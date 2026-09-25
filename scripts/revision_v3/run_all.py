@@ -66,6 +66,8 @@ STAGES = [
     (5, "05_weights_diagnostics.py", "Queen / Queen+KNN1-islands / KNN-8 weights audit and sensitivity"),
     (6, "06_typology_v3.py", "Typology rebuild: ANBH x pre-2018 growth, full sensitivity tables"),
     (7, "07_validation_module.py", "Spatial plausibility, cross-dataset consistency, manual validation sample"),
+    (9, "09_supplementary_tables.py", "Appendix tables: descriptive stats, per-region stats, cross-tabs with marginals"),
+    (10, "10_grid_resolution_sensitivity.py", "250 m / 500 m / 1 km resolution sensitivity (one code path)"),
 ]
 
 # Every output this pipeline is known to produce, for the final manifest.
@@ -82,6 +84,7 @@ KNOWN_OUTPUTS = [
     ("04_outputs/paper2_v3/tables/T_models_spatial.csv", "script 04", "Spatial error coefficients, SEs, CIs, lambda"),
     ("04_outputs/paper2_v3/tables/T_models_fit_and_moran.csv", "script 04", "R2/pseudo-R2, AIC, 3-way Moran's I"),
     ("04_outputs/paper2_v3/tables/T_models_vif.csv", "script 04", "VIF per predictor"),
+    ("04_outputs/paper2_v3/tables/T_moran_diagnostics.csv", "script 04", "Moran's I with E[I], 999-permutation mean/SD, z, pseudo p (manuscript Table A3)"),
     ("04_outputs/paper2_v3/tables/sample_construction_report.json", "script 04", "Exact sample dropout counts and reasons"),
     ("04_outputs/paper2_v3/tables/T_weights_audit.csv", "script 05", "Islands/components/neighbor-count audit"),
     ("04_outputs/paper2_v3/tables/T_weights_sensitivity.csv", "script 05", "Model C under 3 weights specs"),
@@ -98,12 +101,18 @@ KNOWN_OUTPUTS = [
     ("04_outputs/paper2_v3/tables/T_validation_B_cross_dataset.csv", "script 07", "ANBH/AGBH vs independent V3 building-size metrics"),
     ("02_processed_data/validation_samples/v3_manual_validation_sample.parquet", "script 07", "Stratified 120-cell manual validation sample"),
     ("04_outputs/paper2_v3/tables/v3_manual_validation_coding_template.csv", "script 07", "Blank coding template, GHSL values pre-filled"),
+    ("04_outputs/paper2_v3/tables/T_descriptive_statistics.csv", "script 09", "Full-sample mean/SD/quantiles (manuscript Table A2)"),
+    ("04_outputs/paper2_v3/tables/T_regional_statistics.csv", "script 09", "Per-region statistics, 15 named study areas (manuscript Table A1)"),
+    ("04_outputs/paper2_v3/tables/T_typology_crosstabs_with_marginals.csv", "script 09", "Tertile/quartile crosstabs with marginals (manuscript Table A5)"),
+    ("04_outputs/paper2_v3/tables/T_grid_resolution_sensitivity.csv", "script 10", "250 m / 500 m / 1 km sensitivity summary (manuscript Table A4)"),
+    ("04_outputs/paper2_v3/tables/T_grid_resolution_coefficients.csv", "script 10", "Model C OLS coefficients by resolution"),
     ("scripts/revision_v3/facts.json", "build_facts_json.py", "Consolidated machine-readable findings"),
     ("scripts/revision_v3/audit_report.md", "manual", "Human-readable audit narrative (not auto-generated)"),
     ("04_outputs/paper2_v3/figures/fig01_anbh_map.png", "08_manuscript_figures.py", "ANBH map (manuscript Fig. 1)"),
     ("04_outputs/paper2_v3/figures/fig02_agbh_map.png", "08_manuscript_figures.py", "AGBH map (manuscript Fig. 2)"),
     ("04_outputs/paper2_v3/figures/fig03_typology_map.png", "08_manuscript_figures.py", "Typology map (manuscript Fig. 4)"),
     ("04_outputs/paper2_v3/figures/fig04_regression_coefficients.png", "08_manuscript_figures.py", "Model C coefficient plot (manuscript Fig. 3)"),
+    ("04_outputs/paper2_v3/figures/figA1_two_dimensions_schematic.png", "08_manuscript_figures.py", "Two-dimensions schematic (manuscript Fig. A1)"),
     ("04_outputs/paper2_v3/figures/figA2_sample_flow.png", "08_manuscript_figures.py", "Sample-flow diagram (manuscript Fig. A2)"),
     ("04_outputs/manuscript/paper2_v3_draft.md", "manual", "v3 manuscript (not auto-generated)"),
 ]

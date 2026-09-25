@@ -61,7 +61,7 @@ Then the v3 analysis, in its own environment:
 python scripts/revision_v3/run_all.py
 ```
 
-runs the v3 pipeline (acquisition → processing → sample definition → models → weights diagnostics → typology → validation → facts.json) with one command. Flags: `--from N` to resume from stage N, `--only N` for a single stage, `--skip-tests`, `--skip-facts`.
+runs the v3 pipeline (acquisition → processing → sample definition → models → weights diagnostics → typology → validation → appendix tables → grid-resolution sensitivity → facts.json) with one command. Figures are produced separately by `python scripts/revision_v3/08_manuscript_figures.py`. Flags: `--from N` to resume from stage N, `--only N` for a single stage, `--skip-tests`, `--skip-facts`.
 
 ```bash
 python -m pytest scripts/revision_v3/tests/
@@ -69,7 +69,7 @@ python -m pytest scripts/revision_v3/tests/
 
 runs the 11-test identity/range suite independently of the pipeline.
 
-`scripts/revision_v3/docx_build/build_docx.js` regenerates the manuscript `.docx` directly from its Markdown source; it expects a `04_outputs/` tree (manuscript Markdown, figure PNGs) that is not part of this deposit, since that's the paper draft, not analysis code.
+`scripts/revision_v3/docx_build/build_docx.js` regenerates the manuscript `.docx` directly from its Markdown source, and `build_response_letter_docx.js` does the same for the response to reviewers; it expects a `04_outputs/` tree (manuscript Markdown, figure PNGs) that is not part of this deposit, since that's the paper draft, not analysis code.
 
 ## Scripts
 
@@ -99,8 +99,10 @@ runs the 11-test identity/range suite independently of the pipeline.
 | `05_weights_diagnostics.py` | Spatial weights audit (islands, components) and sensitivity |
 | `06_typology_v3.py` | Four-class typology, tertile/quartile sensitivity, AGBH-matched comparison, predictor-by-class profile |
 | `07_validation_module.py` | Spatial plausibility and cross-dataset validation checks; manual-validation sample |
-| `08_manuscript_figures.py` | All manuscript figures, including the sample-flow diagram |
-| `build_facts_json.py` | Consolidates every script's findings into `facts.json` |
+| `08_manuscript_figures.py` | All manuscript figures, including the two-dimensions schematic (Fig. A1) and the sample-flow diagram (Fig. A2) |
+| `09_supplementary_tables.py` | Appendix Tables A1, A2, A5: per-region statistics for the 15 named study areas, full-sample descriptive statistics and quantiles, tertile/quartile cross-tabulations with marginals |
+| `10_grid_resolution_sensitivity.py` | Appendix Table A4: 250 m / 500 m / 1 km sensitivity, all three recomputed by one code path (the 500 m run doubles as a reproduction check) |
+| `build_facts_json.py` | Consolidates every script's findings into `facts.json`, merging hand-curated notes from `facts_curated.json` last |
 | `run_all.py` | One-command orchestrator; rebuilds `output_manifest.csv` |
 
 `facts.json`, `audit_report.md`, and `output_manifest.csv` in this repository are this project's own outputs, included as a record of what the pipeline produced — rerunning the scripts against freshly acquired data will regenerate them.

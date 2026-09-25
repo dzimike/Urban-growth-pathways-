@@ -239,46 +239,88 @@ plt.savefig(FIG / "fig04_regression_coefficients.png", dpi=200)
 plt.close(fig)
 print("saved fig04_regression_coefficients.png")
 
+# --------------------------------- Fig A1: two-dimensions schematic -------
+# Moved here from scripts/revision/05_schematics.py (v2) so every figure in
+# the v3 manuscript is produced by the v3 pipeline. Redrawn in a dark,
+# print-safe palette (the v2 version used blue/orange arrows and labels),
+# with all labels horizontal -- the v2 version's four-line label rotated 90
+# degrees beside the vertical arrow was hard to read -- and without the
+# "(Sec. 2.1)" tags inside the driver boxes (the caption and Section 2.1
+# carry the cross-reference).
+DARK = "#222222"
+fig, ax = plt.subplots(figsize=(7.0, 4.8))
+ax.set_xlim(-0.2, 7.3); ax.set_ylim(-1.75, 4.85); ax.axis("off")
+ox, oy = 0.7, 0.6
+arrow_kw = dict(arrowstyle="-|>", lw=2.0, color=DARK, mutation_scale=16)
+ax.annotate("", xy=(7.0, oy), xytext=(ox, oy), arrowprops=arrow_kw)
+ax.annotate("", xy=(ox, 4.65), xytext=(ox, oy), arrowprops=arrow_kw)
+ax.text(ox + 0.25, 4.55, "Vertical intensification", ha="left", va="top",
+        fontsize=10.5, fontweight="bold", color=DARK)
+ax.text(ox + 0.25, 4.17, "added floor space on an existing footprint", ha="left", va="top",
+        fontsize=9.5, color=DARK)
+driver_box = dict(boxstyle="round,pad=0.45", fc="#F2F2F2", ec=DARK, lw=0.9)
+ax.text(ox + 0.25, 3.35, "Driven by: land scarcity, rising land values,\n"
+        "investment cycles, floor-area-ratio regulation",
+        ha="left", va="top", fontsize=8.6, color=DARK, bbox=driver_box)
+ax.text(3.85, oy - 0.2, "Horizontal expansion", ha="center", va="top",
+        fontsize=10.5, fontweight="bold", color=DARK)
+ax.text(3.85, oy - 0.58, "new footprint on new land", ha="center", va="top", fontsize=9.5, color=DARK)
+ax.text(3.85, oy - 1.3, "Driven by: population growth, land availability,\n"
+        "transport access, edge land prices",
+        ha="center", va="top", fontsize=8.6, color=DARK, bbox=driver_box)
+ax.set_title("Two dimensions of urban growth", fontsize=11.5, color=DARK)
+plt.tight_layout()
+plt.savefig(FIG / "figA1_two_dimensions_schematic.png", dpi=200)
+plt.close(fig)
+print("saved figA1_two_dimensions_schematic.png")
+
 # --------------------------------------------- Fig A2: sample-flow diagram -
 # Added in response to Reviewer #4 point 1 / Reviewer #6 (paper2_response_to_
 # reviewers_v3.md), which flagged this as requested but not carried into the
 # manuscript. Counts hard-coded from config/facts.json's disclosed values
 # (Section 4.2) rather than recomputed here, since this is a display of
 # already-established, tested numbers, not a new analytical step.
-fig, ax = plt.subplots(figsize=(6.2, 8.6))
-ax.set_xlim(0, 10); ax.set_ylim(0, 16); ax.axis("off")
+# Box labels name every table/figure each sample feeds, using the
+# manuscript's final numbering (height maps = Figs. 1-2; regression and
+# typology = Tables 2-6 and Figs. 3-4). Main boxes are narrower than in the
+# first version so the named-region side box no longer overlaps them.
+fig, ax = plt.subplots(figsize=(6.6, 6.9))
+ax.set_xlim(0, 10); ax.set_ylim(3.4, 15.3); ax.axis("off")
+cx, bw = 3.5, 6.0                      # main-column centre and box width
 box_y = [14.2, 11.0, 7.8, 4.6]
 box_text = [
     "Ghana national 500 m grid\nN = 961,858 cells",
     "National-footprint sample\n(Open Buildings V3, building_count > 0)\nN = 296,703 cells",
-    "Valid GHSL height data\n(used in Figs. 1-2)\nN = 296,677 cells",
-    "Final analytical sample\n(regression, typology: Tables 2-5)\nN = 296,668 cells",
+    "Valid GHSL height data\n(height maps: Figs. 1\u20132)\nN = 296,677 cells",
+    "Final analytical sample\n(models and typology: Tables 2\u20136, Figs. 3\u20134)\nN = 296,668 cells",
 ]
 box_color = ["#F2F2F2", "#D9E2F3", "#D9E2F3", "#C6E0B4"]
 for y, text, color in zip(box_y, box_text, box_color):
-    ax.add_patch(plt.Rectangle((5.0 - 3.2, y - 0.9), 6.4, 1.8, facecolor=color, edgecolor="#404040", linewidth=0.9, zorder=2))
-    ax.text(5.0, y, text, ha="center", va="center", fontsize=8.3, zorder=3)
+    ax.add_patch(plt.Rectangle((cx - bw / 2, y - 0.9), bw, 1.8, facecolor=color, edgecolor="#404040",
+                               linewidth=0.9, zorder=2))
+    ax.text(cx, y, text, ha="center", va="center", fontsize=8.2, zorder=3)
 
 arrow_labels = [
-    "26 cells excluded:\nno overlapping GHSL raster pixel\n(true nodata, Section 4.5)",
-    "9 cells excluded:\nmissing 1975/2010/2015 built coverage\nor CBD-distance covariates",
+    "26 cells excluded: no overlapping GHSL\nraster pixel (true nodata, Section 4.5)",
+    "9 cells excluded: missing 1975/2010/2015\nbuilt coverage or CBD-distance covariates",
 ]
 for i in range(3):
     y_top, y_bot = box_y[i] - 0.9, box_y[i + 1] + 0.9
-    ax.annotate("", xy=(5.0, y_bot), xytext=(5.0, y_top),
+    ax.annotate("", xy=(cx, y_bot), xytext=(cx, y_top),
                 arrowprops=dict(arrowstyle="-|>", color="#404040", lw=1.3), zorder=1)
     if i > 0:
-        ax.text(6.9, (y_top + y_bot) / 2, arrow_labels[i - 1], ha="left", va="center", fontsize=7.0, color="#404040")
+        ax.text(cx + 0.3, (y_top + y_bot) / 2, arrow_labels[i - 1], ha="left", va="center",
+                fontsize=7.0, color="#404040")
 
 # side branch: 15 named regions are a labelled subset of the national-footprint
 # sample, not a further sequential exclusion, so drawn to the side rather than below.
-side_x, side_y = 8.6, 11.0
-ax.annotate("", xy=(side_x - 1.1, side_y), xytext=(5.0 + 3.2, side_y),
+side_l, side_w, side_y = 7.25, 2.6, 11.0
+ax.annotate("", xy=(side_l, side_y), xytext=(cx + bw / 2, side_y),
             arrowprops=dict(arrowstyle="-|>", color="#808080", lw=1.0, linestyle="dotted"), zorder=1)
-ax.add_patch(plt.Rectangle((side_x - 1.1, side_y - 1.05), 2.2, 2.1, facecolor="#FCE4D6", edgecolor="#808080",
-                            linewidth=0.8, linestyle="dotted", zorder=2))
-ax.text(side_x, side_y, "15 named urban\nregions/corridors\n(Section 3)\nN = 28,133 cells\n(9.5% of national-\nfootprint sample)",
-        ha="center", va="center", fontsize=6.6, zorder=3)
+ax.add_patch(plt.Rectangle((side_l, side_y - 1.05), side_w, 2.1, facecolor="#FCE4D6", edgecolor="#808080",
+                           linewidth=0.8, linestyle="dotted", zorder=2))
+ax.text(side_l + side_w / 2, side_y, "15 named urban\nregions/corridors\n(Section 3)\nN = 28,133 cells\n"
+        "(9.5% of national-\nfootprint sample)", ha="center", va="center", fontsize=6.8, zorder=3)
 
 ax.set_title("Sample-flow diagram (Section 4.2)", fontsize=10.5, pad=14)
 plt.tight_layout()

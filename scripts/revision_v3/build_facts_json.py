@@ -344,6 +344,50 @@ def main():
             },
         }
 
+    # ---------------------------------------- Appendix tables (scripts 04, 09, 10)
+    T = cfg.PAPER2_V3_TABLES
+    if (T / "T_moran_diagnostics.csv").exists():
+        facts["moran_diagnostics"] = {
+            "permutations": 999,
+            "table": pd.read_csv(T / "T_moran_diagnostics.csv").to_dict("records"),
+            "interpretation": (
+                "Every Moran's I has pseudo p = 0.001 (the floor for 999 permutations). "
+                "Spatially filtered residual I for the ANBH models (-0.026 to -0.013) is "
+                "small but statistically non-zero at n=296,668 (z = -10.2 for Model C): "
+                "mild over-correction, not zero residual dependence (manuscript Table A3, "
+                "Section 5.3)."
+            ),
+        }
+    if (T / "T_descriptive_statistics.csv").exists():
+        facts["descriptive_statistics"] = {
+            "table": pd.read_csv(T / "T_descriptive_statistics.csv").to_dict("records"),
+            "regional_table": pd.read_csv(T / "T_regional_statistics.csv").to_dict("records"),
+            "crosstabs_with_marginals": pd.read_csv(
+                T / "T_typology_crosstabs_with_marginals.csv").to_dict("records"),
+        }
+    if (T / "T_grid_resolution_sensitivity.csv").exists():
+        facts["grid_resolution_sensitivity"] = {
+            "summary": pd.read_csv(T / "T_grid_resolution_sensitivity.csv").to_dict("records"),
+            "coefficients": pd.read_csv(T / "T_grid_resolution_coefficients.csv").to_dict("records"),
+        }
+
+    # Hand-curated findings (interpretive notes, manual checks, deposit
+    # history) live in facts_curated.json and are merged in last. Before this
+    # merge existed they were edited into facts.json directly, so any re-run
+    # of this script silently dropped them.
+    def deep_merge(base: dict, extra: dict) -> None:
+        for k, v in extra.items():
+            if k == "_about":
+                continue
+            if isinstance(v, dict) and isinstance(base.get(k), dict):
+                deep_merge(base[k], v)
+            else:
+                base[k] = v
+    curated_path = REV3 / "facts_curated.json"
+    if curated_path.exists():
+        with open(curated_path) as f:
+            deep_merge(facts, json.load(f))
+
     out_path = REV3 / "facts.json"
     with open(out_path, "w") as f:
         json.dump(facts, f, indent=2, default=str)

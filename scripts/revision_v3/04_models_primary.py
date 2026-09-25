@@ -41,6 +41,7 @@ Outputs
     04_outputs/paper2_v3/tables/T_models_spatial.csv
     04_outputs/paper2_v3/tables/T_models_fit_and_moran.csv
     04_outputs/paper2_v3/tables/T_models_vif.csv
+    04_outputs/paper2_v3/tables/T_moran_diagnostics.csv
 
 Usage
 -----
@@ -111,6 +112,30 @@ def build_dataset() -> pd.DataFrame:
                 "n_dropped_missing_covariates": n_missing_cov, "n_final": n_final}
 
 
+# Moran's I inference (Reviewer #4, point 7: expected value, permutation count,
+# and p-value). 999 conditional permutations with a fixed seed, so the
+# pseudo p-value floor is 1/(999+1) = 0.001 and the result is reproducible.
+# esda's p_sim is one-sided in the direction of the observed statistic.
+MORAN_PERMUTATIONS = 999
+MORAN_SEED = 2018
+
+
+def moran_perm(values, w):
+    from esda.moran import Moran
+    np.random.seed(MORAN_SEED)
+    return Moran(values, w, permutations=MORAN_PERMUTATIONS)
+
+
+def moran_record(outcome_key: str, model_name: str, tested: str, mi) -> dict:
+    return {
+        "outcome": outcome_key, "model": model_name, "tested": tested,
+        "n": int(mi.n), "moran_i": mi.I, "expected_i": mi.EI,
+        "permutations": MORAN_PERMUTATIONS, "mean_i_sim": float(mi.EI_sim),
+        "sd_i_sim": float(mi.seI_sim), "z_sim": float(mi.z_sim), "p_sim": float(mi.p_sim),
+        "z_norm": float(mi.z_norm), "p_norm_two_sided": float(mi.p_norm),
+    }
+
+
 def fit_ols(y: pd.Series, X: pd.DataFrame):
     Xc = sm.add_constant(X)
     model = sm.OLS(y, Xc).fit()
@@ -165,7 +190,7 @@ def main() -> None:
     w.transform = "R"
     log.info("Weights built in %.1fs (islands=%d)", time.time() - tW, len(w.islands))
 
-    ols_rows, spatial_rows, fit_rows, vif_rows = [], [], [], []
+    ols_rows, spatial_rows, fit_rows, vif_rows, moran_rows = [], [], [], [], []
 
     for outcome_key, spec in OUTCOMES.items():
         y_raw = gdf[spec["col"]]
@@ -173,7 +198,7 @@ def main() -> None:
         y.name = spec["col"]
 
         # Outcome Moran's I is a property of the outcome, computed once per outcome
-        mi_outcome = Moran(y.values, w, permutations=99)
+        mi_outcome = moran_perm(y.values, w)
 
         for model_name, predictors in NESTED_SPECS.items():
             X = gdf[predictors].copy()
@@ -193,7 +218,7 @@ def main() -> None:
                 vif["model"] = model_name
                 vif_rows.append(vif)
 
-            mi_ols_resid = Moran(ols.resid.values, w, permutations=99)
+            mi_ols_resid = moran_perm(ols.resid.values, w)
 
             # Spatial error model
             Xc_arr = X_v.values
@@ -233,7 +258,13 @@ def main() -> None:
             # outcome/model combinations, which would have been reported as a
             # genuine "spatial correction doesn't help" finding -- but the correct
             # diagnostic (below) tells a different story. See audit_report.md.
-            mi_spatial_resid = Moran(err.e_filtered.flatten(), w, permutations=99)
+            mi_spatial_resid = moran_perm(err.e_filtered.flatten(), w)
+
+            for tested, mi in [("outcome", mi_outcome), ("ols_residuals", mi_ols_resid),
+                               ("spatial_filtered_residuals", mi_spatial_resid)]:
+                if tested == "outcome" and model_name != "A_cbd_only":
+                    continue  # outcome I does not depend on the model; report once
+                moran_rows.append(moran_record(outcome_key, model_name, tested, mi))
 
             fit_rows.append({
                 "outcome": outcome_key, "model": model_name, "n": int(valid.sum()),
@@ -253,6 +284,7 @@ def main() -> None:
     pd.concat(ols_rows, ignore_index=True).to_csv(cfg.PAPER2_V3_TABLES / "T_models_ols.csv", index=False)
     pd.DataFrame(spatial_rows).to_csv(cfg.PAPER2_V3_TABLES / "T_models_spatial.csv", index=False)
     pd.DataFrame(fit_rows).to_csv(cfg.PAPER2_V3_TABLES / "T_models_fit_and_moran.csv", index=False)
+    pd.DataFrame(moran_rows).to_csv(cfg.PAPER2_V3_TABLES / "T_moran_diagnostics.csv", index=False)
     if vif_rows:
         pd.concat(vif_rows, ignore_index=True).to_csv(cfg.PAPER2_V3_TABLES / "T_models_vif.csv", index=False)
 

@@ -34,7 +34,7 @@ const FIGURE_MAP = {
   "2": path.join(ROOT, "04_outputs/paper2_v3/figures/fig02_agbh_map.png"),
   "3": path.join(ROOT, "04_outputs/paper2_v3/figures/fig04_regression_coefficients.png"),
   "4": path.join(ROOT, "04_outputs/paper2_v3/figures/fig03_typology_map.png"),
-  "A1": path.join(ROOT, "04_outputs/paper2_figures/figA1_two_dimensions_schematic.png"),
+  "A1": path.join(ROOT, "04_outputs/paper2_v3/figures/figA1_two_dimensions_schematic.png"),
   "A2": path.join(ROOT, "04_outputs/paper2_v3/figures/figA2_sample_flow.png"),
 };
 
@@ -76,6 +76,9 @@ function figCaptionPara(text) {
 function tableCaptionPara(text) {
   return new Paragraph({ children: inlineRuns(text, { size: 20 }), spacing: { before: 200, after: 100 } });
 }
+function tableNotePara(text) {
+  return new Paragraph({ children: inlineRuns(text, { size: 18 }), spacing: { before: 60, after: 200 }, alignment: AlignmentType.JUSTIFIED });
+}
 function refPara(text) {
   return new Paragraph({ children: inlineRuns(text), spacing: { after: 160, line: 264 }, indent: { left: 360, hanging: 360 } });
 }
@@ -84,27 +87,33 @@ function listPara(text) {
 }
 
 function cell(text, opts = {}) {
-  const { bold = false, width, shade, align = AlignmentType.LEFT } = opts;
+  const { bold = false, width, shade, align = AlignmentType.LEFT, size = 18 } = opts;
   return new TableCell({
     width: width ? { size: width, type: WidthType.DXA } : undefined,
     shading: shade ? { type: ShadingType.CLEAR, fill: shade } : undefined,
     verticalAlign: VerticalAlign.CENTER,
     margins: { top: 60, bottom: 60, left: 100, right: 100 },
-    children: [new Paragraph({ alignment: align, children: inlineRuns(String(text), { size: 18, bold }) })],
+    children: [new Paragraph({ alignment: align, children: inlineRuns(String(text), { size, bold }) })],
   });
 }
 
-function dataTable(headers, rows) {
+// Appendix tables (Table A1-A5) are wider and denser than the body tables:
+// they get a wider first (label) column and an 8 pt font. Body tables keep
+// equal-width columns and 9 pt, unchanged from earlier builds.
+function dataTable(headers, rows, appendix = false) {
   const nCols = headers.length;
-  const colWidths = Array(nCols).fill(Math.floor(CONTENT_W_TWIPS / nCols));
+  const weights = headers.map((_, i) => (appendix && i === 0 ? (nCols <= 4 ? 2.5 : 1.6) : 1));
+  const wSum = weights.reduce((a, b) => a + b, 0);
+  const colWidths = weights.map((w) => Math.floor((CONTENT_W_TWIPS * w) / wSum));
+  const size = appendix ? 16 : 18;
   const headerRow = new TableRow({
     tableHeader: true,
     cantSplit: true,
-    children: headers.map((htext, i) => cell(htext, { bold: true, width: colWidths[i], shade: "D9E2F3", align: AlignmentType.CENTER })),
+    children: headers.map((htext, i) => cell(htext, { bold: true, width: colWidths[i], shade: "D9E2F3", align: AlignmentType.CENTER, size })),
   });
   const bodyRows = rows.map((r, ri) => new TableRow({
     cantSplit: true,
-    children: r.map((c, i) => cell(c, { width: colWidths[i], shade: ri % 2 === 1 ? "F2F2F2" : undefined })),
+    children: r.map((c, i) => cell(c, { width: colWidths[i], shade: ri % 2 === 1 ? "F2F2F2" : undefined, size })),
   }));
   return new Table({
     width: { size: CONTENT_W_TWIPS, type: WidthType.DXA },
@@ -144,6 +153,7 @@ function splitRow(line) {
 
 const children = [];
 let inReferences = false;
+let lastTableIsAppendix = false; // set by the most recent "**Table ...**" caption
 let inFrontMatter = false; // between the title line and the first "---"
 let i = 0;
 
@@ -175,7 +185,7 @@ while (i < lines.length) {
   // H1 ("## ...")
   if (line.startsWith("## ")) {
     const title = line.slice(3).trim();
-    if (title === "References") inReferences = true;
+    inReferences = title === "References"; // Appendix after References is not reference-styled
     children.push(h1(title));
     i++; continue;
   }
@@ -196,8 +206,10 @@ while (i < lines.length) {
     i++; continue;
   }
 
-  // Table caption
-  if (/^\*\*Table\s*[0-9]+\*\*/.test(trimmed)) {
+  // Table caption (body "Table N" or appendix "Table AN")
+  const tabMatch = trimmed.match(/^\*\*Table\s*(A?)[0-9]+\*\*/);
+  if (tabMatch) {
+    lastTableIsAppendix = tabMatch[1] === "A";
     children.push(tableCaptionPara(trimmed));
     i++; continue;
   }
@@ -208,9 +220,15 @@ while (i < lines.length) {
     i += 2;
     const rows = [];
     while (i < lines.length && isTableRow(lines[i])) { rows.push(splitRow(lines[i])); i++; }
-    children.push(dataTable(headers, rows));
+    children.push(dataTable(headers, rows, lastTableIsAppendix));
     children.push(new Paragraph({ text: "", spacing: { after: 160 } }));
     continue;
+  }
+
+  // Table note directly under a table ("**Note:** ...")
+  if (/^\*\*Note:?\*\*/.test(trimmed)) {
+    children.push(tableNotePara(trimmed));
+    i++; continue;
   }
 
   if (inReferences) {

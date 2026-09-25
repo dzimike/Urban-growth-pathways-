@@ -1,0 +1,221 @@
+{
+  "_about": "Hand-curated findings that are not recomputed by build_facts_json.py (interpretive notes, manual checks, deposit history). build_facts_json.py deep-merges this file into facts.json last, so re-running the pipeline no longer drops them.",
+  "sample_sensitivity": {
+    "max_vs_p99_robustness_check": {
+      "finding": "anbh_derived_max is identical (21.0092 m) at every built-fraction threshold from >0 through >=0.05, i.e. built-fraction thresholding does not filter the cell(s) producing it, while anbh_derived_p99 is stable and much lower (8.21-10.69 m across the same thresholds). The max is therefore not a robust ceiling statistic; the manuscript reports p99 instead (Section 5.1).",
+      "source_cell_pixel_inspection": {
+        "grid_id": "500m_00772288",
+        "centroid_lon": 0.328407,
+        "centroid_lat": 7.701688,
+        "cell_built_fraction_mean": 0.063468,
+        "cell_agbh_mean_m": 1.327369,
+        "cell_anbh_derived_m": 21.009,
+        "method": "Raw 100 m AGBH/ANBH pixels queried directly from agbh_2018_v3.tif / anbh_2018_v3.tif via gdal_translate -projwin around the cell centroid (ad hoc investigation, not a scripted pipeline step).",
+        "note": "A small, adjacent-pixel block (not a single-pixel spike) shows genuinely elevated raw AGBH (up to 11.2 m) and ANBH (up to 26.5 m) values, concentrated over a small fraction of the cell -- consistent with either a real small tall structure or shoreline/water-adjacent retrieval noise (the cell sits at the edge of the generous Lake Volta bounding envelope used for this check); not distinguishable from this data alone. 8 of 177 cells nationally with derived ANBH > 12 m fall within a generous Lake Volta bounding envelope (lon -0.35 to 0.55, lat 6.15 to 8.65); most extreme cells elsewhere (e.g. near Obuasi, Tarkwa/Prestea) have much higher built fraction (8-51%) and plausibly reflect real mining/industrial infrastructure."
+      }
+    }
+  },
+  "models_primary": {
+    "agbh_confound_finding": {
+      "description": "The AGBH-vs-ANBH comparisons in the typology (Section 5.5) and regression (Section 5.2) are not independent of the retrieval-floor claim they were cited as evidence for, because AGBH = ANBH x built_fraction_2018, and built_fraction_2018 correlates strongly with the built-coverage variables used elsewhere in the paper. Flagged by external technical review, verified directly against the n=296,668 sample before any manuscript text was changed.",
+      "correlations_checked": {
+        "built_fraction_2018_vs_growth_1975_2015": 0.8145,
+        "built_fraction_2018_vs_built_coverage_2010": 0.9699,
+        "built_fraction_2018_vs_built_coverage_2015": 0.9831
+      },
+      "implication": "AGBHs higher typology diagonal concordance (89.8% vs 64.2%) and higher regression R2 (0.946 vs 0.235) are each partly mechanical (AGBH shares information with the variable it is compared/regressed against), not purely evidence of ANBHs retrieval floor. Unconfounded evidence for the retrieval floor: the pixel-level histogram (Section 5.1) and the near-flat median ANBH across typology classes (Section 5.5), both properties of ANBH alone. The cross-dataset correlation gap vs Open Buildings V3 (Section 5.6) also does not share this construction.",
+      "fix_applied": "Section 5.2, Section 5.5 (both paragraphs), Section 6.4 (new Limitation 2), Abstract, and paper2_response_to_reviewers_v3.md all restate this explicitly. No computed statistics changed -- this is a correction to interpretation/independence claims, not to the underlying numbers."
+    }
+  },
+  "typology": {
+    "predictor_profile_reviewer2_major6": {
+      "description": "Section 4.7 regression predictors (built_coverage_2010, growth_1975_2010, growth_2010_2015, distance_to_nearest_cbd_m), by typology class -- added in response to a gap flagged in paper2_response_to_reviewers_v3.md (Reviewer #2, Major 6): this comparison existed in the prior AGBH-based revision but had not been carried into the ANBH-based rebuild.",
+      "rows": [
+        {
+          "typology_class": "High height / High prior expansion",
+          "n": "94885",
+          "mean_built_coverage_2010": "0.0534",
+          "mean_growth_1975_2010": "0.0358",
+          "mean_growth_2010_2015": "0.0082",
+          "mean_distance_to_cbd_km": "61.8954"
+        },
+        {
+          "typology_class": "High height / Low prior expansion",
+          "n": "53437",
+          "mean_built_coverage_2010": "0.0045",
+          "mean_growth_1975_2010": "0.0001",
+          "mean_growth_2010_2015": "0.0",
+          "mean_distance_to_cbd_km": "75.0092"
+        },
+        {
+          "typology_class": "Low height / High prior expansion",
+          "n": "52737",
+          "mean_built_coverage_2010": "0.0141",
+          "mean_growth_1975_2010": "0.0111",
+          "mean_growth_2010_2015": "0.003",
+          "mean_distance_to_cbd_km": "70.2026"
+        },
+        {
+          "typology_class": "Low height / Low prior expansion",
+          "n": "95609",
+          "mean_built_coverage_2010": "0.0002",
+          "mean_growth_1975_2010": "0.0001",
+          "mean_growth_2010_2015": "0.0",
+          "mean_distance_to_cbd_km": "73.3832"
+        }
+      ],
+      "headline_finding": "High height / High prior expansion cells have built_coverage_2010 roughly 4-40x every other class (0.0534 vs 0.0002-0.0141) and the shortest mean distance to the nearest CBD (61.9 km vs 70.2-75.0 km), on predictors the typology was not constructed from -- an independent check that the classification captures a real pattern."
+    },
+    "table6_not_independent": {
+      "description": "Table 6 (Section 4.7 predictors by typology class) was originally described as an independent check on the typology. growth_1975_2010 + growth_2010_2015 sum EXACTLY to growth_1975_2015 (the typology horizontal axis) by construction -- not independent, arithmetically part of it. built_coverage_2010 correlates r=0.97 with 2018 built fraction (see agbh_confound_finding above) -- also not a clean independent check. Only distance_to_nearest_cbd_m is genuinely external to the typology construction.",
+      "fix_applied": "Reframed as a descriptive class profile; independence claim removed except for CBD distance specifically (Section 5.5)."
+    }
+  },
+  "validation": {
+    "illustrative_satellite_check_6_cells": {
+      "description": "A small, non-random illustration of the 120-cell manual-validation infrastructure, done in response to external review flagging that no validation had actually been completed. Not a substitute for the full protocol -- see caveats below.",
+      "method": "For each of the 3 region tiers (Metro_core, Periurban_corridor, Secondary_city), the single cell with the highest cell_anbh_derived_m (within the HighANBH stratum) and the single cell with the lowest (within the LowANBH stratum) were located via lat/lon centroid and viewed in Google Maps satellite imagery.",
+      "cells_checked": [
+        {
+          "grid_id": "500m_00566078",
+          "region_tier": "Metro_core",
+          "height_tier": "HighANBH",
+          "urban_region": "Accra-Tema",
+          "anbh_m": 13.659395,
+          "agbh_m": 6.041625,
+          "building_count": 457,
+          "lon": -0.199917,
+          "lat": 5.5505,
+          "observation": "Dense administrative/government core: Accra Metropolitan Assembly, ministry buildings, Ghana Revenue Authority HQ. Consistent with High height / High prior expansion."
+        },
+        {
+          "grid_id": "500m_00121195",
+          "region_tier": "Metro_core",
+          "height_tier": "LowANBH",
+          "urban_region": "Kumasi",
+          "anbh_m": 0.0,
+          "agbh_m": 0.0,
+          "building_count": 4,
+          "lon": -1.464474,
+          "lat": 6.631269,
+          "observation": "Forested/rural land on Kumasi periphery, a handful of small scattered structures visible. Consistent with Low height / Low prior expansion."
+        },
+        {
+          "grid_id": "500m_00571322",
+          "region_tier": "Periurban_corridor",
+          "height_tier": "HighANBH",
+          "urban_region": "Accra-Kasoa",
+          "anbh_m": 7.95428,
+          "agbh_m": 2.157607,
+          "building_count": 462,
+          "lon": -0.43876,
+          "lat": 5.587734,
+          "observation": "Dense peri-urban residential/commercial settlement (Kasoa-Ofaakor), predominantly low-rise. Consistent with High height / High prior expansion, though visually low-rise rather than tall -- appropriately, since High is relative to other peri-urban cells, not to the metro core."
+        },
+        {
+          "grid_id": "500m_00573972",
+          "region_tier": "Periurban_corridor",
+          "height_tier": "LowANBH",
+          "urban_region": "Accra-Dodowa",
+          "anbh_m": 0.0,
+          "agbh_m": 0.0,
+          "building_count": 1,
+          "lon": -0.253023,
+          "lat": 5.7631,
+          "observation": "Farmland, no visible structures in frame. Consistent with Low height / Low prior expansion."
+        },
+        {
+          "grid_id": "500m_00071436",
+          "region_tier": "Secondary_city",
+          "height_tier": "HighANBH",
+          "urban_region": "Sekondi-Takoradi",
+          "anbh_m": 14.091148,
+          "agbh_m": 4.274196,
+          "building_count": 308,
+          "lon": -1.744042,
+          "lat": 4.949827,
+          "observation": "Dense institutional campus (Takoradi Technical University and surrounding hostels/services). Consistent with High height / High prior expansion."
+        },
+        {
+          "grid_id": "500m_00577787",
+          "region_tier": "Secondary_city",
+          "height_tier": "LowANBH",
+          "urban_region": "Koforidua",
+          "anbh_m": 0.0,
+          "agbh_m": 0.0,
+          "building_count": 5,
+          "lon": -0.269123,
+          "lat": 6.156252,
+          "observation": "Dense forest, no visible structures. Consistent with Low height / Low prior expansion."
+        }
+      ],
+      "result": "6 of 6 cells show the expected pattern (face validity holds for the most extreme, most confident classification cases).",
+      "caveats": [
+        "Non-random: deliberately picked the most extreme cell per stratum, not a random draw -- says nothing about accuracy in the moderate/ambiguous cases where classification error actually matters.",
+        "Overhead-only imagery cannot distinguish a genuinely tall building from many low-rise buildings packed densely together, i.e. cannot independently verify the AGBH/ANBH distinction this paper is about.",
+        "No shadow-length, oblique, or street-level imagery was used, so no storey count or height estimate was attempted -- only a coarse built-density/land-use impression.",
+        "114 of the 120-cell sample and the storey-count coding field remain uncompleted."
+      ]
+    }
+  },
+  "figures": {
+    "note": "Manuscript figures (script 08) are visualization/support only, not one of the 15 numbered requirements.",
+    "gis_review_fixes": {
+      "trigger": "Ad hoc GIS-expert review of the first version of the four manuscript figures, requested after manuscript text review.",
+      "rendering_engine_change": "Switched from matplotlib scatter of grid-cell centroids (WGS84 degrees, naive equal-aspect) to geopandas polygon choropleths of the actual grid_500m.parquet cell geometries, reprojected to cfg.PROJ_CRS (EPSG:32630, UTM Zone 30N) -- the same CRS used for the area-weighted aggregation in Section 4.5. Fixes: marker-overplotting artefacts in dense urban cores, no country outline (blank cells were indistinguishable from outside Ghana), no scale bar/north arrow, and axes plotted in raw unprojected degrees.",
+      "added_elements": [
+        "National boundary overlay (GADM gadm41_GHA.gpkg, ADM_ADM_0 layer)",
+        "Scale bar (manual, sized to ~20% of map width, rounded to a nice km value)",
+        "North arrow"
+      ],
+      "disclosure_fix": "Fig. 1 (ANBH map) already disclosed N and the colour-scale percentile cap; Fig. 2 (AGBH map) did not. Both now disclose N, the cap value, and CRS consistently, and both explicitly flag that their N (296,677, cells with valid GHSL height data) is 9 more than the n=296,668 regression/typology sample, which additionally requires non-missing 1975/2010/2015 built-coverage covariates not needed for a univariate height map.",
+      "caption_fix": "Manuscript Fig. 1 caption originally named only Accra-Tema, Kumasi, and Tamale as visual peaks. A small number of mining centres (e.g. Obuasi) show comparably strong localized ANBH signal and are not among the 15 named study regions; the caption now says so explicitly, with a caveat that this plausibly reflects industrial rather than residential/commercial structures."
+    },
+    "sample_flow_diagram_reviewer4_point1": {
+      "description": "figA2_sample_flow.png (manuscript Fig. A2) -- added in response to a gap flagged in paper2_response_to_reviewers_v3.md (Reviewer 4 point 1 / Reviewer 6): a stepwise sample-flow diagram was requested in the original review and had not been reintroduced into the ANBH-based rebuild; the counts were already disclosed in prose (Section 4.2) but not as a diagram.",
+      "steps": [
+        "961,858 national grid cells",
+        "-> 296,703 national-footprint sample (Open Buildings V3, building_count>0)",
+        "-> -26 cells: no overlapping GHSL raster pixel (true nodata)",
+        "-> 296,677 cells with valid GHSL height data",
+        "-> -9 cells: missing 1975/2010/2015 built coverage or CBD-distance covariates",
+        "-> 296,668 final analytical sample"
+      ],
+      "side_branch": "15 named urban regions/corridors: 28,133 cells (9.5% of national-footprint sample) -- a labelled descriptive subset, not a further sequential exclusion",
+      "label_correction": "Final-sample box corrected from 'Tables 2-5' to 'Tables 2-6, Figs. 3-4' (Table 6 also uses n=296,668); height-data box names the height maps by their manuscript numbers, Figs. 1-2 (an external review read these as 'now Figures 3 and 4', which matches an older build's image order, not the current numbering); main boxes narrowed so the named-region side box no longer overlaps them."
+    },
+    "two_dimensions_schematic_figA1": {
+      "description": "figA1_two_dimensions_schematic.png (manuscript Fig. A1), now generated by script 08 into 04_outputs/paper2_v3/figures/ instead of the v2 script scripts/revision/05_schematics.py.",
+      "changes": [
+        "Dark (#222222) arrows and labels replacing blue/orange",
+        "All labels horizontal; the v2 four-line label rotated 90 degrees was hard to read",
+        "'(Sec. 2.1)' tags removed from the driver boxes; the caption carries the cross-reference"
+      ]
+    }
+  },
+  "reproducibility_deposit_expansion": {
+    "description": "The GitHub deposit (github.com/dzimike/Urban-growth-pathways-) was expanded to include the upstream pipeline (scripts/01_setup_project.py through scripts/09_aggregate_to_grid.py, plus 03b_generate_250m_grid.py, and environment.yml), previously described in words only, not deposited.",
+    "scripts_added": [
+      "01_setup_project.py",
+      "02_download_boundaries.py",
+      "03_prepare_grids.py",
+      "03b_generate_250m_grid.py",
+      "04_clean_building_footprints.py",
+      "05_process_temporal_buildings.py",
+      "06_process_ghsl.py",
+      "07_add_population_roads_pois.py",
+      "08_calculate_building_metrics.py",
+      "09_aggregate_to_grid.py"
+    ],
+    "checks_performed_before_deposit": [
+      "Grepped all 10 scripts for api_key/secret/password/token/credential/access_key patterns -- none found.",
+      "Grepped for hard-coded /Users/... absolute paths -- none found (all use config.py, same pattern as scripts/revision_v3/).",
+      "Confirmed no Earth Engine authentication calls (import ee / ee.Initialize / ee.Authenticate) in any of the 10 scripts, despite environment.yml declaring earthengine-api as a project dependency for other, non-deposited parts of the wider project.",
+      "py_compile syntax check on all 10 files -- all valid."
+    ],
+    "still_not_reproducible_without": [
+      "The raw third-party datasets (GHSL, Open Buildings V3/2.5D Temporal, Overture, OSM, WorldPop, Ghana PHC, GADM, DEM/terrain, night-lights) -- licensing prevents redistribution.",
+      "A working install of the upstream conda environment (environment.yml, python=3.11 with rasterio/fiona/full GDAL bindings) -- not re-verified in the environment this v3 revision was prepared in, which lacks system GDAL/rasterio (see pixel_validation/aggregation notes elsewhere in this file and audit_report.md Section 6). This is a pre-existing, already-disclosed environment gap, not something introduced by this deposit."
+    ]
+  }
+}
