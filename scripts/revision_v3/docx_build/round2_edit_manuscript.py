@@ -229,6 +229,50 @@ set_text(134, "During preparation of the manuscript",
          "by the deposited code and verified by the authors, who retain responsibility for all analytical decisions, "
          "interpretations and conclusions. No AI tool was used to fabricate or alter data, results or citations.")
 
+# ------------------------------------------------------------ references ---
+# Verified against Crossref / OpenAlex / Semantic Scholar (audit_report.md
+# section 22). Akaateba (2019) studies Tamale and Techiman, not Accra or
+# Kumasi; Arku (2009) and Paller (2019) are no longer cited in the text;
+# Seto et al.'s title was truncated; six entries lacked their DOIs.
+replace_in(10, "Studies of Accra and Kumasi document substantial peripheral expansion and the associated "
+               "transformation of customary and agricultural land (Cobbinah and Amoako, 2012; Akaateba, 2019).",
+           "Studies of Ghanaian cities document substantial peripheral expansion and the associated transformation "
+           "of customary and agricultural land, in Kumasi (Cobbinah and Amoako, 2012) and in Tamale and Techiman "
+           "(Akaateba, 2019).")
+
+
+def ref_para(start: str):
+    hits = [p for p in P if p.text.startswith(start)]
+    assert len(hits) == 1, (start, len(hits))
+    return hits[0]
+
+
+def ref_append_doi(start: str, doi: str) -> None:
+    p = ref_para(start)
+    assert doi not in p.text
+    p.add_run(f" https://doi.org/{doi}")
+
+
+for start in ["Arku, G. (2009)", "Paller, J. W. (2019)"]:
+    p = ref_para(start)
+    p._p.getparent().remove(p._p)
+
+seto = ref_para("Seto, K. C., Güneralp, B. and Hutyra, L. R. (2012)")
+for r in seto.runs:
+    if "direct impacts on biodiversity." in r.text:
+        r.text = r.text.replace("direct impacts on biodiversity.", "direct impacts on biodiversity and carbon pools.")
+        break
+else:
+    raise AssertionError("Seto title run not found")
+
+for start, doi in [("Angel, S., Lamson-Hall, P.", "10.3390/su13073835"),
+                   ("Akaateba, M. A. (2019)", "10.1016/j.landusepol.2019.104197"),
+                   ("McWilson, W. K. (2026)", "10.1016/j.habitatint.2026.103946"),
+                   ("Mahtta, R., Fragkias, M.", "10.1038/s42949-022-00048-y"),
+                   ("Prieto-Curiel, R., Patino, J. E.", "10.1073/pnas.2214254120"),
+                   ("Vargas, A. M. and Addie, J. P. D. (2026)", "10.1111/gec3.70076")]:
+    ref_append_doi(start, doi)
+
 # ---------------------------------------------------------------- images ---
 shapes = doc.inline_shapes
 assert len(shapes) == 6

@@ -47,7 +47,7 @@ path,producer_script,description,size_bytes,shape,sha256_16
 04_outputs/paper2_v3/tables/T_round2_inference.csv,script 12,"Model C under conventional, HC1, clustered and spatial error SEs (manuscript Table A7, Fig. 5)",3050,20 rows x 7 cols,0be3076254534a14
 04_outputs/paper2_v3/tables/T_round2_typology_agreement.csv,script 12,"Typology diagonal shares vs chance, Cohen's kappa (manuscript Table A9)",778,6 rows x 6 cols,249b8154e9abdfc0
 scripts/revision_v3/facts.json,build_facts_json.py,Consolidated machine-readable findings,117708,n/a,8103c85fbe6a7dc7
-scripts/revision_v3/audit_report.md,manual,Human-readable audit narrative (not auto-generated),56835,n/a,c34875213f74fd36
+scripts/revision_v3/audit_report.md,manual,Human-readable audit narrative (not auto-generated),63217,n/a,118f3ee175e94009
 04_outputs/paper2_v3/figures/fig01_anbh_map.png,08_manuscript_figures.py,ANBH map (manuscript Fig. 1),791237,n/a,f049c3606f86b70b
 04_outputs/paper2_v3/figures/fig02_agbh_map.png,08_manuscript_figures.py,AGBH map (manuscript Fig. 2),761302,n/a,8d575599da4cec6d
 04_outputs/paper2_v3/figures/fig03_typology_map.png,08_manuscript_figures.py,Typology map (manuscript Fig. 4),599381,n/a,034f98bd90bfb728

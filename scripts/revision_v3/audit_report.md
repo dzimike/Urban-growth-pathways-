@@ -383,6 +383,18 @@ Decision: minor revision. Reviewers #3 and #6 had no further comments. Reviewer 
 
 Also fixed in the submitted version: abstract 261 -> 245 words; typo "bconstruction"; the AI statement now says results were produced by the deposited code and that no AI tool was used to fabricate or alter data, results or citations; keyword "urban form regimes" -> "urban form". Retitled at the authors' choice to "What satellite building height data reveal about urban form and horizontal expansion in Ghana", in response to point 4.
 
+
+## 22. Reference verification (references added in the authors' Word edit)
+
+The submitted version added 14 references and changed five existing ones. Each was checked against Crossref by DOI or bibliographic query (title, authors, journal, volume, issue, pages, year). The OECD paper was also checked on RePEc/IDEAS, because its Crossref record lists no authors. Each new source was then compared with the sentence citing it, using abstracts from OpenAlex or Semantic Scholar.
+- **All 14 new references exist with matching metadata:** Angel et al. 2021, Anderson et al. 2023, Akubia & Bruns 2019, Akaateba 2019, Bonye et al. 2021, Barr & Jedwab 2023, Frolking et al. 2024, Glaeser 2011, Moreno-Alba et al. 2026, McWilson 2026, Mahtta et al. 2022, Prieto-Curiel et al. 2023, Vergara Vidal 2017, Vargas & Addie 2026. Glaeser 2011 (a book) was confirmed through indexed reviews, since Crossref does not index the book itself. Online-first versus volume years differ for Bonye (2020/2021), Harris (2014/2015), Rey & Anselin (2009/2010) and Todes & Robinson (2019/2020); the volume years are kept.
+- **Claim support:** Moreno-Alba et al. directly support the Santiago sentence (transport, land values, regulation); Vergara Vidal supports the concentration of height in Santiago; Mahtta et al. support population growth as a driver of expansion; Vargas & Addie support the vertical-urbanism sentence. Barr & Jedwab compare world regions rather than African cities specifically, which is a loose but defensible fit alongside Prieto-Curiel et al. and Anderson et al. No abstract was available for McWilson 2026 or Bonye et al. 2021; their titles fit the sentences, but this is a title-level check only.
+- **Corrected:**
+  - Akaateba (2019) is a case study of Tamale and Techiman (Semantic Scholar abstract), but the Introduction cited it for "Studies of Accra and Kumasi"; the sentence now names Kumasi (Cobbinah and Amoako) and Tamale and Techiman (Akaateba).
+  - Arku (2009) and Paller (2019) are no longer cited after the authors' rewrite of Section 2.2, and were removed.
+  - The Seto et al. (2012) title was truncated ("...biodiversity" instead of "...biodiversity and carbon pools"); this error predates the Word edit.
+  - DOIs were added to Angel 2021, Akaateba 2019, McWilson 2026, Mahtta 2022, Prieto-Curiel 2023 and Vargas & Addie 2026.
+
 ---
 
 *Per the revision instructions, no manuscript text is written until this analytical audit is judged complete. Scripts 01-07 are now done; remaining infrastructure items (config.py path centralization already applied, run_all.py, final output_manifest.csv refresh) are the last steps before that judgement can be made.*
