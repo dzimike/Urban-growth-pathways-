@@ -215,9 +215,13 @@ append_text(116, "Future work should test",
             "More detailed robustness analysis of cells without a height signal and of classification precision "
             "would also strengthen future applications.")
 
-CODE_REF = (Path(__file__).with_name("round2_code_reference.txt")).read_text().strip()
+# The code-reference sentence names the tagged commit, so it is kept outside the
+# repository (a file inside it could not contain its own commit hash).
+_ref = Path(__file__).with_name("round2_code_reference.txt")
+CODE_REF = _ref.read_text().strip() if _ref.exists() else None
 assert P[124].text.startswith("GHSL-BUILT-H R2023A (AGBH and ANBH)")
-P[124].add_run(" " + CODE_REF)          # new run: keeps the existing runs (incl. the 10 pt facts.json) intact
+if CODE_REF:
+    P[124].add_run(" " + CODE_REF)          # new run: keeps the existing runs (incl. the 10 pt facts.json) intact
 
 set_text(134, "During preparation of the manuscript",
          "During preparation of the manuscript, the authors used Claude (Anthropic) to assist with data-processing "
@@ -254,8 +258,8 @@ template_tbl = doc.tables[11]._tbl                       # Table A6
 template_caption = P[206]._p
 template_note = P[207]._p
 assert P[206].text.startswith("Table A6") and P[207].text.startswith("Note:")
-blank_p = template_note.getnext()                         # empty paragraph after the A6 note
-assert blank_p.tag == qn("w:p")
+blank_p = template_caption.getprevious()                  # empty spacer paragraph before the A6 caption
+assert blank_p.tag == qn("w:p") and not "".join(t.text or "" for t in blank_p.iter(qn("w:t"))).strip()
 
 
 def _set_cell(tc, text: str) -> None:
@@ -392,13 +396,13 @@ a9 = ("Table A9", " Diagonal shares of the height × prior-expansion classificat
       "classes assign values equal to a cut-point to the upper class (Table A5). The AGBH rows hold the sample and "
       "the horizontal axis fixed and are not a clean test of height measurement (Section 5.5).")
 
-anchor = blank_p
+anchor = template_note                                     # insert after the A6 note
 for label, cap, header, rows, note in [a7, a8, a9]:
     new_blank = copy.deepcopy(blank_p)
     cap_p = make_para(template_caption, label, cap)
     tbl = build_table(header, rows)
     note_p = make_para(template_note, None, note)
-    for el in [cap_p, tbl, note_p, new_blank]:
+    for el in [new_blank, cap_p, tbl, note_p]:
         anchor.addnext(el)
         anchor = el
 

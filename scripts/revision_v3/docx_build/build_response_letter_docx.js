@@ -25,7 +25,9 @@ const {
 } = require("docx");
 
 const ROOT = path.resolve(__dirname, "../../..");
-const MD_PATH = path.join(ROOT, "04_outputs/manuscript/paper2_response_to_reviewers_v3.md");
+// Optional argument: path to another letter (e.g. the second-round response).
+const MD_PATH = process.argv[2] ? path.resolve(process.argv[2])
+  : path.join(ROOT, "04_outputs/manuscript/paper2_response_to_reviewers_v3.md");
 const OUT_PATH = MD_PATH.replace(/\.md$/, ".docx");
 
 const PAGE_W = 12240, PAGE_H = 15840, MARGIN = 1440; // US Letter, 1in margins (DXA)
