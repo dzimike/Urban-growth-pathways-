@@ -1,0 +1,4 @@
+spec,n_units,n_islands,n_components,min_neighbors,max_neighbors,mean_neighbors
+queen,296668,9479,18998,0,8,5.071
+queen_knn1_islands,296668,0,10512,1,8,5.13
+knn8,296668,0,10,8,8,8.0

@@ -1,0 +1,5 @@
+typology_class,n,mean_anbh,median_anbh,mean_growth_1975_2015,median_growth_1975_2015
+High height / High prior expansion,94885,3.4695,2.5048,0.044,0.0073
+High height / Low prior expansion,53437,2.6011,2.5164,0.0002,0.0001
+Low height / High prior expansion,52737,2.4832,2.4996,0.0141,0.0032
+Low height / Low prior expansion,95609,1.3478,2.3913,0.0001,0.0

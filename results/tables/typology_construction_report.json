@@ -1,0 +1,10 @@
+{
+  "n_final": 296668,
+  "vertical_var": "cell_anbh_derived_m",
+  "horizontal_var": "growth_1975_2015",
+  "vertical_median": 2.500403,
+  "horizontal_median": 0.0004999999999999999,
+  "vertical_ties_n": 29,
+  "horizontal_ties_n": 2337,
+  "tie_rule": "cells exactly equal to a median are assigned to the LOW class on that axis"
+}

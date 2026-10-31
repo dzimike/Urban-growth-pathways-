@@ -1,0 +1,20 @@
+comparison,n,spearman_rho,spearman_p,pearson_r_log1p,pearson_p,value
+ANBH vs WSF3D net height (cells where both are defined),110889.0,0.18179432265687848,0.0,0.18084588926967485,0.0,
+ANBH vs WSF3D net height (both > 0),110314.0,0.18139682209436692,0.0,0.1866564552808883,0.0,
+AGBH vs WSF3D gross height (all sample cells),296668.0,0.799989674132574,0.0,0.9520242685307307,0.0,
+n_final_sample,,,,,,296668.0
+n_with_wsf3d_buildings,,,,,,110889.0
+pct_with_wsf3d_buildings,,,,,,37.378146615071394
+n_anbh_zero,,,,,,43412.0
+n_anbh_zero_with_wsf3d_buildings,,,,,,575.0
+wsf3d_net_mean_m_where_defined,,,,,,3.6061970637227976
+wsf3d_net_median_m_where_defined,,,,,,3.2897576596144824
+anbh_mean_m_same_cells,,,,,,3.339744481743004
+anbh_median_m_same_cells,,,,,,2.501247
+median_split_agreement_pct_both_positive,,,,,,53.16097684790688
+median_split_cohens_kappa_both_positive,,,,,,0.06321953695813765
+mannwhitney_wsf3d_net_high_vs_low_height_classes_U,,,,,,1486735358.0
+mannwhitney_wsf3d_net_high_vs_low_height_classes_p_one_sided,,,,,,9.897600847654163e-104
+region_rank_spearman_anbh_mean_vs_wsf3d_net_mean,,,,,,0.24642857142857136
+region_rank_spearman_anbh_median_vs_wsf3d_net_median,,,,,,0.1714285714285714
+region_rank_spearman_agbh_mean_vs_wsf3d_gross_mean,,,,,,0.9785714285714284

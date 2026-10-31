@@ -104,8 +104,13 @@ runs the 11-test identity/range suite independently of the pipeline.
 | `09_supplementary_tables.py` | Appendix Tables A1, A2, A5: per-region statistics for the 15 named study areas, full-sample descriptive statistics and quantiles, tertile/quartile cross-tabulations with marginals |
 | `10_grid_resolution_sensitivity.py` | Appendix Table A4: 250 m / 500 m / 1 km sensitivity, all three recomputed by one code path (the 500 m run doubles as a reproduction check) |
 | `11_wsf3d_comparison.py` | Appendix Table A6: cross-product comparison of ANBH/AGBH with WSF3D building height (download the two global WSF3D GeoTIFFs first and pass `--global-dir`) |
+| `12_round2_checks.py` | Appendix Tables A7-A9 and the Ghana-masked pixel statistics: spatially clustered and HC1 standard errors for Model C, Model C and typology on cells with a GHSL height signal, typology agreement against chance (Cohen's kappa) |
 | `build_facts_json.py` | Consolidates every script's findings into `facts.json`, merging hand-curated notes from `facts_curated.json` last |
 | `run_all.py` | One-command orchestrator; rebuilds `output_manifest.csv` |
+
+## Results
+
+`results/tables/` holds every table the analysis writes (the CSV and JSON outputs behind the manuscript's Tables 2-6 and Appendix Tables A1-A9), and `results/provenance/` holds the acquisition records for the GHSL height rasters and the WSF3D clips (source URLs, DOIs, file sizes and SHA-256 checksums). They are small derived files, included so the reported numbers can be checked without rerunning the pipeline. The version of this repository cited in the manuscript is marked by a git tag (see the manuscript's Data availability statement).
 
 `facts.json`, `audit_report.md`, and `output_manifest.csv` in this repository are this project's own outputs, included as a record of what the pipeline produced — rerunning the scripts against freshly acquired data will regenerate them.
 

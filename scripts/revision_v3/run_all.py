@@ -69,6 +69,7 @@ STAGES = [
     (9, "09_supplementary_tables.py", "Appendix tables: descriptive stats, per-region stats, cross-tabs with marginals"),
     (10, "10_grid_resolution_sensitivity.py", "250 m / 500 m / 1 km resolution sensitivity (one code path)"),
     (11, "11_wsf3d_comparison.py", "Cross-product comparison with WSF3D building height (needs WSF3D clips; see script)"),
+    (12, "12_round2_checks.py", "Second-round checks: Ghana-masked pixel stats, zero-signal cells, spatially robust SEs, chance baselines"),
 ]
 
 # Every output this pipeline is known to produce, for the final manifest.
@@ -118,6 +119,10 @@ KNOWN_OUTPUTS = [
     ("04_outputs/paper2_v3/tables/T_wsf3d_by_typology.csv", "script 11", "WSF3D height by typology class (manuscript Table A6)"),
     ("04_outputs/paper2_v3/tables/T_wsf3d_by_region.csv", "script 11", "ANBH/AGBH/WSF3D by named region"),
     ("04_outputs/paper2_v3/tables/T_wsf3d_summary_incl_sub1m.csv", "script 11", "Sensitivity: WSF3D 0.2 m pixels retained"),
+    ("04_outputs/paper2_v3/tables/T_round2_pixel_mask.csv", "script 12", "Pixel statistics over the envelope vs inside Ghana (manuscript Sections 4.4, 5.1)"),
+    ("04_outputs/paper2_v3/tables/T_round2_zero_signal.csv", "script 12", "Model C and typology on cells with ANBH > 0 (manuscript Table A8)"),
+    ("04_outputs/paper2_v3/tables/T_round2_inference.csv", "script 12", "Model C under conventional, HC1, clustered and spatial error SEs (manuscript Table A7, Fig. 5)"),
+    ("04_outputs/paper2_v3/tables/T_round2_typology_agreement.csv", "script 12", "Typology diagonal shares vs chance, Cohen's kappa (manuscript Table A9)"),
     ("scripts/revision_v3/facts.json", "build_facts_json.py", "Consolidated machine-readable findings"),
     ("scripts/revision_v3/audit_report.md", "manual", "Human-readable audit narrative (not auto-generated)"),
     ("04_outputs/paper2_v3/figures/fig01_anbh_map.png", "08_manuscript_figures.py", "ANBH map (manuscript Fig. 1)"),

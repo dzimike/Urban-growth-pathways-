@@ -1,0 +1,13 @@
+variable,vif,flag_high_vif,outcome,model
+log_distance_to_nearest_cbd_m,1.108,False,anbh_primary,B_plus_legacy
+built_coverage_2010,1.108,False,anbh_primary,B_plus_legacy
+log_distance_to_nearest_cbd_m,1.122,False,anbh_primary,C_full_pre2018
+built_coverage_2010,2.834,False,anbh_primary,C_full_pre2018
+growth_1975_2010,3.967,False,anbh_primary,C_full_pre2018
+growth_2010_2015,1.95,False,anbh_primary,C_full_pre2018
+log_distance_to_nearest_cbd_m,1.108,False,agbh_robustness,B_plus_legacy
+built_coverage_2010,1.108,False,agbh_robustness,B_plus_legacy
+log_distance_to_nearest_cbd_m,1.122,False,agbh_robustness,C_full_pre2018
+built_coverage_2010,2.834,False,agbh_robustness,C_full_pre2018
+growth_1975_2010,3.967,False,agbh_robustness,C_full_pre2018
+growth_2010_2015,1.95,False,agbh_robustness,C_full_pre2018

@@ -1,0 +1,5 @@
+typology_class,n,mean_built_coverage_2010,mean_growth_1975_2010,mean_growth_2010_2015,mean_distance_to_cbd_km
+High height / High prior expansion,94885,0.0534,0.0358,0.0082,61.8954
+High height / Low prior expansion,53437,0.0045,0.0001,0.0,75.0092
+Low height / High prior expansion,52737,0.0141,0.0111,0.003,70.2026
+Low height / Low prior expansion,95609,0.0002,0.0001,0.0,73.3832

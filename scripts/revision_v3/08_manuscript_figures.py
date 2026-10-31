@@ -203,37 +203,45 @@ plt.close(fig)
 print("saved fig03_typology_map.png")
 
 # ------------------------------------------------ Fig 4: regression coefs -
+# (Manuscript Fig. 5.) Second-round review (Reviewer #4, point 3): the
+# original plot showed OLS intervals from conventional standard errors only,
+# which ignore the residual spatial dependence reported in Table 2. Each
+# predictor now shows three estimates side by side -- OLS with conventional
+# SEs (as in Table 3), OLS with SEs clustered in 25 km blocks, and the spatial
+# error model -- from T_round2_inference.csv (script 12). Coefficients and
+# intervals are standardised (x SD(x)/SD(y), the same factor as Table 3) so
+# predictors on very different scales share one axis.
 ols = pd.read_csv(cfg.PAPER2_V3_TABLES / "T_models_ols.csv")
-model_c_anbh = ols[(ols.outcome == "anbh_primary") & (ols.model == "C_full_pre2018") & (ols.variable != "const")]
-vif = pd.read_csv(cfg.PAPER2_V3_TABLES / "T_models_vif.csv")
-vif_c = vif[(vif.outcome == "anbh_primary") & (vif.model == "C_full_pre2018")].set_index("variable")["vif"].to_dict()
-
+c_ols = ols[(ols.outcome == "anbh_primary") & (ols.model == "C_full_pre2018") & (ols.variable != "const")]
+std_factor = (c_ols.set_index("variable").standardized_coefficient / c_ols.set_index("variable").coefficient).to_dict()
+inf = pd.read_csv(cfg.PAPER2_V3_TABLES / "T_round2_inference.csv")
+series = [("OLS, conventional SE (Table 3)", "OLS, conventional SE (Table 3, Fig. 5)", "#2166AC", "o"),
+          ("OLS, SE clustered in 25 km blocks", "OLS, SE clustered by 25 km blocks", "#E08214", "s"),
+          ("Spatial error model", "Spatial error model (GM_Error, Queen)", "#4D4D4D", "D")]
 label_map = {
     "log_distance_to_nearest_cbd_m": "Log distance to\nnearest CBD",
     "built_coverage_2010": "Built coverage\n2010",
     "growth_1975_2010": "Growth\n1975-2010",
     "growth_2010_2015": "Growth\n2010-2015",
 }
-model_c_anbh = model_c_anbh.copy()
-model_c_anbh["label"] = model_c_anbh["variable"].map(label_map)
-model_c_anbh = model_c_anbh.sort_values("coefficient")
-
-fig, ax = plt.subplots(figsize=(7.2, 4.4))
-for i, row in enumerate(model_c_anbh.itertuples()):
-    color = "#C0392B" if vif_c.get(row.variable, 0) > 10 else "#2166AC"
-    ax.errorbar([row.coefficient], [i], xerr=[1.96 * row.std_error], fmt="o", color=color,
-                ecolor=color, elinewidth=2.2, capsize=4, markersize=7, zorder=5)
-ax.set_yticks(range(len(model_c_anbh)))
-ax.set_yticklabels(model_c_anbh["label"])
+order = ["log_distance_to_nearest_cbd_m", "growth_1975_2010", "growth_2010_2015", "built_coverage_2010"]
+fig, ax = plt.subplots(figsize=(7.2, 4.8))
+for j, (lab, key, color, marker) in enumerate(series):
+    sub = inf[inf.estimator == key].set_index("variable")
+    for i, v in enumerate(order):
+        f = std_factor[v]
+        y = i + (1 - j) * 0.22
+        ax.errorbar([sub.loc[v, "coef"] * f], [y], xerr=[1.96 * sub.loc[v, "se"] * abs(f)], fmt=marker,
+                    color=color, ecolor=color, elinewidth=1.8, capsize=3, markersize=5.5, zorder=5,
+                    label=lab if i == 0 else None)
+ax.set_yticks(range(len(order)))
+ax.set_yticklabels([label_map[v] for v in order])
 ax.axvline(0, color="grey", lw=0.8, ls="--")
-ax.set_xlabel("OLS coefficient on log(1+ANBH), 95% CI")
+ax.set_xlabel("Standardised coefficient on log(1+ANBH), with 95% interval")
 fit = pd.read_csv(cfg.PAPER2_V3_TABLES / "T_models_fit_and_moran.csv")
 row_fit = fit[(fit.outcome == "anbh_primary") & (fit.model == "C_full_pre2018")].iloc[0]
-ax.set_title(f"Predictors of vertical intensity (log(1+ANBH), pre-2018 only)\n"
-             f"n={int(row_fit.n):,}, R²={row_fit.ols_r2:.3f}, all VIF<4", fontsize=10)
-handles = [Line2D([0], [0], color="#2166AC", lw=2.2, marker="o", label="VIF ≤ 10"),
-           Line2D([0], [0], color="#C0392B", lw=2.2, marker="o", label="VIF > 10")]
-ax.legend(handles=handles, loc="lower right", fontsize=8)
+ax.set_title(f"Model C, log(1+ANBH): n={int(row_fit.n):,}, OLS R²={row_fit.ols_r2:.3f}, all VIF<4", fontsize=10)
+ax.legend(loc="lower right", fontsize=8, frameon=True)
 plt.tight_layout()
 plt.savefig(FIG / "fig04_regression_coefficients.png", dpi=200)
 plt.close(fig)
@@ -281,9 +289,9 @@ print("saved figA1_two_dimensions_schematic.png")
 # (Section 4.2) rather than recomputed here, since this is a display of
 # already-established, tested numbers, not a new analytical step.
 # Box labels name every table/figure each sample feeds, using the
-# manuscript's final numbering (height maps = Figs. 1-2; regression and
-# typology = Tables 2-6 and Figs. 3-4). Main boxes are narrower than in the
-# first version so the named-region side box no longer overlaps them.
+# manuscript's final numbering (schematic and this diagram = Figs. 1-2; height maps = Figs. 3-4;
+# regression and typology = Tables 2-6 and Figs. 5-6).
+# Main boxes are narrower than in the first version so the named-region side box no longer overlaps them.
 fig, ax = plt.subplots(figsize=(6.6, 6.9))
 ax.set_xlim(0, 10); ax.set_ylim(3.4, 15.3); ax.axis("off")
 cx, bw = 3.5, 6.0                      # main-column centre and box width
@@ -291,8 +299,8 @@ box_y = [14.2, 11.0, 7.8, 4.6]
 box_text = [
     "Ghana national 500 m grid\nN = 961,858 cells",
     "National-footprint sample\n(Open Buildings V3, building_count > 0)\nN = 296,703 cells",
-    "Valid GHSL height data\n(height maps: Figs. 1\u20132)\nN = 296,677 cells",
-    "Final analytical sample\n(models and typology: Tables 2\u20136, Figs. 3\u20134)\nN = 296,668 cells",
+    "Valid GHSL height data\n(height maps: Figs. 3\u20134)\nN = 296,677 cells",
+    "Final analytical sample\n(models and typology: Tables 2\u20136, Figs. 5\u20136)\nN = 296,668 cells",
 ]
 box_color = ["#F2F2F2", "#D9E2F3", "#D9E2F3", "#C6E0B4"]
 for y, text, color in zip(box_y, box_text, box_color):

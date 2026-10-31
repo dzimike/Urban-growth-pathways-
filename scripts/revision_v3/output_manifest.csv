@@ -42,12 +42,16 @@ path,producer_script,description,size_bytes,shape,sha256_16
 04_outputs/paper2_v3/tables/T_wsf3d_by_typology.csv,script 11,WSF3D height by typology class (manuscript Table A6),868,4 rows x 11 cols,05c68066b71ac5f3
 04_outputs/paper2_v3/tables/T_wsf3d_by_region.csv,script 11,ANBH/AGBH/WSF3D by named region,2337,16 rows x 9 cols,900c154d248f2b1c
 04_outputs/paper2_v3/tables/T_wsf3d_summary_incl_sub1m.csv,script 11,Sensitivity: WSF3D 0.2 m pixels retained,1252,19 rows x 7 cols,74f9d343725305cd
-scripts/revision_v3/facts.json,build_facts_json.py,Consolidated machine-readable findings,99612,n/a,cd60a3b52343b1b0
+04_outputs/paper2_v3/tables/T_round2_pixel_mask.csv,script 12,"Pixel statistics over the envelope vs inside Ghana (manuscript Sections 4.4, 5.1)",403,2 rows x 10 cols,d9ec661c897eaa10
+04_outputs/paper2_v3/tables/T_round2_zero_signal.csv,script 12,Model C and typology on cells with ANBH > 0 (manuscript Table A8),2945,17 rows x 13 cols,3e39a6cce87ccfda
+04_outputs/paper2_v3/tables/T_round2_inference.csv,script 12,"Model C under conventional, HC1, clustered and spatial error SEs (manuscript Table A7, Fig. 5)",3050,20 rows x 7 cols,0be3076254534a14
+04_outputs/paper2_v3/tables/T_round2_typology_agreement.csv,script 12,"Typology diagonal shares vs chance, Cohen's kappa (manuscript Table A9)",778,6 rows x 6 cols,249b8154e9abdfc0
+scripts/revision_v3/facts.json,build_facts_json.py,Consolidated machine-readable findings,117708,n/a,8103c85fbe6a7dc7
 scripts/revision_v3/audit_report.md,manual,Human-readable audit narrative (not auto-generated),56835,n/a,c34875213f74fd36
-04_outputs/paper2_v3/figures/fig01_anbh_map.png,08_manuscript_figures.py,ANBH map (manuscript Fig. 1),752116,n/a,1bd02272c59e8878
-04_outputs/paper2_v3/figures/fig02_agbh_map.png,08_manuscript_figures.py,AGBH map (manuscript Fig. 2),734142,n/a,3eecbdda31f855a6
-04_outputs/paper2_v3/figures/fig03_typology_map.png,08_manuscript_figures.py,Typology map (manuscript Fig. 4),548528,n/a,f75b6b8c11d79a48
-04_outputs/paper2_v3/figures/fig04_regression_coefficients.png,08_manuscript_figures.py,Model C coefficient plot (manuscript Fig. 3),70460,n/a,3b35da799e09f316
-04_outputs/paper2_v3/figures/figA1_two_dimensions_schematic.png,08_manuscript_figures.py,Two-dimensions schematic (manuscript Fig. A1),66539,n/a,6a3dbe3cba8e9c2c
-04_outputs/paper2_v3/figures/figA2_sample_flow.png,08_manuscript_figures.py,Sample-flow diagram (manuscript Fig. A2),120965,n/a,22abfbb61123d0a9
+04_outputs/paper2_v3/figures/fig01_anbh_map.png,08_manuscript_figures.py,ANBH map (manuscript Fig. 1),791237,n/a,f049c3606f86b70b
+04_outputs/paper2_v3/figures/fig02_agbh_map.png,08_manuscript_figures.py,AGBH map (manuscript Fig. 2),761302,n/a,8d575599da4cec6d
+04_outputs/paper2_v3/figures/fig03_typology_map.png,08_manuscript_figures.py,Typology map (manuscript Fig. 4),599381,n/a,034f98bd90bfb728
+04_outputs/paper2_v3/figures/fig04_regression_coefficients.png,08_manuscript_figures.py,Model C coefficient plot (manuscript Fig. 3),94328,n/a,aaffe312ff483f07
+04_outputs/paper2_v3/figures/figA1_two_dimensions_schematic.png,08_manuscript_figures.py,Two-dimensions schematic (manuscript Fig. A1),84491,n/a,bd4e7199acc34edf
+04_outputs/paper2_v3/figures/figA2_sample_flow.png,08_manuscript_figures.py,Sample-flow diagram (manuscript Fig. A2),139093,n/a,cd7c92dbbc40cdc6
 04_outputs/manuscript/paper2_v3_draft.md,manual,v3 manuscript (not auto-generated),68043,n/a,ffd9dc4857bcd850

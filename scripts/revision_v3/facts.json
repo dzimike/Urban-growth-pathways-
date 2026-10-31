@@ -196,7 +196,7 @@
       "n_cells": 151458,
       "median_built_fraction_this_group": 0.000133,
       "mean_built_fraction_this_group": 0.00046724331497840984,
-      "overall_gt0_sample_mean_built_fraction": 0.01920809482558398,
+      "overall_gt0_sample_mean_built_fraction": 0.019208094825583985,
       "interpretation": "This group's built_fraction is roughly 40x smaller than the '>0' sample average, indicating these are overwhelmingly near-zero noise-floor values in the GHSL signal (estimation noise, partial-pixel edge effects, or non-building surface texture), not genuine buildings V3 missed. This is why the '>0' threshold alone is not a reliable valid-height sample definition and the full sensitivity sweep (0.005-0.05) is reported rather than relying on it."
     },
     "max_vs_p99_robustness_check": {
@@ -2463,6 +2463,524 @@
       }
     ],
     "interpretation": "Supports the retrieval floor: among 148,590 cells with ANBH in its 1.8 cm interquartile band, WSF3D spans 2.46-5.04 m (p10-p90) with no rank relation to ANBH (rho -0.06). But cell-level agreement is weak (rho 0.18, kappa 0.06), and WSF3D reverses the height order of the two off-diagonal typology classes. Gross-measure agreement (rho 0.80) mostly reflects shared coverage. WSF3D is a second satellite estimate (2011-2013 height epoch), not ground truth."
+  },
+  "round2_checks": {
+    "pixel_mask": [
+      {
+        "domain": "Acquisition envelope (Ghana bounding box)",
+        "n_pixels": 48384000,
+        "n_built_pixels_anbh_gt0": 6132834,
+        "modal_bin_m": "2.50-2.55",
+        "n_built_in_modal_bin": 2458649,
+        "pct_built_in_modal_bin": 40.089932321664016,
+        "n_zero_both": 42251166,
+        "n_zero_mismatch": 0,
+        "n_agbh_gt_anbh": 1,
+        "pct_agbh_le_anbh": 99.99999793320106
+      },
+      {
+        "domain": "Ghana boundary mask (GADM level 0)",
+        "n_pixels": 28293000,
+        "n_built_pixels_anbh_gt0": 3976154,
+        "modal_bin_m": "2.50-2.55",
+        "n_built_in_modal_bin": 1529150,
+        "pct_built_in_modal_bin": 38.458017471154285,
+        "n_zero_both": 24316846,
+        "n_zero_mismatch": 0,
+        "n_agbh_gt_anbh": 1,
+        "pct_agbh_le_anbh": 99.99999646555683
+      }
+    ],
+    "zero_signal": [
+      {
+        "sample": "All cells (as published)",
+        "n": 296668.0,
+        "variable": "log_distance_to_nearest_cbd_m",
+        "ols_coef": -0.0041680742079122,
+        "ols_se": 0.0011705009969237,
+        "ols_standardized": -0.0060591641160601,
+        "sem_coef": -0.0263653769550248,
+        "sem_se": 0.0017377150605042,
+        "ols_r2": 0.2345524350017122,
+        "sem_pseudo_r2": 0.2330100519313811,
+        "sem_lambda": 0.4070694252045126,
+        "moran_i_ols_resid": 0.2932443262221188,
+        "moran_i_sem_filtered": -0.0132239314020025
+      },
+      {
+        "sample": "All cells (as published)",
+        "n": 296668.0,
+        "variable": "built_coverage_2010",
+        "ols_coef": 2.8029485311875506,
+        "ols_se": 0.0215909792432649,
+        "ols_standardized": 0.3510441306463006,
+        "sem_coef": 2.5816801649159657,
+        "sem_se": 0.0277266337760316,
+        "ols_r2": 0.2345524350017122,
+        "sem_pseudo_r2": 0.2330100519313811,
+        "sem_lambda": 0.4070694252045126,
+        "moran_i_ols_resid": 0.2932443262221188,
+        "moran_i_sem_filtered": -0.0132239314020025
+      },
+      {
+        "sample": "All cells (as published)",
+        "n": 296668.0,
+        "variable": "growth_1975_2010",
+        "ols_coef": 0.6480122865449104,
+        "ols_se": 0.039308813530225,
+        "ols_standardized": 0.0527428521709511,
+        "sem_coef": 0.4691893063987322,
+        "sem_se": 0.0451695848611428,
+        "ols_r2": 0.2345524350017122,
+        "sem_pseudo_r2": 0.2330100519313811,
+        "sem_lambda": 0.4070694252045126,
+        "moran_i_ols_resid": 0.2932443262221188,
+        "moran_i_sem_filtered": -0.0132239314020025
+      },
+      {
+        "sample": "All cells (as published)",
+        "n": 296668.0,
+        "variable": "growth_2010_2015",
+        "ols_coef": 7.197819858251384,
+        "ols_se": 0.1137264260559126,
+        "ols_standardized": 0.1419733180818666,
+        "sem_coef": 5.630470274079315,
+        "sem_se": 0.1210562310859759,
+        "ols_r2": 0.2345524350017122,
+        "sem_pseudo_r2": 0.2330100519313811,
+        "sem_lambda": 0.4070694252045126,
+        "moran_i_ols_resid": 0.2932443262221188,
+        "moran_i_sem_filtered": -0.0132239314020025
+      },
+      {
+        "sample": "Cells with a GHSL height signal (ANBH > 0)",
+        "n": 253256.0,
+        "variable": "log_distance_to_nearest_cbd_m",
+        "ols_coef": -0.0132175603963606,
+        "ols_se": 0.000297749710975,
+        "ols_standardized": -0.0451429249636169,
+        "sem_coef": -0.0261695428146249,
+        "sem_se": 0.0004742953958188,
+        "ols_r2": 0.7695944315552947,
+        "sem_pseudo_r2": 0.7652944275511969,
+        "sem_lambda": 0.4972757399001696,
+        "moran_i_ols_resid": 0.3622985612729734,
+        "moran_i_sem_filtered": 0.079961309878137
+      },
+      {
+        "sample": "Cells with a GHSL height signal (ANBH > 0)",
+        "n": 253256.0,
+        "variable": "built_coverage_2010",
+        "ols_coef": 2.1784096640421025,
+        "ols_se": 0.0051875018472366,
+        "ols_standardized": 0.6714334116915811,
+        "sem_coef": 1.921235828838632,
+        "sem_se": 0.0067063305393761,
+        "ols_r2": 0.7695944315552947,
+        "sem_pseudo_r2": 0.7652944275511969,
+        "sem_lambda": 0.4972757399001696,
+        "moran_i_ols_resid": 0.3622985612729734,
+        "moran_i_sem_filtered": 0.079961309878137
+      },
+      {
+        "sample": "Cells with a GHSL height signal (ANBH > 0)",
+        "n": 253256.0,
+        "variable": "growth_1975_2010",
+        "ols_coef": 0.5697157116124771,
+        "ols_se": 0.0094046098059485,
+        "ols_standardized": 0.1140920991868985,
+        "sem_coef": 0.3287266687855954,
+        "sem_se": 0.0105773024880406,
+        "ols_r2": 0.7695944315552947,
+        "sem_pseudo_r2": 0.7652944275511969,
+        "sem_lambda": 0.4972757399001696,
+        "moran_i_ols_resid": 0.3622985612729734,
+        "moran_i_sem_filtered": 0.079961309878137
+      },
+      {
+        "sample": "Cells with a GHSL height signal (ANBH > 0)",
+        "n": 253256.0,
+        "variable": "growth_2010_2015",
+        "ols_coef": 3.441158376769594,
+        "ols_se": 0.0272749170582687,
+        "ols_standardized": 0.167085717652881,
+        "sem_coef": 2.5867691230576213,
+        "sem_se": 0.027707260369104,
+        "ols_r2": 0.7695944315552947,
+        "sem_pseudo_r2": 0.7652944275511969,
+        "sem_lambda": 0.4972757399001696,
+        "moran_i_ols_resid": 0.3622985612729734,
+        "moran_i_sem_filtered": 0.079961309878137
+      },
+      {
+        "sample": "Composition",
+        "n": 94885.0,
+        "variable": "zero-signal cells in High height / High prior expansion",
+        "ols_coef": 0.0,
+        "ols_se": 0.0,
+        "ols_standardized": NaN,
+        "sem_coef": NaN,
+        "sem_se": NaN,
+        "ols_r2": NaN,
+        "sem_pseudo_r2": NaN,
+        "sem_lambda": NaN,
+        "moran_i_ols_resid": NaN,
+        "moran_i_sem_filtered": NaN
+      },
+      {
+        "sample": "Composition",
+        "n": 53437.0,
+        "variable": "zero-signal cells in High height / Low prior expansion",
+        "ols_coef": 0.0,
+        "ols_se": 0.0,
+        "ols_standardized": NaN,
+        "sem_coef": NaN,
+        "sem_se": NaN,
+        "ols_r2": NaN,
+        "sem_pseudo_r2": NaN,
+        "sem_lambda": NaN,
+        "moran_i_ols_resid": NaN,
+        "moran_i_sem_filtered": NaN
+      },
+      {
+        "sample": "Composition",
+        "n": 52737.0,
+        "variable": "zero-signal cells in Low height / High prior expansion",
+        "ols_coef": 301.0,
+        "ols_se": 0.5707567741813149,
+        "ols_standardized": NaN,
+        "sem_coef": NaN,
+        "sem_se": NaN,
+        "ols_r2": NaN,
+        "sem_pseudo_r2": NaN,
+        "sem_lambda": NaN,
+        "moran_i_ols_resid": NaN,
+        "moran_i_sem_filtered": NaN
+      },
+      {
+        "sample": "Composition",
+        "n": 95609.0,
+        "variable": "zero-signal cells in Low height / Low prior expansion",
+        "ols_coef": 43111.0,
+        "ols_se": 45.09094332123545,
+        "ols_standardized": NaN,
+        "sem_coef": NaN,
+        "sem_se": NaN,
+        "ols_r2": NaN,
+        "sem_pseudo_r2": NaN,
+        "sem_lambda": NaN,
+        "moran_i_ols_resid": NaN,
+        "moran_i_sem_filtered": NaN
+      },
+      {
+        "sample": "Typology on ANBH > 0 cells",
+        "n": NaN,
+        "variable": "n",
+        "ols_coef": 253256.0,
+        "ols_se": NaN,
+        "ols_standardized": NaN,
+        "sem_coef": NaN,
+        "sem_se": NaN,
+        "ols_r2": NaN,
+        "sem_pseudo_r2": NaN,
+        "sem_lambda": NaN,
+        "moran_i_ols_resid": NaN,
+        "moran_i_sem_filtered": NaN
+      },
+      {
+        "sample": "Typology on ANBH > 0 cells",
+        "n": NaN,
+        "variable": "anbh_median",
+        "ols_coef": 2.501204,
+        "ols_se": NaN,
+        "ols_standardized": NaN,
+        "sem_coef": NaN,
+        "sem_se": NaN,
+        "ols_r2": NaN,
+        "sem_pseudo_r2": NaN,
+        "sem_lambda": NaN,
+        "moran_i_ols_resid": NaN,
+        "moran_i_sem_filtered": NaN
+      },
+      {
+        "sample": "Typology on ANBH > 0 cells",
+        "n": NaN,
+        "variable": "diagonal_pct",
+        "ols_coef": 50.24441671668194,
+        "ols_se": NaN,
+        "ols_standardized": NaN,
+        "sem_coef": NaN,
+        "sem_se": NaN,
+        "ols_r2": NaN,
+        "sem_pseudo_r2": NaN,
+        "sem_lambda": NaN,
+        "moran_i_ols_resid": NaN,
+        "moran_i_sem_filtered": NaN
+      },
+      {
+        "sample": "Typology on ANBH > 0 cells",
+        "n": NaN,
+        "variable": "class_median_min",
+        "ols_coef": 2.493274,
+        "ols_se": NaN,
+        "ols_standardized": NaN,
+        "sem_coef": NaN,
+        "sem_se": NaN,
+        "ols_r2": NaN,
+        "sem_pseudo_r2": NaN,
+        "sem_lambda": NaN,
+        "moran_i_ols_resid": NaN,
+        "moran_i_sem_filtered": NaN
+      },
+      {
+        "sample": "Typology on ANBH > 0 cells",
+        "n": NaN,
+        "variable": "class_median_max",
+        "ols_coef": 2.5410895,
+        "ols_se": NaN,
+        "ols_standardized": NaN,
+        "sem_coef": NaN,
+        "sem_se": NaN,
+        "ols_r2": NaN,
+        "sem_pseudo_r2": NaN,
+        "sem_lambda": NaN,
+        "moran_i_ols_resid": NaN,
+        "moran_i_sem_filtered": NaN
+      }
+    ],
+    "inference": [
+      {
+        "estimator": "OLS, conventional SE (Table 3, Fig. 5)",
+        "variable": "log_distance_to_nearest_cbd_m",
+        "coef": -0.0041680742079122,
+        "se": 0.0011705009969237,
+        "ci_lo": -0.0064622561618826,
+        "ci_hi": -0.0018738922539417,
+        "se_ratio_to_conventional": 1.0
+      },
+      {
+        "estimator": "OLS, conventional SE (Table 3, Fig. 5)",
+        "variable": "built_coverage_2010",
+        "coef": 2.8029485311875506,
+        "se": 0.0215909792432649,
+        "ci_lo": 2.7606302118707515,
+        "ci_hi": 2.8452668505043497,
+        "se_ratio_to_conventional": 1.0
+      },
+      {
+        "estimator": "OLS, conventional SE (Table 3, Fig. 5)",
+        "variable": "growth_1975_2010",
+        "coef": 0.6480122865449104,
+        "se": 0.039308813530225,
+        "ci_lo": 0.5709670120256692,
+        "ci_hi": 0.7250575610641515,
+        "se_ratio_to_conventional": 1.0
+      },
+      {
+        "estimator": "OLS, conventional SE (Table 3, Fig. 5)",
+        "variable": "growth_2010_2015",
+        "coef": 7.197819858251384,
+        "se": 0.1137264260559126,
+        "ci_lo": 6.974916063181795,
+        "ci_hi": 7.420723653320972,
+        "se_ratio_to_conventional": 1.0
+      },
+      {
+        "estimator": "OLS, HC1 robust SE",
+        "variable": "log_distance_to_nearest_cbd_m",
+        "coef": -0.0041680742079122,
+        "se": 0.0011099916313184,
+        "ci_lo": -0.0063436578052964,
+        "ci_hi": -0.001992490610528,
+        "se_ratio_to_conventional": 0.9483047295437986
+      },
+      {
+        "estimator": "OLS, HC1 robust SE",
+        "variable": "built_coverage_2010",
+        "coef": 2.8029485311875506,
+        "se": 0.0182838164627589,
+        "ci_lo": 2.767112250920543,
+        "ci_hi": 2.838784811454558,
+        "se_ratio_to_conventional": 0.8468266425878924
+      },
+      {
+        "estimator": "OLS, HC1 robust SE",
+        "variable": "growth_1975_2010",
+        "coef": 0.6480122865449104,
+        "se": 0.029965103444417,
+        "ci_lo": 0.589280683793853,
+        "ci_hi": 0.7067438892959678,
+        "se_ratio_to_conventional": 0.7622998700120132
+      },
+      {
+        "estimator": "OLS, HC1 robust SE",
+        "variable": "growth_2010_2015",
+        "coef": 7.197819858251384,
+        "se": 0.080511638831088,
+        "ci_lo": 7.040017046142451,
+        "ci_hi": 7.355622670360316,
+        "se_ratio_to_conventional": 0.7079413433031403
+      },
+      {
+        "estimator": "OLS, SE clustered by 10 km blocks",
+        "variable": "log_distance_to_nearest_cbd_m",
+        "coef": -0.0041680742079122,
+        "se": 0.0054323946378805,
+        "ci_lo": -0.0148155676981581,
+        "ci_hi": 0.0064794192823336,
+        "se_ratio_to_conventional": 4.641085015867504
+      },
+      {
+        "estimator": "OLS, SE clustered by 10 km blocks",
+        "variable": "built_coverage_2010",
+        "coef": 2.8029485311875506,
+        "se": 0.1382667599480358,
+        "ci_lo": 2.5319456816894004,
+        "ci_hi": 3.073951380685701,
+        "se_ratio_to_conventional": 6.403913337611427
+      },
+      {
+        "estimator": "OLS, SE clustered by 10 km blocks",
+        "variable": "growth_1975_2010",
+        "coef": 0.6480122865449104,
+        "se": 0.1872213946928937,
+        "ci_lo": 0.2810583529468387,
+        "ci_hi": 1.014966220142982,
+        "se_ratio_to_conventional": 4.762835045859031
+      },
+      {
+        "estimator": "OLS, SE clustered by 10 km blocks",
+        "variable": "growth_2010_2015",
+        "coef": 7.197819858251384,
+        "se": 0.2339515864053714,
+        "ci_lo": 6.739274748896856,
+        "ci_hi": 7.656364967605912,
+        "se_ratio_to_conventional": 2.0571435726851304
+      },
+      {
+        "estimator": "OLS, SE clustered by 25 km blocks",
+        "variable": "log_distance_to_nearest_cbd_m",
+        "coef": -0.0041680742079122,
+        "se": 0.0091862066834161,
+        "ci_lo": -0.0221730393074079,
+        "ci_hi": 0.0138368908915834,
+        "se_ratio_to_conventional": 7.848098128544316
+      },
+      {
+        "estimator": "OLS, SE clustered by 25 km blocks",
+        "variable": "built_coverage_2010",
+        "coef": 2.8029485311875506,
+        "se": 0.1988173518487757,
+        "ci_lo": 2.4132665215639504,
+        "ci_hi": 3.192630540811151,
+        "se_ratio_to_conventional": 9.208352692515996
+      },
+      {
+        "estimator": "OLS, SE clustered by 25 km blocks",
+        "variable": "growth_1975_2010",
+        "coef": 0.6480122865449104,
+        "se": 0.2692787142157061,
+        "ci_lo": 0.1202260066821264,
+        "ci_hi": 1.1757985664076944,
+        "se_ratio_to_conventional": 6.850339403112586
+      },
+      {
+        "estimator": "OLS, SE clustered by 25 km blocks",
+        "variable": "growth_2010_2015",
+        "coef": 7.197819858251384,
+        "se": 0.292869203136862,
+        "ci_lo": 6.623796220103134,
+        "ci_hi": 7.771843496399633,
+        "se_ratio_to_conventional": 2.575208008320558
+      },
+      {
+        "estimator": "Spatial error model (GM_Error, Queen)",
+        "variable": "log_distance_to_nearest_cbd_m",
+        "coef": -0.0263653769175505,
+        "se": 0.0017377150595091,
+        "ci_lo": -0.0297712984341884,
+        "ci_hi": -0.0229594554009127,
+        "se_ratio_to_conventional": 1.484590841080994
+      },
+      {
+        "estimator": "Spatial error model (GM_Error, Queen)",
+        "variable": "built_coverage_2010",
+        "coef": 2.581680165306561,
+        "se": 0.0277266337672966,
+        "ci_lo": 2.52733596312266,
+        "ci_hi": 2.6360243674904624,
+        "se_ratio_to_conventional": 1.2841767598820513
+      },
+      {
+        "estimator": "Spatial error model (GM_Error, Queen)",
+        "variable": "growth_1975_2010",
+        "coef": 0.4691893066272145,
+        "se": 0.0451695848530322,
+        "ci_lo": 0.3806569203152713,
+        "ci_hi": 0.5577216929391577,
+        "se_ratio_to_conventional": 1.149095604686737
+      },
+      {
+        "estimator": "Spatial error model (GM_Error, Queen)",
+        "variable": "growth_2010_2015",
+        "coef": 5.630470276202159,
+        "se": 0.1210562310768279,
+        "ci_lo": 5.393200063291576,
+        "ci_hi": 5.867740489112742,
+        "se_ratio_to_conventional": 1.0644512034284066
+      }
+    ],
+    "typology_agreement": [
+      {
+        "vertical_axis": "ANBH (primary)",
+        "scheme": "median (2x2)",
+        "observed_diagonal_pct": 64.21117208461983,
+        "expected_diagonal_under_independence_pct": 50.00001941555582,
+        "excess_over_chance_pct_points": 14.21115266906402,
+        "cohens_kappa": 0.2842231637482944
+      },
+      {
+        "vertical_axis": "ANBH (primary)",
+        "scheme": "tertile (3x3)",
+        "observed_diagonal_pct": 43.147895964512514,
+        "expected_diagonal_under_independence_pct": 33.333313532223606,
+        "excess_over_chance_pct_points": 9.81458243228891,
+        "cohens_kappa": 0.1472186927579313
+      },
+      {
+        "vertical_axis": "ANBH (primary)",
+        "scheme": "quartile (4x4)",
+        "observed_diagonal_pct": 46.61406016152736,
+        "expected_diagonal_under_independence_pct": 25.000021372109373,
+        "excess_over_chance_pct_points": 21.614038789417997,
+        "cohens_kappa": 0.2881872659811701
+      },
+      {
+        "vertical_axis": "AGBH (matched comparison)",
+        "scheme": "median (2x2)",
+        "observed_diagonal_pct": 89.79937168821714,
+        "expected_diagonal_under_independence_pct": 50.000016179629846,
+        "excess_over_chance_pct_points": 39.79935550858728,
+        "cohens_kappa": 0.7959873677473652
+      },
+      {
+        "vertical_axis": "AGBH (matched comparison)",
+        "scheme": "tertile (3x3)",
+        "observed_diagonal_pct": 79.44705866490487,
+        "expected_diagonal_under_independence_pct": 33.33432559306707,
+        "excess_over_chance_pct_points": 46.1127330718378,
+        "cohens_kappa": 0.6917012912876538
+      },
+      {
+        "vertical_axis": "AGBH (matched comparison)",
+        "scheme": "quartile (4x4)",
+        "observed_diagonal_pct": 76.36482532662774,
+        "expected_diagonal_under_independence_pct": 24.99999326909219,
+        "excess_over_chance_pct_points": 51.36483205753555,
+        "cohens_kappa": 0.6848643659703552
+      }
+    ],
+    "interpretation": "Inside Ghana's boundary 38.5% of positive-ANBH pixels fall in the 2.50-2.55 m bin (40.1% over the rectangular envelope). AGBH <= ANBH is the only condition the identity imposes once built fraction is derived as AGBH/ANBH: a consistency check, not validation. Clustering SEs in 25 km blocks widens Model C intervals 2.6-9.2x; CBD distance then includes zero. On cells with ANBH > 0 the median-split typology agrees with prior expansion at chance (kappa 0.005): the full typology's above-chance agreement (kappa 0.28) comes from zero-signal cells in the Low/Low class."
   },
   "figures": {
     "note": "Manuscript figures (script 08) are visualization/support only, not one of the 15 numbered requirements.",

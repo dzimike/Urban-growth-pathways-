@@ -1,0 +1,37 @@
+{
+  "product": "World Settlement Footprint 3D (WSF3D), version 2",
+  "provider": "German Aerospace Center (DLR)",
+  "citation": "Esch, T. et al. (2022) World Settlement Footprint 3D - A first three-dimensional survey of the global building stock. Remote Sensing of Environment, 270, 112877.",
+  "license": "CC-BY-4.0",
+  "temporal_extent_note": "Building height from TanDEM-X DEM (2011-2013); settlement mask from WSF-Imperviousness (2017-2019). Settlements built after ~2012 have no height information (DLR temporalextent.txt).",
+  "encoding": {
+    "height": "Int16 metres x 10 (gain 0.1)",
+    "fraction": "integer percent 0-100"
+  },
+  "clip_bbox_epsg4326": {
+    "ulx": -3.5,
+    "uly": 11.3,
+    "lrx": 1.3,
+    "lry": 4.3,
+    "note": "identical to the GHSL anbh_2018_v3.tif clip"
+  },
+  "files": {
+    "height": {
+      "source_url": "https://download.geoservice.dlr.de/WSF3D/files/global/WSF3D_V02_BuildingHeight.tif",
+      "global_size_bytes": 2142396344,
+      "global_sha256": "33e8ac2fe1665c9e2005a507c49cfce5942765bb991e631b8f13892e75ba4b03",
+      "clip_path": "01_raw_data/wsf3d/wsf3d_height_ghana.tif",
+      "clip_sha256": "0da7d658af67adc356d2ce26492668a223f05a86566184b09d7c66243ce996f3",
+      "nodata_value": "-32767"
+    },
+    "fraction": {
+      "source_url": "https://download.geoservice.dlr.de/WSF3D/files/global/WSF3D_V02_BuildingFraction.tif",
+      "global_size_bytes": 1358564353,
+      "global_sha256": "911fd30e89821813453aa36a60278250addd5b3e268b55f7e73108ceee8052c0",
+      "clip_path": "01_raw_data/wsf3d/wsf3d_fraction_ghana.tif",
+      "clip_sha256": "6db86762a9eb208413b5bbf018d70c14cf0a84a0b175cb8c1649420ec09d7d62",
+      "nodata_value": "255"
+    }
+  },
+  "download_completed_utc": "2026-09-25T14:33:11Z"
+}

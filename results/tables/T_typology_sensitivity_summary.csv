@@ -1,0 +1,4 @@
+scheme,n_diagonal_cells_summed,diagonal_pct,off_diagonal_pct
+median (2x2),2 of 4,64.21,35.79
+tertile (3x3),3 of 9,43.15,56.85
+quartile (4x4),4 of 16,46.61,53.39

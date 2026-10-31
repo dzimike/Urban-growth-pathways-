@@ -1,0 +1,100 @@
+{
+  "generated_utc": "2026-09-16T21:42:20.330178+00:00",
+  "generated_by": "scripts/revision_v3/01_acquire_ghsl_height.py",
+  "epoch": 2018,
+  "doi": "https://doi.org/10.2905/85005901-3A49-48DD-9D19-6261354F56FE",
+  "citation": "Pesaresi, M. and Politis, P. (2023) GHS-BUILT-H R2023A: GHS building height, derived from AW3D30, SRTM30, and Sentinel-2 composite (2018). European Commission, Joint Research Centre.",
+  "ghana_bbox_xmin_ymin_xmax_ymax": [
+    -3.5,
+    4.3,
+    1.3,
+    11.3
+  ],
+  "tiles_used": [
+    "R8_C18",
+    "R8_C19",
+    "R9_C18",
+    "R9_C19"
+  ],
+  "tile_selection_note": "Empirically verified via GDAL /vsizip/vsicurl/ remote header reads before download; see script docstring and audit_report.md. Two prior automated guesses (R3/R4 x C20/C21) were WRONG (covered Scandinavia) and were rejected before any bulk download was attempted.",
+  "products": {
+    "agbh": {
+      "tiles": [
+        {
+          "tile": "R8_C18",
+          "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/GHSL/GHS_BUILT_H_GLOBE_R2023A/GHS_BUILT_H_AGBH_E2018_GLOBE_R2023A_4326_3ss/V1-0/tiles/GHS_BUILT_H_AGBH_E2018_GLOBE_R2023A_4326_3ss_V1_0_R8_C18.zip",
+          "zip_sha256": "a185a9f63d06344309139e8b44d1e2c329ac39718339c15599047da14f9dd784",
+          "zip_size_bytes": 45716860
+        },
+        {
+          "tile": "R8_C19",
+          "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/GHSL/GHS_BUILT_H_GLOBE_R2023A/GHS_BUILT_H_AGBH_E2018_GLOBE_R2023A_4326_3ss/V1-0/tiles/GHS_BUILT_H_AGBH_E2018_GLOBE_R2023A_4326_3ss_V1_0_R8_C19.zip",
+          "zip_sha256": "60e5856a7df745c0d75b9a2930bf04712dda8e0587c2821ce40d7f62be799efd",
+          "zip_size_bytes": 64121303
+        },
+        {
+          "tile": "R9_C18",
+          "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/GHSL/GHS_BUILT_H_GLOBE_R2023A/GHS_BUILT_H_AGBH_E2018_GLOBE_R2023A_4326_3ss/V1-0/tiles/GHS_BUILT_H_AGBH_E2018_GLOBE_R2023A_4326_3ss_V1_0_R9_C18.zip",
+          "zip_sha256": "1690f3561bc3c981b0fdb9799de76b368257bd8a269199fc056a311163b0e32d",
+          "zip_size_bytes": 26926456
+        },
+        {
+          "tile": "R9_C19",
+          "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/GHSL/GHS_BUILT_H_GLOBE_R2023A/GHS_BUILT_H_AGBH_E2018_GLOBE_R2023A_4326_3ss/V1-0/tiles/GHS_BUILT_H_AGBH_E2018_GLOBE_R2023A_4326_3ss_V1_0_R9_C19.zip",
+          "zip_sha256": "c3bf4062af124c4b688a384ee1da09d10358b5b2c7a99d46239e5c77637f5589",
+          "zip_size_bytes": 45427753
+        }
+      ],
+      "mosaic_path": "01_raw_data/ghsl/_tiles_v3/agbh_mosaic_v3.tif",
+      "final_path": "01_raw_data/ghsl/agbh_2018_v3.tif",
+      "final_sha256": "9c88872cd117a1330e27c8fdadd4c3ec495c7583e5fd67f46eef3c4036979491",
+      "final_size_bytes": 193586766,
+      "final_gdal_metadata": {
+        "gdalinfo_raw_tail": "        SCOPE[\"Horizontal component of 3D system.\"],\n        AREA[\"World.\"],\n        BBOX[-90,-180,90,180]],\n    ID[\"EPSG\",4326]]\nData axis to CRS axis mapping: 2,1\nOrigin = (-3.500000000000000,11.300000000000001)\nPixel Size = (0.000833333333333,-0.000833333333333)\nMetadata:\n  AREA_OR_POINT=Area\nImage Structure Metadata:\n  INTERLEAVE=BAND\nCorner Coordinates:\nUpper Left  (  -3.5000000,  11.3000000) (  3d30' 0.00\"W, 11d18' 0.00\"N)\nLower Left  (  -3.5000000,   4.3000000) (  3d30' 0.00\"W,  4d18' 0.00\"N)\nUpper Right (   1.3000000,  11.3000000) (  1d18' 0.00\"E, 11d18' 0.00\"N)\nLower Right (   1.3000000,   4.3000000) (  1d18' 0.00\"E,  4d18' 0.00\"N)\nCenter      (  -1.1000000,   7.8000000) (  1d 6' 0.00\"W,  7d48' 0.00\"N)\nBand 1 Block=5760x1 Type=Float32, ColorInterp=Gray\n  Minimum=0.000, Maximum=28.794, Mean=0.034, StdDev=0.297\n  Metadata:\n    STATISTICS_MINIMUM=0\n    STATISTICS_MAXIMUM=28.794477462769\n    STATISTICS_MEAN=0.033833653685318\n    STATISTICS_STDDEV=0.29668833187955\n    STATISTICS_VALID_PERCENT=100",
+        "size": "5760, 8400",
+        "pixel_size": "(0.000833333333333,-0.000833333333333)",
+        "band_stats_summary": "Minimum=0.000, Maximum=28.794, Mean=0.034, StdDev=0.297",
+        "crs_snippet": "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic System 1984 (Transit)\"],\n        MEMBER[\"World Geodetic System 1984 (G730)\"],\n        MEMBER[\"World Geodetic System 1984 (G873)\"],\n        MEMBER[\"Wo"
+      }
+    },
+    "anbh": {
+      "tiles": [
+        {
+          "tile": "R8_C18",
+          "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/GHSL/GHS_BUILT_H_GLOBE_R2023A/GHS_BUILT_H_ANBH_E2018_GLOBE_R2023A_4326_3ss/V1-0/tiles/GHS_BUILT_H_ANBH_E2018_GLOBE_R2023A_4326_3ss_V1_0_R8_C18.zip",
+          "zip_sha256": "4453cdeb23b058c98fef7180286f6cf78c861a4246eff6593c8f90a080d209c4",
+          "zip_size_bytes": 27932513
+        },
+        {
+          "tile": "R8_C19",
+          "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/GHSL/GHS_BUILT_H_GLOBE_R2023A/GHS_BUILT_H_ANBH_E2018_GLOBE_R2023A_4326_3ss/V1-0/tiles/GHS_BUILT_H_ANBH_E2018_GLOBE_R2023A_4326_3ss_V1_0_R8_C19.zip",
+          "zip_sha256": "b346b7341b9033c72c7345280f8b1595962fc332d7beaa55e0ca9442d188a657",
+          "zip_size_bytes": 38395093
+        },
+        {
+          "tile": "R9_C18",
+          "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/GHSL/GHS_BUILT_H_GLOBE_R2023A/GHS_BUILT_H_ANBH_E2018_GLOBE_R2023A_4326_3ss/V1-0/tiles/GHS_BUILT_H_ANBH_E2018_GLOBE_R2023A_4326_3ss_V1_0_R9_C18.zip",
+          "zip_sha256": "a77884c7640c5952a2a7e2e8da7a9ccb43da6adabeb370cdc999cf2276e16113",
+          "zip_size_bytes": 18018417
+        },
+        {
+          "tile": "R9_C19",
+          "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/GHSL/GHS_BUILT_H_GLOBE_R2023A/GHS_BUILT_H_ANBH_E2018_GLOBE_R2023A_4326_3ss/V1-0/tiles/GHS_BUILT_H_ANBH_E2018_GLOBE_R2023A_4326_3ss_V1_0_R9_C19.zip",
+          "zip_sha256": "c42c1105db29e76fc13d0eff449412ae51d0c1994a1aca809a30c3dc1c0f89e6",
+          "zip_size_bytes": 31539436
+        }
+      ],
+      "mosaic_path": "01_raw_data/ghsl/_tiles_v3/anbh_mosaic_v3.tif",
+      "final_path": "01_raw_data/ghsl/anbh_2018_v3.tif",
+      "final_sha256": "5d0dd722bcfc5abefb10e4a9dfaaf71318e3b507a90137e79bd53490d254e322",
+      "final_size_bytes": 193586766,
+      "final_gdal_metadata": {
+        "gdalinfo_raw_tail": "        SCOPE[\"Horizontal component of 3D system.\"],\n        AREA[\"World.\"],\n        BBOX[-90,-180,90,180]],\n    ID[\"EPSG\",4326]]\nData axis to CRS axis mapping: 2,1\nOrigin = (-3.500000000000000,11.300000000000001)\nPixel Size = (0.000833333333333,-0.000833333333333)\nMetadata:\n  AREA_OR_POINT=Area\nImage Structure Metadata:\n  INTERLEAVE=BAND\nCorner Coordinates:\nUpper Left  (  -3.5000000,  11.3000000) (  3d30' 0.00\"W, 11d18' 0.00\"N)\nLower Left  (  -3.5000000,   4.3000000) (  3d30' 0.00\"W,  4d18' 0.00\"N)\nUpper Right (   1.3000000,  11.3000000) (  1d18' 0.00\"E, 11d18' 0.00\"N)\nLower Right (   1.3000000,   4.3000000) (  1d18' 0.00\"E,  4d18' 0.00\"N)\nCenter      (  -1.1000000,   7.8000000) (  1d 6' 0.00\"W,  7d48' 0.00\"N)\nBand 1 Block=5760x1 Type=Float32, ColorInterp=Gray\n  Minimum=0.000, Maximum=54.825, Mean=0.374, StdDev=1.121\n  Metadata:\n    STATISTICS_MINIMUM=0\n    STATISTICS_MAXIMUM=54.825256347656\n    STATISTICS_MEAN=0.37381038270214\n    STATISTICS_STDDEV=1.1210699998436\n    STATISTICS_VALID_PERCENT=100",
+        "size": "5760, 8400",
+        "pixel_size": "(0.000833333333333,-0.000833333333333)",
+        "band_stats_summary": "Minimum=0.000, Maximum=54.825, Mean=0.374, StdDev=1.121",
+        "crs_snippet": "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic System 1984 (Transit)\"],\n        MEMBER[\"World Geodetic System 1984 (G730)\"],\n        MEMBER[\"World Geodetic System 1984 (G873)\"],\n        MEMBER[\"Wo"
+      }
+    }
+  }
+}

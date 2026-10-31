@@ -391,6 +391,23 @@ def main():
             ),
         }
 
+    if (T / "T_round2_pixel_mask.csv").exists():
+        facts["round2_checks"] = {
+            "pixel_mask": pd.read_csv(T / "T_round2_pixel_mask.csv").to_dict("records"),
+            "zero_signal": pd.read_csv(T / "T_round2_zero_signal.csv").to_dict("records"),
+            "inference": pd.read_csv(T / "T_round2_inference.csv").to_dict("records"),
+            "typology_agreement": pd.read_csv(T / "T_round2_typology_agreement.csv").to_dict("records"),
+            "interpretation": (
+                "Inside Ghana's boundary 38.5% of positive-ANBH pixels fall in the 2.50-2.55 m bin "
+                "(40.1% over the rectangular envelope). AGBH <= ANBH is the only condition the identity "
+                "imposes once built fraction is derived as AGBH/ANBH: a consistency check, not validation. "
+                "Clustering SEs in 25 km blocks widens Model C intervals 2.6-9.2x; CBD distance then "
+                "includes zero. On cells with ANBH > 0 the median-split typology agrees with prior "
+                "expansion at chance (kappa 0.005): the full typology's above-chance agreement "
+                "(kappa 0.28) comes from zero-signal cells in the Low/Low class."
+            ),
+        }
+
     # Hand-curated findings (interpretive notes, manual checks, deposit
     # history) live in facts_curated.json and are merged in last. Before this
     # merge existed they were edited into facts.json directly, so any re-run

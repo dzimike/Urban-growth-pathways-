@@ -1,0 +1,7 @@
+height_var,building_size_metric,n,pearson_r,pearson_p,spearman_r,spearman_p
+cell_anbh_derived_m,median_building_area,296668,0.1739,0.0,0.3331,0.0
+cell_anbh_derived_m,building_area_gini,221487,0.4075,0.0,0.3227,0.0
+cell_anbh_derived_m,share_very_large,296668,0.3623,0.0,0.3763,0.0
+cell_agbh_mean_m,median_building_area,296668,0.1196,0.0,0.4739,0.0
+cell_agbh_mean_m,building_area_gini,221487,0.3569,0.0,0.6607,0.0
+cell_agbh_mean_m,share_very_large,296668,0.3363,0.0,0.6444,0.0

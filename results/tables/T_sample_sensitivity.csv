@@ -1,0 +1,6 @@
+threshold_label,threshold_value,n_cells_valid_height,pct_of_national_961858,n_overlap_with_national_footprint,pct_of_footprint_sample_covered,pct_of_valid_height_that_is_footprint,agbh_mean,agbh_median,anbh_derived_mean,anbh_derived_median,anbh_derived_p99,anbh_derived_max
+>0,1e-09,404722,42.0771,253264,85.36,62.58,0.1078,0.0016,2.7338,2.5009,8.2122,21.0092
+0.005,0.005,102048,10.6095,100358,33.82,98.34,0.4218,0.0685,3.4248,2.5012,9.5195,21.0092
+0.01,0.01,78865,8.1992,78254,26.37,99.23,0.5405,0.112,3.6875,2.5013,9.7627,21.0092
+0.02,0.02,58806,6.1138,58594,19.75,99.64,0.7123,0.1935,4.0724,2.559,10.0645,21.0092
+0.05,0.05,35771,3.7189,35712,12.04,99.84,1.1157,0.5581,4.982,4.4798,10.6861,21.0092
